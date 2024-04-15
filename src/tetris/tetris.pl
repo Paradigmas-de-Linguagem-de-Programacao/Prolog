@@ -1,0 +1,1 @@
+mock_tetris:- writeln("Abriu tetris").

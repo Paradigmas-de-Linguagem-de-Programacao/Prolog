@@ -1,1 +1,0 @@
-mock_fmcc:- write("Abriu fmcc").

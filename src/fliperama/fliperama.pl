@@ -1,0 +1,1 @@
+mock_fliperama :- writeln("abriu fliperama").
