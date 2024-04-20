@@ -1,43 +1,56 @@
 % auxiliares
 
-ehPeca(X) :- X > 0, X < 10.
-ehCongelado(X) :- X > 10.
+ehPeca(Peca) :- Peca > 0, Peca < 10.
+ehCongelado(Peca) :- Peca > 10.
 
 % congela tabuleiro
 
 congelarTudo([], []).
-congelarTudo([As|Ass], [Bs|Bss]) :- congelarLinha(As,Bs), congelarTudo(Ass, Bss).
+congelarTudo([Linha|Linhas], [LinhaCongelada|LinhasCongeladas]) :- congelarLinha(Linha,LinhaCongelada), 
+                                                                   congelarTudo(Linhas, LinhasCongeladas).
 
 congelarLinha([],[]).
-congelarLinha([0|As], [0|Bs]) :- congelarLinha(As, Bs).
-congelarLinha([X|As], [Y|Bs]) :- (X =< 10 -> Y is X + 10; Y = X), congelarLinha(As, Bs).
+congelarLinha([Peca|ProximasPecas], [PecaCongelada|ProximasPecasCongeladas]) :- (ehPeca(Peca) -> PecaCongelada is Peca + 10; 
+                                                                                PecaCongelada = Peca), 
+                                                                                congelarLinha(ProximasPecas, ProximasPecasCongeladas).
+
 
 % verifica shifts
 
 verificaShiftDireita([]).
-verificaShiftDireita([Xs|Zs]) :- verificaShiftDireitaLinha(Xs), verificaShiftDireita(Zs).
+verificaShiftDireita([LinhaAbaixo|LinhasAcima]) :- verificaShiftDireitaLinha(LinhaAbaixo), 
+                                                   verificaShiftDireita(LinhasAcima).
 
 verificaShiftDireitaLinha([]).
-verificaShiftDireitaLinha([X]) :- X =:= 0 ; X > 10.
-verificaShiftDireitaLinha([X,Y|Zs]) :- (\+ ehPeca(X); \+ ehCongelado(Y)), verificaShiftDireitaLinha([Y|Zs]).
+verificaShiftDireitaLinha([UltimaPeca]) :- UltimaPeca =:= 0 ; UltimaPeca > 10.
+verificaShiftDireitaLinha([PecaEsquerda, PecaDireita|ProximasPecas]) :- (\+ ehPeca(PecaEsquerda); \+ ehCongelado(PecaDireita)), % \+ significa not 
+                                                                        verificaShiftDireitaLinha([PecaDireita|ProximasPecas]).
 
 verificaShiftEsquerda([]).
-verificaShiftEsquerda([Xs|Zs]) :- verificaShiftEsquerdaLinha(Xs), verificaShiftEsquerda(Zs).
+verificaShiftEsquerda([LinhaAbaixo|LinhasAcima]) :- verificaShiftEsquerdaLinha(LinhaAbaixo),
+                                                    verificaShiftEsquerda(LinhasAcima).
 
 verificaShiftEsquerdaLinha([]).
-verificaShiftEsquerdaLinha([X|Xs]) :- (\+ ehPeca(X)), verificaShiftEsquerdaLinhaAuxiliar([X|Xs]).
+verificaShiftEsquerdaLinha([PecaEsquerda|PecasDireita]) :- \+ ehPeca(PecaEsquerda), 
+                                                            verificaShiftEsquerdaLinhaAuxiliar([PecaEsquerda|PecasDireita]).
 
 verificaShiftEsquerdaLinhaAuxiliar([]).
 verificaShiftEsquerdaLinhaAuxiliar([_]).
-verificaShiftEsquerdaLinhaAuxiliar([X,Y|Zs]) :- (\+ ehCongelado(X); \+ ehPeca(Y)), verificaShiftEsquerdaLinhaAuxiliar([Y|Zs]).
+verificaShiftEsquerdaLinhaAuxiliar([PecaEsquerda,PecaDeireita|ProximasPecas]) :- (\+ ehCongelado(PecaEsquerda); % ; significa ou 
+                                                                                  \+ ehPeca(PecaDeireita)), 
+                                                                                  verificaShiftEsquerdaLinhaAuxiliar([PecaDeireita|ProximasPecas]).
 
-verificaShiftBaixo([X|Zs]) :- verificaShiftBaixoPrimeiraLinha(X), verificaShiftBaixoAuxiliar([X,Zs]).
+verificaShiftBaixo([PrimeiraLinha|RestoDaMatriz]) :- verificaShiftBaixoPrimeiraLinha(PrimeiraLinha), 
+                                                     verificaShiftBaixoAuxiliar([PrimeiraLinha,RestoDaMatriz]).
 
 verificaShiftBaixoPrimeiraLinha([]).
-verificaShiftBaixoPrimeiraLinha([X|Xs]) :- \+ ehPeca(X), verificaShiftBaixoPrimeiraLinha(Xs).
+verificaShiftBaixoPrimeiraLinha([Peca|ProximasPecas]) :- \+ ehPeca(Peca), 
+                                                         verificaShiftBaixoPrimeiraLinha(ProximasPecas).
 
-verificaShiftBaixoAuxiliar([X,Y]):- verificaShiftBaixoLinha(X,Y).
-verificaShiftBaixoAuxiliar([X,Y|Zs]) :- verificaShiftBaixoLinha(X,Y), verificaShiftBaixoAuxiliar(Y,Zs).
+verificaShiftBaixoAuxiliar([LinhaAbaixo,LinhaAcima]):- verificaShiftBaixoLinha(LinhaAbaixo,LinhaAcima).
+verificaShiftBaixoAuxiliar([LinhaAbaixo,LinhaAcima|LinhasAcimas]) :- verificaShiftBaixoLinha(LinhaAbaixo,LinhaAcima), 
+                                                              verificaShiftBaixoAuxiliar(LinhaAcima,LinhasAcimas).
 
 verificaShiftBaixoLinha([],[]).
-verificaShiftBaixoLinha([X|Xs], [Y|Ys]) :- \+ (ehCongelado(X), ehPeca(Y)), verificaShiftBaixoLinha(Xs, Ys).
+verificaShiftBaixoLinha([PecaAbaixo|ProximasPecasAbaixo], [PecaAcima|ProximasPecasAcima]) :- \+ (ehCongelado(PecaAbaixo), ehPeca(PecaAcima)),
+                                                                                              verificaShiftBaixoLinha(ProximasPecasAbaixo, ProximasPecasAcima).
