@@ -9,24 +9,24 @@ mock_fmcc:-
 menu :-
     clearScreen,
     dialogos:menuInicial,
-    lib:input("Sua escolha é: ", Escolha),
+    lib:inputNumber("Sua escolha é: ", Escolha),
     menuOpcao(Escolha).
 
-menuOpcao('1') :-
+menuOpcao(1) :-
     prologo:comecaJogo,
     menu.
 
-menuOpcao('2') :-
+menuOpcao(2) :-
     % vai ser a funçao de carregaJogo,
     esperandoEnter,
     menu.
 
-menuOpcao('3') :-
+menuOpcao(3) :-
     % help,
     esperandoEnter,
     menu.
 
-menuOpcao('4') :-
+menuOpcao(4) :-
     writeln('Então você decidiu dar uma pausa. Tudo bem... Espero que você volte. Aqui não é o mesmo sem você.').
 
 menuOpcao(_) :-
