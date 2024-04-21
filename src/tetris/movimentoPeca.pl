@@ -1,88 +1,88 @@
 % auxiliares
 
-ehPeca(Peca) :- Peca > 0, Peca < 10.
-ehCongelado(Peca) :- Peca > 10.
+eh_peca(Peca) :- Peca > 0, Peca < 10.
+eh_congelado(Peca) :- Peca > 10.
 
 % congela tabuleiro
 
-congelarTudo([], []).
-congelarTudo([Linha|Linhas], [LinhaCongelada|LinhasCongeladas]) :- congelarLinha(Linha,LinhaCongelada), 
-                                                                   congelarTudo(Linhas, LinhasCongeladas).
+congelar_tudo([], []).
+congelar_tudo([Linha|Linhas], [LinhaCongelada|LinhasCongeladas]) :- congelar_linha(Linha,LinhaCongelada), 
+                                                                    congelar_tudo(Linhas, LinhasCongeladas).
 
-congelarLinha([],[]).
-congelarLinha([Peca|ProximasPecas], [PecaCongelada|ProximasPecasCongeladas]) :- (ehPeca(Peca) -> PecaCongelada is Peca + 10; 
-                                                                                PecaCongelada = Peca), 
-                                                                                congelarLinha(ProximasPecas, ProximasPecasCongeladas).
+congelar_linha([],[]).
+congelar_linha([Peca|ProximasPecas], [PecaCongelada|ProximasPecasCongeladas]) :- (eh_peca(Peca) -> PecaCongelada is Peca + 10; 
+                                                                                  PecaCongelada = Peca), 
+                                                                                  congelar_linha(ProximasPecas, ProximasPecasCongeladas).
 
 
 % verifica shifts
 
-verificaShiftDireita([]).
-verificaShiftDireita([LinhaAbaixo|LinhasAcima]) :- verificaShiftDireitaLinha(LinhaAbaixo), 
-                                                   verificaShiftDireita(LinhasAcima).
+verifica_shift_direita([]).
+verifica_shift_direita([LinhaAbaixo|LinhasAcima]) :- verifica_shift_direita_linha(LinhaAbaixo), 
+                                                     verifica_shift_direita(LinhasAcima).
 
-verificaShiftDireitaLinha([]).
-verificaShiftDireitaLinha([UltimaPeca]) :- \+ ehPeca(UltimaPeca).
-verificaShiftDireitaLinha([PecaEsquerda, PecaDireita|ProximasPecas]) :- (\+ ehPeca(PecaEsquerda); \+ ehCongelado(PecaDireita)), % \+ significa not 
-                                                                        verificaShiftDireitaLinha([PecaDireita|ProximasPecas]).
+verifica_shift_direita_linha([]).
+verifica_shift_direita_linha([UltimaPeca]) :- \+ eh_peca(UltimaPeca).
+verifica_shift_direita_linha([PecaEsquerda, PecaDireita|ProximasPecas]) :- (\+ eh_peca(PecaEsquerda); \+ eh_congelado(PecaDireita)), % \+ significa not 
+                                                                            verifica_shift_direita_linha([PecaDireita|ProximasPecas]).
 
-verificaShiftEsquerda([]).
-verificaShiftEsquerda([LinhaAbaixo|LinhasAcima]) :- verificaShiftEsquerdaLinha(LinhaAbaixo),
-                                                    verificaShiftEsquerda(LinhasAcima).
+verifica_shift_esquerda([]).
+verifica_shift_esquerda([LinhaAbaixo|LinhasAcima]) :- verifica_shift_esquerda_linha(LinhaAbaixo),
+                                                      verifica_shift_esquerda(LinhasAcima).
 
-verificaShiftEsquerdaLinha([]).
-verificaShiftEsquerdaLinha([PecaEsquerda|PecasDireita]) :- \+ ehPeca(PecaEsquerda), 
-                                                            verificaShiftEsquerdaLinhaAuxiliar([PecaEsquerda|PecasDireita]).
+verifica_shift_esquerda_linha([]).
+verifica_shift_esquerda_linha([PecaEsquerda|PecasDireita]) :- \+ eh_peca(PecaEsquerda), 
+                                                              verifica_shift_esquerda_linha_auxiliar([PecaEsquerda|PecasDireita]).
 
-verificaShiftEsquerdaLinhaAuxiliar([]).
-verificaShiftEsquerdaLinhaAuxiliar([_]).
-verificaShiftEsquerdaLinhaAuxiliar([PecaEsquerda,PecaDeireita|ProximasPecas]) :- (\+ ehCongelado(PecaEsquerda); % ; significa ou 
-                                                                                  \+ ehPeca(PecaDeireita)), 
-                                                                                  verificaShiftEsquerdaLinhaAuxiliar([PecaDeireita|ProximasPecas]).
+verifica_shift_esquerda_linha_auxiliar([]).
+verifica_shift_esquerda_linha_auxiliar([_]).
+verifica_shift_esquerda_linha_auxiliar([PecaEsquerda,PecaDeireita|ProximasPecas]) :- (\+ eh_congelado(PecaEsquerda); % ; significa ou 
+                                                                                      \+ eh_peca(PecaDeireita)), 
+                                                                                      verifica_shift_esquerda_linha_auxiliar([PecaDeireita|ProximasPecas]).
 
-verificaShiftBaixo([PrimeiraLinha|RestoDaMatriz]) :- verificaShiftBaixoPrimeiraLinha(PrimeiraLinha), 
-                                                     verificaShiftBaixoAuxiliar([PrimeiraLinha,RestoDaMatriz]).
+verifica_shift_baixo([PrimeiraLinha|RestoDaMatriz]) :- verifica_shift_baixo_primeira_linha(PrimeiraLinha), 
+                                                       verifica_shift_baixo_auxiliar([PrimeiraLinha,RestoDaMatriz]).
 
-verificaShiftBaixoPrimeiraLinha([]).
-verificaShiftBaixoPrimeiraLinha([Peca|ProximasPecas]) :- \+ ehPeca(Peca), 
-                                                         verificaShiftBaixoPrimeiraLinha(ProximasPecas).
+verifica_shift_baixo_primeira_linha([]).
+verifica_shift_baixo_primeira_linha([Peca|ProximasPecas]) :- \+ eh_peca(Peca), 
+                                                             verifica_shift_baixo_primeira_linha(ProximasPecas).
 
-verificaShiftBaixoAuxiliar([LinhaAbaixo,LinhaAcima]):- verificaShiftBaixoLinha(LinhaAbaixo,LinhaAcima).
-verificaShiftBaixoAuxiliar([LinhaAbaixo,LinhaAcima|LinhasAcimas]) :- verificaShiftBaixoLinha(LinhaAbaixo,LinhaAcima), 
-                                                                     verificaShiftBaixoAuxiliar(LinhaAcima,LinhasAcimas).
+verifica_shift_baixo_auxiliar([LinhaAbaixo,LinhaAcima]):- verifica_shift_baixo_linha(LinhaAbaixo,LinhaAcima).
+verifica_shift_baixo_auxiliar([LinhaAbaixo,LinhaAcima|LinhasAcimas]) :- verifica_shift_baixo_linha(LinhaAbaixo,LinhaAcima), 
+                                                                        verifica_shift_baixo_auxiliar(LinhaAcima,LinhasAcimas).
 
-verificaShiftBaixoLinha([],[]).
-verificaShiftBaixoLinha([PecaAbaixo|ProximasPecasAbaixo], [PecaAcima|ProximasPecasAcima]) :- \+ (ehCongelado(PecaAbaixo), ehPeca(PecaAcima)),
-                                                                                              verificaShiftBaixoLinha(ProximasPecasAbaixo, ProximasPecasAcima).
+verifica_shift_baixo_linha([],[]).
+verifica_shift_baixo_linha([PecaAbaixo|ProximasPecasAbaixo], [PecaAcima|ProximasPecasAcima]) :- \+ (eh_congelado(PecaAbaixo), eh_peca(PecaAcima)),
+                                                                                                 verifica_shift_baixo_linha(ProximasPecasAbaixo, ProximasPecasAcima).
 
 % shifts
 
-swapDireita([], []).
-swapDireita([Peca], [Peca]).
-swapDireita([PecaEsquerda, PecaDireita | ProximasPecas], [PecaDireita, PecaEsquerda | ProximasPecas]) :- ehPeca(PecaEsquerda), !.
-swapDireita([PecaEsquerda, PecaDireita | ProximasPecas], [PecaEsquerda, PecaDireita | ProximasPecas]).
+swap_direita([], []).
+swap_direita([Peca], [Peca]).
+swap_direita([PecaEsquerda, PecaDireita | ProximasPecas], [PecaDireita, PecaEsquerda | ProximasPecas]) :- eh_peca(PecaEsquerda), !.
+swap_direita([PecaEsquerda, PecaDireita | ProximasPecas], [PecaEsquerda, PecaDireita | ProximasPecas]).
 
-shiftDireitaLinha([], []).
-shiftDireitaLinha([Peca],[Peca]).
-shiftDireitaLinha([PecaEsquerda, PecaDireita | ProximasPecas], LinhaComShift) :- shiftDireitaLinha([PecaDireita | ProximasPecas], LinhaComShiftPilha),
-                                                                                 swapDireita([PecaEsquerda | LinhaComShiftPilha], LinhaComShift).
+shift_direita_linha([], []).
+shift_direita_linha([Peca],[Peca]).
+shift_direita_linha([PecaEsquerda, PecaDireita | ProximasPecas], LinhaComShift) :- shift_direita_linha([PecaDireita | ProximasPecas], LinhaComShiftPilha),
+                                                                                   swap_direita([PecaEsquerda | LinhaComShiftPilha], LinhaComShift).
 
-shiftDireita([], []).
-shiftDireita([LinhaAbaixo | LinhasAcima], [LinhaAbaixoComShift | LinhasAcimaComShift]) :- shiftDireitaLinha(LinhaAbaixo, LinhaAbaixoComShift),
-                                                                                          shiftDireita(LinhasAcimas, LinhasAcimaComShift).
+shift_direita([], []).
+shift_direita([LinhaAbaixo | LinhasAcima], [LinhaAbaixoComShift | LinhasAcimaComShift]) :- shift_direita_linha(LinhaAbaixo, LinhaAbaixoComShift),
+                                                                                           shift_direita(LinhasAcimas, LinhasAcimaComShift).
 
-shiftEsquerdaLinha([], []).
-shiftEsquerdaLinha([Peca], [Peca]).
-shiftEsquerdaLinha([PecaEsquerda, PecaDireita | ProximasPecas], [PecaDireita, PecaEsquerda | ProximasPecas]) :- ehPeca(PecaDeireita), !.
-shiftEsquerdaLinha([PecaEsquerda, PecaDireita | ProximasPecas], [PecaEsquerda, PecaDireita | ProximasPecas]).
+shift_esquerda_linha([], []).
+shift_esquerda_linha([Peca], [Peca]).
+shift_esquerda_linha([PecaEsquerda, PecaDireita | ProximasPecas], [PecaDireita, PecaEsquerda | ProximasPecas]) :- eh_peca(PecaDeireita), !.
+shift_esquerda_linha([PecaEsquerda, PecaDireita | ProximasPecas], [PecaEsquerda, PecaDireita | ProximasPecas]).
 
-shiftEsquerda([], []).
-shiftEsquerda([LinhaAbaixo | LinhasAcima], [LinhaAbaixoComShift | LinhasAcimaComShift]) :- shiftEsquerdaLinha(LinhaAbaixo, LinhaAbaixoComShift),
-                                                                                           shiftEsquerda(LinhasAcimas, LinhasAcimaComShift).
+shift_esquerda([], []).
+shift_esquerda([LinhaAbaixo | LinhasAcima], [LinhaAbaixoComShift | LinhasAcimaComShift]) :- shift_esquerda_linha(LinhaAbaixo, LinhaAbaixoComShift),
+                                                                                            shift_esquerda(LinhasAcimas, LinhasAcimaComShift).
 
-shiftBaixoLinha([[], []], [[], []]).
-shiftBaixoLinha([[PecaAbaixo | PecasAbaixo], [PecaAcima | PecasAcima]], [PecasAbaixoShift, PecasAcimaShift]) :- 
-    shiftBaixoLinha([PecasAbaixo, PecasAcima], [PecasAbaixoPilha, PecasAcimaPilha]),
-    (ehPeca(PecaAcima) -> (PecasAbaixoShift = [PecaAcima | PecasAbaixoPilha], PecasAcimaShift = [PecaAbaixo | PecasAcimaPilha]);
+shift_baixo_linha([[], []], [[], []]).
+shift_baixo_linha([[PecaAbaixo | PecasAbaixo], [PecaAcima | PecasAcima]], [PecasAbaixoShift, PecasAcimaShift]) :- 
+    shift_baixo_linha([PecasAbaixo, PecasAcima], [PecasAbaixoPilha, PecasAcimaPilha]),
+    (eh_peca(PecaAcima) -> (PecasAbaixoShift = [PecaAcima | PecasAbaixoPilha], PecasAcimaShift = [PecaAbaixo | PecasAcimaPilha]);
      (PecasAbaixoShift = [PecaAbaixo | PecasAbaixoPilha], PecasAcimaShift = [PecaAcima | PecasAcimaPilha])
     ).
