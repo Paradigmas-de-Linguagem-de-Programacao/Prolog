@@ -1,4 +1,4 @@
-:- module(lib, [input/2, inputNumber/2, clearScreen/0, esperandoEnter/0, printString/1 , map/3]).
+:- module(lib, [input/2, inputNumber/2, clearScreen/0, esperandoEnter/0, printString/1 , map/3, voltaMenu/0 ]).
 
 clearScreen :- tty_clear.
 
@@ -24,3 +24,6 @@ map(_ , [] , []).
 map(Funcao, [X|Xs] , [Y|Ys]):-
     call(Funcao , X , Y),
     map(Funcao , Xs, Ys).
+
+voltaMenu:- lib:printString("Então nosso heroi precisa voltar ao menu para pensar sobre a vida não é? Tudo bem mas por favor volte o mundo precisa de você\n").
+
