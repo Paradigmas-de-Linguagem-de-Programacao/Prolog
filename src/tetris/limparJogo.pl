@@ -20,4 +20,4 @@ shift_baixo([LinhaAbaixo, LinhaAcima | LinhasAcima], [LinhaAcima | LinhasAcimaCo
 shift_baixo([LinhaAbaixo, LinhaAcima | LinhasAcima], [LinhaAbaixo | LinhasAcimaComShift]) :- shift_baixo([LinhaAcima | LinhasAcima], LinhasAcimaComShift).
 
 clear_game(Linhas, NovasLinhas, QuantidadeLinhasLimpas) :- limpar_linhas(Linhas, LinhasLimpas, QuantidadeLinhasLimpas),
-                                                           shift_baixo(Linhas, NovasLinhas).                             
+                                                           shift_baixo(LinhasLimpas, NovasLinhas).
