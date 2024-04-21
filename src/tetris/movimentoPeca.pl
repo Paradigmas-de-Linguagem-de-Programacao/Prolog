@@ -69,16 +69,16 @@ shift_direita_linha([PecaEsquerda, PecaDireita | ProximasPecas], LinhaComShift) 
 
 shift_direita([], []).
 shift_direita([LinhaAbaixo | LinhasAcima], [LinhaAbaixoComShift | LinhasAcimaComShift]) :- shift_direita_linha(LinhaAbaixo, LinhaAbaixoComShift),
-                                                                                           shift_direita(LinhasAcimas, LinhasAcimaComShift).
+                                                                                           shift_direita(LinhasAcima, LinhasAcimaComShift).
 
 shift_esquerda_linha([], []).
 shift_esquerda_linha([Peca], [Peca]).
-shift_esquerda_linha([PecaEsquerda, PecaDireita | ProximasPecas], [PecaDireita, PecaEsquerda | ProximasPecas]) :- eh_peca(PecaDeireita), !.
+shift_esquerda_linha([PecaEsquerda, PecaDireita | ProximasPecas], [PecaDireita, PecaEsquerda | ProximasPecas]) :- eh_peca(PecaDireita), !.
 shift_esquerda_linha([PecaEsquerda, PecaDireita | ProximasPecas], [PecaEsquerda, PecaDireita | ProximasPecas]).
 
 shift_esquerda([], []).
 shift_esquerda([LinhaAbaixo | LinhasAcima], [LinhaAbaixoComShift | LinhasAcimaComShift]) :- shift_esquerda_linha(LinhaAbaixo, LinhaAbaixoComShift),
-                                                                                            shift_esquerda(LinhasAcimas, LinhasAcimaComShift).
+                                                                                            shift_esquerda(LinhasAcima, LinhasAcimaComShift).
 
 shift_baixo_linha([[], []], [[], []]).
 shift_baixo_linha([[PecaAbaixo | PecasAbaixo], [PecaAcima | PecasAcima]], [PecasAbaixoShift, PecasAcimaShift]) :- 
