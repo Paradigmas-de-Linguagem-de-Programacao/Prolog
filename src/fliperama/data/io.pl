@@ -5,7 +5,20 @@ salvar_credenciais_de_usuario(Username, Password) :-
     nl(Stream),
     close(Stream).
 
-% Predicate to check if credentials are present in the file
+salvar_sessao(Username, SessionMessage) :-
+    atomic_list_concat([Username, ':', SessionMessage], UserMessage),
+    open('sessoes.txt', append, Stream),
+    write(Stream, UserMessage),
+    nl(Stream),
+    close(Stream).
+
+get_message(Username, Message) :-
+    open('sessoes.txt', read, Stream), % Open the file for reading
+    read_lines(Stream, Lines), % Read all lines from the file
+    close(Stream), % Close the file stream
+    member(Line, Lines), % Check if the line is a member of Lines
+    atomic_list_concat([Username, ':', Message], Line). 
+
 checar_credenciais_de_usuario(Username, Password) :-
     open('usuarios.txt', read, Stream),
     read_lines(Stream, Lines),!,
