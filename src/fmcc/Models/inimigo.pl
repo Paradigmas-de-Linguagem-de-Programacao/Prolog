@@ -1,18 +1,19 @@
 :- dynamic inimigo/5.
 
+%inimigo(Nome, ataque, defesa, vida , ataqueEspecial)
 inimigo_inicial :- 
     asserta(inimigo("Cachorros caramelos", 40, 5, 50, 0)).
 
 inimigo_kanva :-
-    retract(inimigo("Cachorros caramelos", 40, 5, 50, 0)),
+    retractall(inimigo(_, _, _, _, _)),
     asserta(inimigo("Kanva", 55, 10, 200, 85)).
 
 inimigo_playhub :-
-    retract(inimigo("Kanva", 55, 10, 200, 75)),
+    retractall(inimigo(_, _, _, _, _)),
     asserta(inimigo("Playhub", 40, 0, 300, 85)).
 
 inimigo_conversaGPT :-
-    retract(inimigo("Playhub", 40, 0, 300, 85)),
+    retractall(inimigo(_, _, _, _, _)),
     asserta(inimigo("ConversaGPT", 120, 30, 5000, 160)).
 
 get_ataque(Ataque) :-
@@ -24,13 +25,13 @@ get_defesa(Defesa) :-
 get_vida(Vida) :-
     inimigo(_,_,_,Vida,_).
 
-set_vida(Dano_recebido) :-
-    retract(inimigo(Nome_antigo, Ataque_antigo, Defesa_antiga,Vida_antiga, Especial_antigo)),
-    Vida_atual is Vida_antiga - Dano_recebido,
-    asserta(inimigo(Nome_antigo, Ataque_antigo, Defesa_antiga,Vida_atual, Especial_antigo)).
+get_habilidade_especial(Especial) :- inimigo(_,_,_,_,Especial).
 
-get_habilidade_especial(Especial) :-
-    inimigo(_,_,_,_,Especial).
+recebe_dano_inimigo(Ataque_jogador) :-
+    retract(inimigo(Nome, Ataque, Defesa, Vida_antiga, Especial)),
+    Dano_recebido is max(5, Ataque_jogador-Defesa),
+    Vida_atual is max(Vida_antiga - Dano_recebido, 0),
+    asserta(inimigo(Nome, Ataque, Defesa, Vida_atual, Especial)).
 
 formata_inimigo(Nome, Ataque, Defesa, Vida, String) :-
     format(atom(String), " ~w | Ataque: ~d | Defesa: ~d | Vida: ~d \n\n", [Nome, Ataque, Defesa, Vida]).

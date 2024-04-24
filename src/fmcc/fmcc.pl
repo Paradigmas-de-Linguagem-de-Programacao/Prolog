@@ -1,6 +1,7 @@
 :- use_module('./Util/lib.pl').
 :- use_module('./Util/dialogos.pl').
 :- use_module('./Historia/prologo.pl').
+:- use_module('./Util/salvamento.pl').
 
 mock_fmcc:- 
     % função que vai pegar o jogador do banco de dados
@@ -8,6 +9,7 @@ mock_fmcc:-
 
 menu :-
     clearScreen,
+    salvamento:inicializa_jogador,
     dialogos:menuInicial,
     lib:inputNumber("Sua escolha é: ", Escolha),
     menuOpcao(Escolha).

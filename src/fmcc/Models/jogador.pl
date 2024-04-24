@@ -1,53 +1,51 @@
+:- module(jogador , [jogador_init/0, get_gold/1, modifica_gold/1, adiciona_Equipamento/1, adiciona_Pocao/1 , get_progresso/1,
+                        altera_progresso/1,recebe_dano/1, exibe_jogador_combate/0]).
+
 :- dynamic jogador/5.
 :- dynamic jogador_combate/5.
 
-jogador_inicial :- 
-    asserta(jogador("Heanes", 0, [], [], 0)).
+%jogador(Nome,Gold,Equipamento,Pocoes,Progresso).
+jogador_init :- asserta(jogador("Heanes", 0, [], [], 0)).
 
-jogador_combate_inicial :- 
-    asserta(jogador_combate(100, 10, 5, [], 0)).
+%jogador_combate(Vida,Ataque,Defesa,Pocoes,Pocoes_tomadas).
+jogador_combate_init :- asserta(jogador_combate(100, 10, 5, [], 0)).
 
-get_gold(Dinheiro) :- 
-    jogador(_,Dinheiro,_,_,_).
+get_gold(Dinheiro) :- jogador(_,Dinheiro,_,_,_).
 
-set_gold(Gold_ganho) :-
-    retract(jogador(Nome_antigo, Gold_antigo, Equipamentos_antigo, Pocoes_antiga, Progresso)),
-    Gold_atual is Gold_ganho + Gold_antigo,
-    asserta(jogador(Nome_antigo, Gold_atual, Equipamentos_antigo, Pocoes_antiga, Progresso)).
+modifica_gold(Gold_alterado) :-
+    retract(jogador(Nome, Gold_antigo, Equipamentos, Pocoes, Progresso)),
+    Gold_atual is Gold_alterado + Gold_antigo,
+    asserta(jogador(Nome, Gold_atual, Equipamentos, Pocoes, Progresso)).
 
-get_equipamentos(Equips) :-
-    jogador(_,_, Equips,_,_).
+get_equipamentos(Equips) :- jogador(_,_, Equips,_,_).
 
-set_equipamentos(Equipamento_novo):-
-    retract(jogador(Nome_antigo, Gold_antigo, Equipamentos_antigo, Pocoes_antiga, Progresso)),
-    append([Equipamento_novo], Equipamentos_antigo, Resultado),
-    asserta(jogador(Nome_antigo, Gold_antigo, Resultado, Pocoes_antiga, Progresso)).
+adiciona_Equipamento(Equipamento_novo):-
+    retract(jogador(Nome, Gold, Equipamentos_antigo, Pocoes, Progresso)),
+    append([Equipamento_novo], Equipamentos_antigo, Equipamentos),
+    asserta(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)).
 
-get_pocoes(Poisson) :- 
-    jogador(_,_,_,Poisson,_).
+get_pocoes(Poisson) :- jogador(_,_,_,Poisson,_).
 
-set_pocoes(Pocao_nova) :-
-    retract(jogador(Nome_antigo, Gold_antigo, Equipamentos_antigo, Pocoes_antiga, Progresso)),
-    append([Pocao_nova], Pocoes_antiga, Result),
-    asserta(jogador(Nome_antigo, Gold_antigo, Equipamentos_antigo, Result, Progresso)).
+adiciona_Pocao(Pocao_nova) :-
+    retract(jogador(Nome, Gold, Equipamentos, Pocoes_antiga, Progresso)),
+    append([Pocao_nova], Pocoes_antiga, Pocoes),
+    asserta(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)).
 
-get_progresso(Prog) :- 
-    jogador(_,_,_,_,Prog).
+get_progresso(Progresso) :- jogador(_,_,_,_,Progresso).
 
-set_progresso(Prog_novo) :-
-    retract(jogador(Nome_antigo, Gold_antigo, Equipamentos_antigo, Pocoes_antiga, _)),
-    asserta(jogador(Nome_antigo, Gold_antigo, Equipamentos_antigo, Pocoes_antiga, Prog_novo)).
+altera_progresso(Progresso_novo) :-
+    retract(jogador(Nome, Gold, Equipamentos, Pocoes, _)),
+    asserta(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso_novo)).
 
-get_vida(Hp) :- 
-    jogador_combate(Hp,_,_,_,_).
+get_vida(Hp) :- jogador_combate(Hp,_,_,_,_).
 
-set_vida(Dano_sofrido) :-
-    retract(jogador(Hp_antigo, Ataque_antigo, Defesa_antiga, Potions_antiga, Tomadas_antiga)),
-    Hp_atual is Hp_antigo - Dano_sofrido,
-    asserta(jogador(Hp_atual, Ataque_antigo, Defesa_antiga, Potions_antiga, Tomadas_antiga)).
+recebe_dano(Ataque_Inimigo) :-
+    retract(jogador_combate(Hp_antigo, Ataque, Defesa, Potions, Pocoes_Tomadas)),
+    Dano_sofrido is Ataque_Inimigo - Defesa,
+    Hp_atual is max(Hp_antigo - Dano_sofrido, 0),
+    asserta(jogador_combate(Hp_atual, Ataque, Defesa, Potions, Pocoes_Tomadas)).
 
-get_ataque(Ataq) :- 
-    jogador_combate(_,Ataq,_,_,_).
+get_ataque(Ataq) :- jogador_combate(_,Ataq,_,_,_).
 
 set_ataque(Ataq_ganho) :-
     retract(jogador_combate(Hp_antigo, Ataque_antigo, Defesa_antiga, Potions_antiga, Tomadas_antiga)),
@@ -61,11 +59,9 @@ set_defesa(Def_ganha) :-
     Def_atual is Defesa_antiga + Def_ganha,
     asserta(jogador_combate(Hp_antigo, Ataque_antigo, Def_atual, Potions_antiga, Tomadas_antiga)).
 
-get_pocoes_combate(Potions) :- 
-    jogador_combate(_,_,_,Potions,_).
+get_pocoes_combate(Potions) :- jogador_combate(_,_,_,Potions,_).
 
-get_pocoes_tomadas(Tomadas) :- 
-    jogador_combate(_,_,_,_,Tomadas).
+get_pocoes_tomadas(Tomadas) :- jogador_combate(_,_,_,_,Tomadas).
 
 set_pocoes_tomadas :-
     retract(jogador_combate(Hp_antigo, Ataque_antigo, Defesa_antiga, Potions_antiga, Tomadas_antiga)),

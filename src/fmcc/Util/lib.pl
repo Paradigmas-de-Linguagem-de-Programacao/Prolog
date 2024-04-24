@@ -17,6 +17,7 @@ esperandoEnter :- input("\nDigite algo para continuar: ", _), clearScreen.
 printString(Texto):-
     clearScreen,
     writeln(Texto),
+    write("------------------------------------------------------------------------------------\n"),
     esperandoEnter.
 
 map(_ , [] , []).

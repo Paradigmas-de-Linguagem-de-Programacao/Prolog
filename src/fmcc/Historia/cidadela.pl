@@ -3,6 +3,7 @@
 :- use_module('../Util/lib.pl').
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Historia/historia_principal.pl').
+:- use_module('../Models/jogador.pl').
 
 opcao(1, Progresso) :- visualizarItensLoja(Progresso). % colocar aqui o ir pra loja
 opcao(2, Progresso) :- dialogoFerreira(Progresso).
@@ -40,9 +41,10 @@ escolhaCidadela(_ , _):-
     irCidadelaDeCristal.
 
 irCidadelaDeCristal:-
-    % getProgresso que iria ditar qual fase e qual mensagem ia aparecer
-    Progresso = 2,
+    get_progresso(Progresso),
     dialogoInicial(Progresso),
+    write("------------------------------------------------------------------------------------\n"),
     lib:inputNumber("Faça sua escolha: ", Escolha),
+    clearScreen,
     escolhaCidadela(Escolha, Progresso).
 
