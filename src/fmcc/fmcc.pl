@@ -4,17 +4,16 @@
 :- use_module('./Util/salvamento.pl').
 
 mock_fmcc:- 
-    % função que vai pegar o jogador do banco de dados
     menu.
 
 menu :-
     clearScreen,
-    salvamento:inicializa_jogador,
     dialogos:menuInicial,
     lib:inputNumber("Sua escolha é: ", Escolha),
     menuOpcao(Escolha).
 
 menuOpcao(1) :-
+    salvamento:inicializa_jogador,
     prologo:comecaJogo,
     menu.
 
@@ -33,5 +32,4 @@ menuOpcao(4) :-
 
 menuOpcao(_) :-
     writeln('Opção inválida. Por favor, escolha uma opção válida.'),
-    esperandoEnter,
     menu.

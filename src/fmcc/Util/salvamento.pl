@@ -1,4 +1,4 @@
-:- module(salvamento , [jogador_init/0]).
+:- module(salvamento , [inicializa_jogador/0]).
 
 :- use_module('../Models/jogador.pl').
 

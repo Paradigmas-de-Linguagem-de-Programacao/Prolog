@@ -1,3 +1,5 @@
+:- module(inimigo, [inimigo_inicial/0, get_ataque_inimigo/1, recebe_dano_inimigo/1, get_vida_inimigo/1, 
+                    exibe_inimigo/0]).
 :- dynamic inimigo/5.
 
 %inimigo(Nome, ataque, defesa, vida , ataqueEspecial)
@@ -16,13 +18,13 @@ inimigo_conversaGPT :-
     retractall(inimigo(_, _, _, _, _)),
     asserta(inimigo("ConversaGPT", 120, 30, 5000, 160)).
 
-get_ataque(Ataque) :-
+get_ataque_inimigo(Ataque) :-
     inimigo(_,Ataque,_,_,_).
 
 get_defesa(Defesa) :-
     inimigo(_,_,Defesa,_,_).
 
-get_vida(Vida) :-
+get_vida_inimigo(Vida) :-
     inimigo(_,_,_,Vida,_).
 
 get_habilidade_especial(Especial) :- inimigo(_,_,_,_,Especial).

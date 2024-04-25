@@ -1,5 +1,6 @@
 :- module(jogador , [jogador_init/0, get_gold/1, modifica_gold/1, adiciona_Equipamento/1, adiciona_Pocao/1 , get_progresso/1,
-                        altera_progresso/1,recebe_dano/1, exibe_jogador_combate/0]).
+                        altera_progresso/1,recebe_dano/1, exibe_jogador_combate/0, get_ataque_heroi/1, get_vida_heroi/1,
+                        jogador_combate_init/0]).
 
 :- dynamic jogador/5.
 :- dynamic jogador_combate/5.
@@ -37,7 +38,7 @@ altera_progresso(Progresso_novo) :-
     retract(jogador(Nome, Gold, Equipamentos, Pocoes, _)),
     asserta(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso_novo)).
 
-get_vida(Hp) :- jogador_combate(Hp,_,_,_,_).
+get_vida_heroi(Hp) :- jogador_combate(Hp,_,_,_,_).
 
 recebe_dano(Ataque_Inimigo) :-
     retract(jogador_combate(Hp_antigo, Ataque, Defesa, Potions, Pocoes_Tomadas)),
@@ -45,7 +46,7 @@ recebe_dano(Ataque_Inimigo) :-
     Hp_atual is max(Hp_antigo - Dano_sofrido, 0),
     asserta(jogador_combate(Hp_atual, Ataque, Defesa, Potions, Pocoes_Tomadas)).
 
-get_ataque(Ataq) :- jogador_combate(_,Ataq,_,_,_).
+get_ataque_heroi(Ataq) :- jogador_combate(_,Ataq,_,_,_).
 
 set_ataque(Ataq_ganho) :-
     retract(jogador_combate(Hp_antigo, Ataque_antigo, Defesa_antiga, Potions_antiga, Tomadas_antiga)),

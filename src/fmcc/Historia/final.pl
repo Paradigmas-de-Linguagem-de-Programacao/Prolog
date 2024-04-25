@@ -14,7 +14,6 @@ escolha_final:-
                        "(5) Voltar ao menu"]),
     write("\n------------------------------------------------------------------------------------\n"),
     lib:inputNumber("Faça sua escolha: ", Escolha),
-    lib:clearScreen,
     opcao_final(Escolha).
 
 opcao_final(5):- voltaMenu, !.

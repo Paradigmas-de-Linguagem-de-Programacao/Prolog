@@ -24,7 +24,6 @@ caminhadaCidadela(Progresso):-
     opcoesCaminhaCidadela(Progresso),
     writeln("\n------------------------------------------------------------------------------------\n"),
     lib:inputNumber("Faça sua escolha: ", Escolha),
-    lib:clearScreen,
     escolhaCaminhaDaCidadela(Escolha, Progresso).
 
 
@@ -45,6 +44,5 @@ irCidadelaDeCristal:-
     dialogoInicial(Progresso),
     write("------------------------------------------------------------------------------------\n"),
     lib:inputNumber("Faça sua escolha: ", Escolha),
-    clearScreen,
     escolhaCidadela(Escolha, Progresso).
 

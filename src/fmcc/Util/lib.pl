@@ -1,4 +1,4 @@
-:- module(lib, [input/2, inputNumber/2, clearScreen/0, esperandoEnter/0, printString/1 , map/3, voltaMenu/0 ]).
+:- module(lib, [input/2, inputNumber/2, clearScreen/0, esperandoEnter/0, printString/1 , map/3, voltaMenu/0, formata_texto/0]).
 
 clearScreen :- tty_clear.
 
@@ -9,7 +9,8 @@ input(Texto, Entrada) :- read_pending_chars(user_input, _, _),
 
 inputNumber(Text, N) :- 
     input(Text, Output), 
-    (atom_number(Output, N) ->  true; N = -1).
+    (atom_number(Output, N) ->  true; N = -1),
+    clearScreen.
 
 
 esperandoEnter :- input("\nDigite algo para continuar: ", _), clearScreen.
@@ -18,6 +19,10 @@ printString(Texto):-
     clearScreen,
     writeln(Texto),
     write("------------------------------------------------------------------------------------\n"),
+    esperandoEnter.
+
+formata_texto:-
+    write("\n------------------------------------------------------------------------------------\n"),
     esperandoEnter.
 
 map(_ , [] , []).
