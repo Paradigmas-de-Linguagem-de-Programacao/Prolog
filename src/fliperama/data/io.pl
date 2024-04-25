@@ -12,25 +12,41 @@ salvar_sessao(Username, SessionMessage) :-
     nl(Stream),
     close(Stream).
 
-get_message(Username, Message) :-
-    open('sessoes.txt', read, Stream), % Open the file for reading
-    read_lines(Stream, Lines), % Read all lines from the file
-    close(Stream), % Close the file stream
-    member(Line, Lines), % Check if the line is a member of Lines
-    atomic_list_concat([Username, ':', Message], Line). 
-
 checar_credenciais_de_usuario(Username, Password) :-
     open('usuarios.txt', read, Stream),
-    read_lines(Stream, Lines),!,
+    read_userdata_lines(Stream, Lines),!,
     close(Stream),
     atomic_list_concat([Username, ':', Password], Line),
     member(Line, Lines),
     !.
 
-read_lines(Stream, []) :-
+read_userdata_lines(Stream, []) :-
     at_end_of_stream(Stream).
-read_lines(Stream, [Line|Rest]) :-
+read_userdata_lines(Stream, [Line|Rest]) :-
     \+ at_end_of_stream(Stream),
     read_line_to_codes(Stream, LineCodes),
     atom_codes(Line, LineCodes),
     read_lines(Stream, Rest).
+
+
+
+get_session_message(Username, Message) :-
+    open('sessoes.txt', read, Stream),
+    read_lines(Stream, Username, Message),
+    close(Stream).
+
+read_lines(Stream, Username, Message) :-
+    \+ at_end_of_stream(Stream),
+    read_line_to_codes(Stream, LineCodes),
+    atom_codes(Line, LineCodes),
+    parse_line(Line, Username, Message),
+    !.
+
+read_lines(_, _, _) :-
+    !,
+    fail.
+
+parse_line(Line, Username, Message) :-
+    atomic_list_concat([UsernameAtom, MessageAtom], ':', Line),
+    atom_string(UsernameAtom, Username),
+    atom_string(MessageAtom, Message).
