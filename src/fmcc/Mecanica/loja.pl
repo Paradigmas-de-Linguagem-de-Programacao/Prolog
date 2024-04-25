@@ -1,4 +1,7 @@
+:- module(loja, [setup_inicial/0, printa_itens/0, print_pocao/0]).
 :- dynamic loja/3.
+:- use_module('../Util/lib.pl').
+:- use_module('../Models/jogador.pl').
 
 setup_inicial :- 
 
@@ -31,14 +34,60 @@ loja_final :-
         armadura("Armadura de Diamante", 160, 0, 100, "Armadura do minecraft."),
         pocao("Tyson Mentality", 300, 0, 100, 0, 1))).
 
-printa_loja :-
+printa_itens :-
     loja((espada(Nome, Preco, Ataque, Defesa, Descricao)),
-        (armadura(Nome2, Preco2, Ataque2, Defesa2, Descricao2)),
-        (pocao(Nome3, Preco3, Vida, Ataque3, Defesa3, Quantidade))),
+        (armadura(Nome2, Preco2, Ataque2, Defesa2, Descricao2)), _),
     formata_espada(Nome, Preco, Ataque, Defesa, Descricao, String_espada),
     formata_armadura(Nome2, Preco2, Ataque2, Defesa2, Descricao2, String_armadura),
+    write(String_espada), write(String_armadura).
+
+print_pocao :-
+    loja(_, _, (pocao(Nome3, Preco3, Vida, Ataque3, Defesa3, Quantidade))),
     formata_pocao(Nome3, Preco3, Vida, Ataque3, Defesa3, Quantidade, String_Pocao),
-    write(String_espada), write(String_armadura), write(String_Pocao).
+    write(String_Pocao).
+
+get_espada(Espada) :-
+    loja(Espada,_,_).
+
+get_armadura(Armadura) :-
+    loja(_,Armadura,_).
+
+abre_loja_itens :-
+    jogador_init,
+    writeln("\nOlá Héroi, esse são os itens que possuo...\n"), printa_itens,
+    inputNumber("E então, deseja comprar algum item?\n(1)Sim.\n(2)Não.\n\n", Escolha),
+    compra_item(Escolha).
+
+compra_item(0) :- writeln("Entendo pobre, volte ao menu com o rabo entre as pernas."). %volta volta ao menu
+compra_item(1) :-
+    lib:input_aux("\nDigite o nome do item que deseja comprar:\n", Input),
+    (verifica_nome_item(Input, Resultado), Resultado == true -> compra_item_aux(Input); writeln("\nItem com nome incorreto, tente novamente.\n"), abre_loja_itens).
+compra_item(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde."). %volta pro menu
+
+verifica_nome_item(Input, Resultado) :- 
+    get_espada(X),
+    X = espada(Nome,_,_,_,_),
+    get_armadura(Y),
+    Y = armadura(Nome2,_,_,_,_),
+    ((Nome == Input ; Nome2 == Input)-> Resultado = true ; Resultado = false).
+
+compra_item_aux(Input) :-
+    get_espada(X),
+    X = espada(Nome,_,_,_,_),
+    get_armadura(Y),
+    (Nome == Input -> espada_compra(X) ; armadura_compra(Y)).
+
+espada_compra(Espada) :-
+    get_gold(Gold),
+    Espada = espada(_, Preco,_,_,_),
+    (Gold >= Preco -> compra_gold(Preco), adiciona_equipamento(Espada), write("\nItem comprado com sucesso!!\n"), nl;
+    write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n")). %aperte enter para continuar e volta pro menu
+
+armadura_compra(Armadura) :-
+    get_gold(Gold),
+    Armadura = armadura(_, Preco,_,_,_),
+    (Gold >= Preco -> compra_gold(Preco), adiciona_equipamento(Armadura), write("\nItem comprado com sucesso!!\n"), nl;
+    write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n")). %aperte enter para continuar e volta pro menu
 
 formata_espada(Nome, Preco, Ataque, Defesa, Descricao, String) :-
     format(atom(String), " ~w | Preço: ~d \n Ataque: ~d | Defesa: ~d \n Descrição: ~w\n\n", [Nome, Preco, Ataque, Defesa, Descricao]).
@@ -48,4 +97,3 @@ formata_armadura(Nome, Preco, Ataque, Defesa, Descricao, String) :-
 
 formata_pocao(Nome, Preco, Vida, Ataque, Defesa, Quantidade, String) :-
     format(atom(String), " ~w | Preço: ~d \n Vida: ~d | Ataque: ~d | Defesa: ~d \n Quantidade: ~d", [Nome, Preco, Vida, Ataque, Defesa, Quantidade]).
-

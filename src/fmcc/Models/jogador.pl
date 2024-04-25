@@ -1,26 +1,31 @@
-:- module(jogador , [jogador_init/0, get_gold/1, modifica_gold/1, adiciona_Equipamento/1, adiciona_Pocao/1 , get_progresso/1,
-                        altera_progresso/1,recebe_dano/1, exibe_jogador_combate/0, get_ataque_heroi/1, get_vida_heroi/1,
-                        jogador_combate_init/0]).
+:- module(jogador , [jogador_init/0, get_gold/1, modifica_gold/1, adiciona_equipamento/1, adiciona_Pocao/1 , get_progresso/1,
+                        altera_progresso/1, recebe_dano/1, exibe_jogador_combate/0, compra_gold/1, get_ataque_heroi/1, get_vida_heroi/1,
+                        get_equipamentos/1, jogador_combate_init/0]).
 
 :- dynamic jogador/5.
 :- dynamic jogador_combate/5.
 
 %jogador(Nome,Gold,Equipamento,Pocoes,Progresso).
-jogador_init :- asserta(jogador("Heanes", 0, [], [], 0)).
+jogador_init :- asserta(jogador("Heanes", 1000, [], [], 0)).
 
 %jogador_combate(Vida,Ataque,Defesa,Pocoes,Pocoes_tomadas).
 jogador_combate_init :- asserta(jogador_combate(100, 10, 5, [], 0)).
 
 get_gold(Dinheiro) :- jogador(_,Dinheiro,_,_,_).
 
-modifica_gold(Gold_alterado) :-
+modifica_gold(Gold_ganho) :-
     retract(jogador(Nome, Gold_antigo, Equipamentos, Pocoes, Progresso)),
-    Gold_atual is Gold_alterado + Gold_antigo,
+    Gold_atual is Gold_ganho + Gold_antigo,
+    asserta(jogador(Nome, Gold_atual, Equipamentos, Pocoes, Progresso)).
+
+compra_gold(Gold_preco) :-
+    retract(jogador(Nome, Gold_antigo, Equipamentos, Pocoes, Progresso)),
+    Gold_atual is Gold_antigo - Gold_preco,
     asserta(jogador(Nome, Gold_atual, Equipamentos, Pocoes, Progresso)).
 
 get_equipamentos(Equips) :- jogador(_,_, Equips,_,_).
 
-adiciona_Equipamento(Equipamento_novo):-
+adiciona_equipamento(Equipamento_novo):-
     retract(jogador(Nome, Gold, Equipamentos_antigo, Pocoes, Progresso)),
     append([Equipamento_novo], Equipamentos_antigo, Equipamentos),
     asserta(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)).

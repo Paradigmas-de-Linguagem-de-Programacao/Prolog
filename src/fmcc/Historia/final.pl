@@ -10,7 +10,7 @@ escolha_final:-
     maplist(writeln , ["(1) Conversar com o Ferreira.", 
                        "(2) Ir à praça da cidade.", 
                        "(3) Ir à um beco escuro que está te chamando",
-                       "(4) Ir à mestre dos magos.",
+                       "(4) Ir ao mestre dos magos.",
                        "(5) Voltar ao menu"]),
     write("\n------------------------------------------------------------------------------------\n"),
     lib:inputNumber("Faça sua escolha: ", Escolha),
