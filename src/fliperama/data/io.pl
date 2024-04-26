@@ -19,6 +19,13 @@ checar_credenciais_de_usuario(Username, Password) :-
     member(Line, Lines),
     !.
 
+get_username_from_session(Username) :-
+    open('sessoes.txt', read, Stream),
+    read_line_to_codes(Stream, LineCodes),
+    close(Stream),
+    atom_codes(LineAtom, LineCodes),
+    atomic_list_concat([Username | _], ':', LineAtom).
+
 read_userdata_lines(Stream, []) :-
     at_end_of_stream(Stream).
 read_userdata_lines(Stream, [Line|Rest]) :-
