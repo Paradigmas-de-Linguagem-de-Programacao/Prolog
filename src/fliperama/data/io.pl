@@ -7,9 +7,8 @@ salvar_credenciais_de_usuario(Username, Password) :-
 
 salvar_sessao(Username, SessionMessage) :-
     atomic_list_concat([Username, ':', SessionMessage], UserMessage),
-    open('sessoes.txt', append, Stream),
+    open('sessoes.txt', write, Stream),
     write(Stream, UserMessage),
-    nl(Stream),
     close(Stream).
 
 checar_credenciais_de_usuario(Username, Password) :-
