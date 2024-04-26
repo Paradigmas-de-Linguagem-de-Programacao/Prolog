@@ -16,18 +16,24 @@ print_arte_menu :-
 
 
 print_unlogged_menu_options :-
-    write("\nOpções: ")
-    write("R - Registrar-se")
-    write("L - Fazer Login")
-    write("D - Deletar Conta")
-    write("\nDigite sua escolha: ").
+    write("\nOpções: "),
+    write("R - Registrar-se"),
+    write("L - Fazer Login"),
+    write("D - Deletar Conta"),
 
 print_logged_menu_options :-
-    write("\n Jogos Disponíveis: ")
-    write("T - Tetris")
-    write("F - FMCC")
-    write("S - Sair")
-    write("\nDigite sua escolha: ").
+    write("\n Jogos Disponíveis: "),
+    write("T - Tetris"),
+    write("F - FMCC"),
+    write("S - Sair"),
 
 clear_screen :-
     write('\e[H\e[2J').
+
+get_user_input(Input) :-
+    write("\nDigite sua escolha: "),
+    read(Input).
+
+check_user_input_validity(Input, [Input|_]).
+check_user_input_validity(Input, [_|Tail]) :-
+    check_user_input_validity(String, Tail).
