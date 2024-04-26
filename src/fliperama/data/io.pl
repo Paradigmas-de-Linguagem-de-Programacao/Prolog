@@ -13,7 +13,7 @@ salvar_sessao(Username, SessionMessage) :-
 
 checar_credenciais_de_usuario(Username, Password) :-
     open('usuarios.txt', read, Stream),
-    read_userdata_lines(Stream, Lines),!,
+    read_lines(Stream, Lines),!,
     close(Stream),
     atomic_list_concat([Username, ':', Password], Line),
     member(Line, Lines),
@@ -21,7 +21,7 @@ checar_credenciais_de_usuario(Username, Password) :-
 
 get_username_from_session(Username) :-
     open('sessoes.txt', read, Stream),
-    read_line_to_codes(Stream, LineCodes),
+    read_userdata_lines(Stream, LineCodes),!,
     close(Stream),
     atom_codes(LineAtom, LineCodes),
     atomic_list_concat([Username | _], ':', LineAtom).
