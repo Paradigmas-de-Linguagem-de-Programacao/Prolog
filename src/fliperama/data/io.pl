@@ -30,7 +30,7 @@ read_userdata_lines(Stream, [Line|Rest]) :-
 
 
 
-get_session_message(Username, Message) :-
+get_mensagem_sessao(Username, Message) :-
     open('sessoes.txt', read, Stream),
     read_lines(Stream, Username, Message),
     close(Stream).
