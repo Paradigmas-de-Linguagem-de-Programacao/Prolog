@@ -7,10 +7,6 @@
 :- use_module('../Models/inimigo.pl').
 :- use_module('../Combate/combate_IA.pl').
 
-escolha_heroi(1):- ataque_heroi("Cachorros caramelos"), (verifica_inimigo_morto("Cachorros caramelos") -> combate_kanva ; turno_inimigo).
-escolha_heroi(2):- toma_pocao , (verifica_pocoes_tomadas -> morte_pocao ; turno_inimigo).
-escolha_heroi(_):- writeln("Digite uma opção válida."), turno_heroi.
-
 pre_combate_kanva:-
     dialogo_pre_combate(1),
     turno_preparacao,
@@ -27,7 +23,11 @@ turno_heroi:-
     writeln("Os cachorros Rosnam para você o que fazer?"),
     writeln("(1) Ataque.\n(2) Usa poção.\n"),
     inputNumber("\nEscolha uma ação: ", Escolha),
-    escolha_heroi(Escolha).
+    escolha_acao_heroi(Escolha).
+
+escolha_acao_heroi(1):- ataque_heroi("Cachorros caramelos"), (verifica_inimigo_morto("Cachorros caramelos") -> combate_kanva ; turno_inimigo).
+escolha_acao_heroi(2):- toma_pocao , (verifica_pocoes_tomadas -> morte_pocao ; turno_inimigo).
+escolha_acao_heroi(_):- writeln("Digite uma opção válida."), turno_heroi.
 
 combate_kanva:-
     printString("*Sem tempo para comemorar a vitória você é puxado para dentro do museu deixando Leandro para trás.*\n"),
