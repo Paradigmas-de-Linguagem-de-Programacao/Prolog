@@ -1,4 +1,4 @@
-:- module(jogador , [jogador_init/0, get_gold/1, modifica_gold/1, adiciona_equipamento/1, adiciona_Pocao/1 , get_progresso/1,
+:- module(jogador , [jogador_init/0, get_gold/1, modifica_gold/1, adiciona_equipamento/1, adiciona_pocao/1 , get_progresso/1,
                         altera_progresso/1, recebe_dano/1, exibe_jogador_combate/0, compra_gold/1, get_ataque_heroi/1, get_vida_heroi/1,
                         get_equipamentos/1, jogador_combate_init/0]).
 
@@ -32,7 +32,7 @@ adiciona_equipamento(Equipamento_novo):-
 
 get_pocoes(Poisson) :- jogador(_,_,_,Poisson,_).
 
-adiciona_Pocao(Pocao_nova) :-
+adiciona_pocao(Pocao_nova) :-
     retract(jogador(Nome, Gold, Equipamentos, Pocoes_antiga, Progresso)),
     append([Pocao_nova], Pocoes_antiga, Pocoes),
     asserta(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)).
