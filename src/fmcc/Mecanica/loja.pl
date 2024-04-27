@@ -62,7 +62,7 @@ abre_loja_itens :-
 
 compra_item(2) :- writeln("Entendo pobre, volte ao menu com o rabo entre as pernas."). %volta volta ao menu
 compra_item(1) :-
-    lib:input_aux("\nDigite o nome do item que deseja comprar:\n", Input),
+    lib:input("\nDigite o nome do item que deseja comprar:\n", Input),
     (verifica_nome_item(Input, Resultado), Resultado == true -> compra_item_aux(Input); writeln("\nItem com nome incorreto, tente novamente.\n"), abre_loja_itens).
 compra_item(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde."). %volta pro menu
 
@@ -98,7 +98,7 @@ abre_loja_pocao :-
 
 compra_pocao(2) :- writeln("Entendo pobre, volte ao menu com o rabo entre as pernas."). %volta volta ao menu
 compra_pocao(1) :-
-    lib:input_aux("\nConfirme o nome da poção que deseja comprar:\n", Input),
+    lib:input("\nConfirme o nome da poção que deseja comprar:\n", Input),
     (verifica_nome_pocao(Input, Resultado), Resultado == true -> compra_pocao_aux ; writeln("\nPoção com nome incorreto, tente novamente.\n"), abre_loja_pocao).
 compra_pocao(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde."). %volta pro menu
 
@@ -117,7 +117,7 @@ compra_pocao_aux :-
 equipa_item :-
     write("\nEsses são os seus equipamentos:\n\n"),
     get_equipamentos(Equipamentos), write(Equipamentos),
-    lib:input_aux("\nEscreva o nome do item que deseja equipar, se quiser desistir da ação digite: 'VOLTAR'.\n\n", Escolha),
+    lib:input("\nEscreva o nome do item que deseja equipar, se quiser desistir da ação digite: 'VOLTAR'.\n\n", Escolha),
     equipa_item_aux(Escolha).
 
 equipa_item_aux("VOLTAR"). %volta ao menu
@@ -137,7 +137,7 @@ usa_item_aux(Ataque, Defesa) :-
 equipa_pocao :-
     write("\nEssas são suas poções disponíveis:\n\n"),
     get_pocoes(Pocoes), write(Pocoes),
-    lib:input_aux("\nConfirme o nome da poção que deseja tomar, se quiser desistir da ação digite: 'VOLTAR'.\n\n", Input),
+    lib:input("\nConfirme o nome da poção que deseja tomar, se quiser desistir da ação digite: 'VOLTAR'.\n\n", Input),
     equipa_pocao_aux(Input).
 
 equipa_pocao_aux("VOLTAR").

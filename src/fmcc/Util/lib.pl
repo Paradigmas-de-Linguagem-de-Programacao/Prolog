@@ -4,16 +4,13 @@ clearScreen :- tty_clear.
 
 input(Texto, Entrada) :- read_pending_chars(user_input, _, _),
                   write(Texto), flush_output(user),
-                  read_line_to_string(user_input, EntradaAux),
-                  normalize_space(atom(Entrada) , EntradaAux).
+                  read_line_to_string(user_input, Entrada).
 
 inputNumber(Text, N) :- 
-    input(Text, Output), 
-    (atom_number(Output, N) ->  true; N = -1).
-
-input_aux(Texto, String) :- read_pending_chars(user_input, _, _),
-                  write(Texto), flush_output(user),
-                  read_line_to_string(user_input, String).
+    input(Text, OutputAux), 
+    normalize_space(atom(Output) , OutputAux),
+    (atom_number(Output, N) ->  true; N = -1),
+    clearScreen.
 
 esperandoEnter :- input("\nAperte algo para continuar: ", _), clearScreen.
 

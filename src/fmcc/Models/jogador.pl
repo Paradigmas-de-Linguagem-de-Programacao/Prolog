@@ -1,7 +1,7 @@
 :- module(jogador , [jogador_init/0, get_gold/1, modifica_gold/1, adiciona_equipamento/1, adiciona_pocao/1 , get_progresso/1,
                         altera_progresso/1, recebe_dano/1, exibe_jogador_combate/0, compra_gold/1, get_ataque_heroi/1, get_vida_heroi/1,
                         get_equipamentos/1, jogador_combate_init/0, set_ataque/1, set_defesa/1, remove_equipamento/1, remove_pocao/1,
-                        get_pocoes/1, set_vida_heroi/1, set_pocoes_tomadas/0]).
+                        get_pocoes/1, set_vida_heroi/1, aumenta_pocao_tomada/0, verifica_heroi_morto/0 , verifica_pocoes_tomadas/0]).
 
 :- dynamic jogador/5.
 :- dynamic jogador_combate/5.
@@ -10,7 +10,7 @@
 jogador_init :- asserta(jogador("Heanes", 1000, [], [], 0)).
 
 %jogador_combate(Vida,Ataque,Defesa,Pocoes,Pocoes_tomadas).
-jogador_combate_init :- asserta(jogador_combate(100, 10, 5, [], 0)).
+jogador_combate_init :- asserta(jogador_combate(100, 100, 5, [], 0)).
 
 get_gold(Dinheiro) :- jogador(_,Dinheiro,_,_,_).
 
@@ -93,10 +93,14 @@ get_pocoes_combate(Potions) :- jogador(_,_,_,Potions,_).
 
 get_pocoes_tomadas(Tomadas) :- jogador_combate(_,_,_,_,Tomadas).
 
-set_pocoes_tomadas :-
+aumenta_pocao_tomada :-
     retract(jogador_combate(Hp_antigo, Ataque_antigo, Defesa_antiga, Potions_antiga, Tomadas_antiga)),
     Tomadas_atual is Tomadas_antiga + 1,
     asserta(jogador_combate(Hp_antigo, Ataque_antigo, Defesa_antiga, Potions_antiga, Tomadas_atual)).
+
+verifica_heroi_morto:- jogador_combate(0, _, _,_ ,_).
+
+verifica_pocoes_tomadas:- jogador_combate(_, _, _,_ ,6).
 
 formata_jogador(Nome, Gold, Equipamentos, Pocoes, Progresso, String) :-
     format(atom(String), " ~w | Gold: ~d \n Equipamentos: ~q \n Pocoes: ~q \n Progresso: ~d\n", [Nome, Gold, Equipamentos, Pocoes, Progresso]).
