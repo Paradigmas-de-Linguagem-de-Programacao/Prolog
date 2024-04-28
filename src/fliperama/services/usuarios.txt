@@ -1,2 +1,0 @@
-yos:tabs
-fake:natty

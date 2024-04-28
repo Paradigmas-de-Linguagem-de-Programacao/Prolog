@@ -1,3 +1,5 @@
+:- module(menu, [ menu/0 ]).
+
 :- use_module("./menu_actions.pl").
 :- use_module("../services/io.pl").
 
@@ -14,7 +16,7 @@ handle_unlogged_user :-
     get_user_input(Input),
     uppercase_string(Input, UpperCaseInput),
     (
-        menu_actions:check_user_input_validity(UpperCaseInput, ["R", "L"])
+        menu_actions:check_user_input_validity(UpperCaseInput, ["R", "L", "S"])
         -> handle_user_option(UpperCaseInput)
         ;  libio:atualizar_mensagem_de_sessao("Opção Inválida")
     ).
@@ -24,7 +26,7 @@ handle_logged_user :-
     get_user_input(Input),
     uppercase_string(Input, UpperCaseInput),
     (
-        menu_actions:check_user_input_validity(UpperCaseInput, ["T", "F", "S"])
+        menu_actions:check_user_input_validity(UpperCaseInput, ["T", "F", "S", "D"])
         -> handle_user_option(UpperCaseInput)
         ;  libio:atualizar_mensagem_de_sessao("Opção Inválida")
     ).
@@ -33,7 +35,8 @@ handle_user_option(Option) :- Option = "R", menu_actions:register_new_user.
 handle_user_option(Option) :- Option = "L", menu_actions:autenticar_user.
 handle_user_option(Option) :- Option = "T", mock_tetris.
 handle_user_option(Option) :- Option = "F", mock_fmcc.
-handle_user_option(Option) :- Option = "S", flipio:reset_sessao.
+handle_user_option(Option) :- Option = "D", flipio:reset_sessao.
+handle_user_option(Option) :- Option = "S", flipio:reset_sessao, halt.
 
 menu :-
     flipio:reset_sessao,

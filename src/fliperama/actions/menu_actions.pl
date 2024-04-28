@@ -30,12 +30,15 @@ print_arte_menu :-
 print_unlogged_menu_options :-
     write("\nOpções: "),
     write("\nR - Registrar-se"),
-    write("\nL - Fazer Login").
+    write("\nL - Fazer Login"),
+    write("\nS - Sair").
 
 print_logged_menu_options :-
     write("\n Jogos Disponíveis: "),
     write("\nT - Tetris"),
     write("\nF - FMCC"),
+    write("\n"),
+    write("\nD - Deslogar (Logout)"),
     write("\nS - Sair").
 
 clear_screen :-

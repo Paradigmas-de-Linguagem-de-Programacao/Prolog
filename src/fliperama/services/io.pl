@@ -5,7 +5,8 @@
     get_username_from_session/1,
     get_message_from_session/1,
     atualizar_mensagem_de_sessao/1,
-    reset_sessao/0
+    reset_sessao/0,
+    setup_menu/0
 ]).
 
 salvar_credenciais_de_usuario(Username, Password) :-
@@ -25,6 +26,16 @@ reset_sessao :-
     open('sessoes.txt', write, Stream),
     write(Stream, ":"),
     close(Stream).
+
+setup_menu :-
+    create_file_if_not_exists('sessoes.txt'),
+    create_file_if_not_exists('usuarios.txt').
+
+create_file_if_not_exists(File) :-
+    \+ exists_file(File), % Check if the file does not exist
+    open(File, write, Stream), % Open the file
+    close(Stream). % Close the file
+create_file_if_not_exists(_).
 
 atualizar_mensagem_de_sessao(Mensagem) :- 
     get_username_from_session(Username),
