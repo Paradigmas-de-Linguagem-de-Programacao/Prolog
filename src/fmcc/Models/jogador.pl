@@ -10,7 +10,7 @@
 jogador_init :- asserta(jogador("Heanes", 1000, [], [], 0)).
 
 %jogador_combate(Vida,Ataque,Defesa,Pocoes,Pocoes_tomadas).
-jogador_combate_init :- asserta(jogador_combate(100, 100, 5, [], 0)).
+jogador_combate_init :- asserta(jogador_combate(100, 150, 5, [], 0)).
 
 get_gold(Dinheiro) :- jogador(_,Dinheiro,_,_,_).
 
@@ -102,18 +102,6 @@ verifica_heroi_morto:- jogador_combate(0, _, _,_ ,_).
 
 verifica_pocoes_tomadas:- jogador_combate(_, _, _,_ ,6).
 
-formata_jogador(Nome, Gold, Equipamentos, Pocoes, Progresso, String) :-
-    format(atom(String), " ~w | Gold: ~d \n Equipamentos: ~q \n Pocoes: ~q \n Progresso: ~d\n", [Nome, Gold, Equipamentos, Pocoes, Progresso]).
-
-formata_jogador_combate(Vida, Ataque, Defesa, Qtde_pocoes_tomadas, String) :-
-    format(atom(String), " Vida: ~d | Ataque: ~d | Defesa: ~d \n Pocoes Consumidas: ~d\n", [Vida, Ataque, Defesa, Qtde_pocoes_tomadas]).
-
-exibe_jogador :- 
-    jogador(Nome, Gold, Equipamentos, Pocoes, Progresso),
-    formata_jogador(Nome, Gold, Equipamentos, Pocoes, Progresso, String_resultado),
-    write(String_resultado).
-
 exibe_jogador_combate :-
-    jogador_combate(Vida, Ataque, Defesa,_, Qtde_pocoes_tomadas),
-    formata_jogador_combate(Vida, Ataque, Defesa, Qtde_pocoes_tomadas, String_resultado),
-    write(String_resultado).
+    jogador_combate(Vida, Ataque, Defesa,Pocoes, Qtde_pocoes_tomadas),
+    format("Vida: ~d | Ataque: ~d | Defesa: ~d \nPocoes Consumidas: ~d\n", [Vida, Ataque, Defesa, Qtde_pocoes_tomadas]).

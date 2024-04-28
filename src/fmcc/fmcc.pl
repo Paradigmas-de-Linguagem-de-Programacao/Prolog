@@ -32,4 +32,5 @@ menuOpcao(4) :-
 
 menuOpcao(_) :-
     writeln('Opção inválida. Por favor, escolha uma opção válida.'),
+    esperandoEnter,
     menu.

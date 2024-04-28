@@ -6,10 +6,11 @@
 :- use_module('../Models/inimigo.pl').
 
 turno_preparacao:-
+    writeln("Dê uma olhada nos seus status e nos status de seu inimigo.\nQuando utilizar um item ou poção os atributos vão ser adicionados aos seus status básicos.\nQuando você utiliza um equipamento ou poção, ele é descartado após o combate, logo, tenha cuidado no que vai usar.\n"),
     jogador_combate_init.
 
 visualiza_status(Nome_inimigo):-
-    writeln("Dê uma olhada nos seus status e nos status de seu inimigo. Quando utilizar um item ou poção os atributos vão ser adicionados aos seus status básicos. Quando você utiliza um equipamento ou poção, ele é descartado após o combate, logo, tenha cuidado no que vai usar.\n"),
+    writeln("Dê uma olhada nos seus status e nos status de seu inimigo.\nQuando utilizar uma poção os atributos vão ser adicionados aos seus status básicos, ao usar essa é descartado após o combate, logo, tenha cuidado no que vai usar.\n\n"),
     writeln("Status Inimigo: "),
     exibe_inimigo(Nome_inimigo),
     formata_texto,
@@ -20,12 +21,13 @@ visualiza_status(Nome_inimigo):-
 ataque_heroi(Nome_Inimigo):-
     get_ataque_heroi(Ataque),
     recebe_dano_inimigo(Nome_Inimigo, Ataque),
-    exibe_inimigo(Nome_Inimigo).
+    exibe_inimigo(Nome_Inimigo), nl,
+    esperandoEnter.
 
 ataque_inimigo(Nome_Inimigo):-
     get_ataque_inimigo(Nome_Inimigo, Ataque),
     recebe_dano(Ataque),
-    exibe_jogador_combate.
+    exibe_jogador_combate, nl.
     
 morte_dano:- 
     printString("Você morreu, sei que é complicado digerir isso mas é um jogo então sempre da pra voltar! Porém, você perdeu TODAS AS MOEDAS.\n").

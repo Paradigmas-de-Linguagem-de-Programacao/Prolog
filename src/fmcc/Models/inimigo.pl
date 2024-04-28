@@ -1,5 +1,5 @@
 :- module(inimigo, [get_ataque_inimigo/2, recebe_dano_inimigo/2, exibe_inimigo/1, verifica_inimigo_morto/1,
-                    nome_IA/2]).
+                    get_nome_Ia/2]).
 :- dynamic inimigo/5.
 
 %inimigo(Nome, ataque, defesa, vida , ataqueEspecial)
@@ -25,6 +25,6 @@ exibe_inimigo(Nome) :-
     inimigo(Nome, Ataque, Defesa, Vida, _),
     format("~w | Ataque: ~d | Defesa: ~d | Vida: ~d \n\n", [Nome, Ataque, Defesa, Vida]).
 
-nome_IA(1,"Kanva").
-nome_IA(2, "Playhub").
-nome_IA(3, "ConversaGPT").
+get_nome_Ia(1,"Kanva").
+get_nome_Ia(2, "Playhub").
+get_nome_Ia(3, "ConversaGPT").
