@@ -1,1 +1,4 @@
 yoyo:lops
+yoyo:cam
+yoyo:lps
+yoyo:lops

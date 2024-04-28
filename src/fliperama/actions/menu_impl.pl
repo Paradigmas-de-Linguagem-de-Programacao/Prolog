@@ -3,13 +3,22 @@
 :- use_module("./menu_actions.pl").
 :- use_module("../services/io.pl").
 
-mock_tetris :- writeln("Abriu tetris").
-mock_fmcc :- writeln("Abriu FMCC").
+tetris :- writeln("Abriu tetris"). % Inserir procedimentos de entrada de tetris aqui
+fmcc :- writeln("Abriu FMCC"). % Inserir poprocedimentosnto de entrada de FMCC aqui
+
+handle_user_option(Option) :- Option = "R", menu_actions:register_new_user.
+handle_user_option(Option) :- Option = "L", menu_actions:autenticar_user.
+
+handle_user_option(Option) :- Option = "T", tetris.
+handle_user_option(Option) :- Option = "F", fmcc.
+
+handle_user_option(Option) :- Option = "D", flipio:reset_sessao.
+handle_user_option(Option) :- Option = "S", flipio:reset_sessao, halt.
 
 uppercase_string(InputString, UppercaseString) :-
-    atom_string(AtomInput, InputString), % Convert input string to atom
-    upcase_atom(AtomInput, UppercaseAtom), % Convert atom to uppercase atom
-    atom_string(UppercaseAtom, UppercaseString). % Convert uppercase atom to string
+    atom_string(AtomInput, InputString),
+    upcase_atom(AtomInput, UppercaseAtom),
+    atom_string(UppercaseAtom, UppercaseString).
 
 handle_unlogged_user :-
     menu_actions:print_unlogged_menu_options,
@@ -30,13 +39,6 @@ handle_logged_user :-
         -> handle_user_option(UpperCaseInput)
         ;  libio:atualizar_mensagem_de_sessao("Opção Inválida")
     ).
-
-handle_user_option(Option) :- Option = "R", menu_actions:register_new_user.
-handle_user_option(Option) :- Option = "L", menu_actions:autenticar_user.
-handle_user_option(Option) :- Option = "T", mock_tetris.
-handle_user_option(Option) :- Option = "F", mock_fmcc.
-handle_user_option(Option) :- Option = "D", flipio:reset_sessao.
-handle_user_option(Option) :- Option = "S", flipio:reset_sessao, halt.
 
 menu :-
     flipio:reset_sessao,
