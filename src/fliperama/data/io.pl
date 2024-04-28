@@ -1,3 +1,11 @@
+:- module(flipio, [
+    salvar_credenciais_de_usuario/2,
+    salvar_sessao/2,
+    checar_credenciais_de_usuario/2,
+    get_username_from_session/1,
+    get_mensagem_sessao/2
+]).
+
 salvar_credenciais_de_usuario(Username, Password) :-
     atomic_list_concat([Username, ':', Password], UserPass),
     open('usuarios.txt', append, Stream),
