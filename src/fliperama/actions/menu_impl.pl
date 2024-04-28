@@ -11,8 +11,8 @@ handle_unlogged_user :-
     get_user_input(Input),
     uppercase_string(Input, UpperCaseInput),
     (
-        menu_actions:check_user_input_validity(UpperCaseInput, ["R", "L"]) ->
-        handle_user_option(UpperCaseInput)
+        menu_actions:check_user_input_validity(UpperCaseInput, ["R", "L"])
+        -> handle_user_option(UpperCaseInput)
         ; libio:atualizar_mensagem_de_sessao("Opção Inválida")
     ).
 

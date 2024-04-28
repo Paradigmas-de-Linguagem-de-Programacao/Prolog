@@ -54,11 +54,16 @@ register_new_user :-
     read_line_to_string(user_input, Username),
     write('Escolha uma senha: '),
     read_line_to_string(user_input, Password),
-    flipio:salvar_credenciais_de_usuario(Username, Password). % Checar se username já existe antes de cadastrar
+    flipio:salvar_credenciais_de_usuario(Username, Password),
+    flipio:atualizar_mensagem_de_sessao("Usuário cadastrado com sucesso!"). % Checar se username já existe antes de cadastrar
 
 autenticar_user :- 
     write('Username: '),
     read_line_to_string(user_input, Username),
     write('Password: '),
     read_line_to_string(user_input, Password),
-    flipio:checar_credenciais_de_usuario(Username, Password).
+    (
+        flipio:checar_credenciais_de_usuario(Username, Password)
+        -> flipio:salvar_sessao(Username, Password)
+        ; flipio:atualizar_mensagem_de_sessao("Username ou senha inválidos")
+    ).
