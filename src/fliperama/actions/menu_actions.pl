@@ -1,3 +1,14 @@
+:- module(menu_actions, [
+    print_arte_menu/0,
+    print_unlogged_menu_options/0,
+    print_logged_menu_options/0,
+    clear_screen/0,
+    get_user_input/1,
+    check_user_input_validity/2,
+    register_new_user/0,
+    autenticar_user/0
+]).
+
 :- use_module('../services/io.pl').
 
 print_arte_menu :-
@@ -18,9 +29,8 @@ print_arte_menu :-
 
 print_unlogged_menu_options :-
     write("\nOpções: "),
-    write("R - Registrar-se"),
-    write("L - Fazer Login"),
-    write("D - Deletar Conta").
+    write("\nR - Registrar-se"),
+    write("\nL - Fazer Login").
 
 print_logged_menu_options :-
     write("\n Jogos Disponíveis: "),
@@ -33,7 +43,7 @@ clear_screen :-
 
 get_user_input(Input) :-
     write("\nDigite sua escolha: "),
-    read(Input).
+    read_line_to_string(user_input, Input).
 
 check_user_input_validity(Input, [Input|_]).
 check_user_input_validity(Input, [_|Tail]) :-

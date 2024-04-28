@@ -3,7 +3,8 @@
     salvar_sessao/2,
     checar_credenciais_de_usuario/2,
     get_username_from_session/1,
-    get_mensagem_sessao/2
+    get_mensagem_sessao/2,
+    atualizar_mensagem_de_sessao/1
 ]).
 
 salvar_credenciais_de_usuario(Username, Password) :-
@@ -18,6 +19,10 @@ salvar_sessao(Username, SessionMessage) :-
     open('sessoes.txt', write, Stream),
     write(Stream, UserMessage),
     close(Stream).
+
+atualizar_mensagem_de_sessao(Mensagem) :- 
+    get_username_from_session(Username),
+    salvar_sessao(Username, Mensagem).
 
 checar_credenciais_de_usuario(Username, Password) :-
     open('usuarios.txt', read, Stream),
@@ -36,12 +41,8 @@ get_username_from_session(Username) :-
 
 read_userdata_lines(Stream, []) :-
     at_end_of_stream(Stream).
-read_userdata_lines(Stream, [Line|Rest]) :-
-    \+ at_end_of_stream(Stream),
-    read_line_to_codes(Stream, LineCodes),
-    atom_codes(Line, LineCodes),
-    read_lines(Stream, Rest).
-
+read_userdata_lines(Stream, LineCodes) :-
+    read_line_to_codes(Stream, LineCodes).
 
 
 get_mensagem_sessao(Username, Message) :-
