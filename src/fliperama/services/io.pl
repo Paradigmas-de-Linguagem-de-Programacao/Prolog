@@ -6,7 +6,8 @@
     get_message_from_session/1,
     atualizar_mensagem_de_sessao/1,
     reset_sessao/0,
-    setup_menu/0
+    setup_menu/0,
+    username_exists/1
 ]).
 
 salvar_credenciais_de_usuario(Username, Password) :-
@@ -86,3 +87,11 @@ parse_line(Line, Username, Message) :-
     atomic_list_concat([UsernameAtom, MessageAtom], ':', Line),
     atom_string(UsernameAtom, Username),
     atom_string(MessageAtom, Message).
+
+username_exists(Username) :-
+    read_file_to_string('usuarios.txt', FileContent, []),
+    split_string(FileContent, "\n", "", Lines), % Split file content into lines
+    member(Line, Lines), % Select a line from the lines
+    \+ Line = "", % Exclude empty lines
+    split_string(Line, ":", "", [UsernameFound|_]), % Split line into Username and Password
+    UsernameFound = Username. 
