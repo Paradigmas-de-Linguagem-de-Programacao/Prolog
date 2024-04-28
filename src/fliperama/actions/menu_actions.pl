@@ -47,7 +47,7 @@ get_user_input(Input) :-
 
 check_user_input_validity(Input, [Input|_]).
 check_user_input_validity(Input, [_|Tail]) :-
-    check_user_input_validity(String, Tail).
+    check_user_input_validity(Input, Tail).
 
 register_new_user :-
     write('Escolha um Username: '),
