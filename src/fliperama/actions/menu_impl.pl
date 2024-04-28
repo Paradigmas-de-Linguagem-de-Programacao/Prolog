@@ -19,13 +19,16 @@ handle_unlogged_user :-
 handle_user_option(Option) :- Option = "R", menu_actions:register_new_user.
 handle_user_option(Option) :- Option = "L", menu_actions:autenticar_user.
 
+menu :-
+    menu("").
 menu(MenuMessage) :-
     menu_actions:clear_screen,
     menu_actions:print_arte_menu,
+    flipio:get_message_from_session(SessionMessage),
     (
-        flipio:get_message_from_session(Message) = false ->
-        writeln("Não achou")
-        ; writeln("ACHOU")
+         SessionMessage = '' ->
+          writeln(MenuMessage)
+        ; writeln(SessionMessage)
     ),
     flipio:get_username_from_session(LoggedUsername),
     (
@@ -33,4 +36,4 @@ menu(MenuMessage) :-
         -> handle_unlogged_user
         ; menu_actions:print_logged_menu_options
     ),
-    menu("").
+    menu('').
