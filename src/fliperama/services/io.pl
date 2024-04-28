@@ -60,6 +60,14 @@ read_lines(_, _, _) :-
     !,
     fail.
 
+read_lines(Stream, []) :-
+    at_end_of_stream(Stream).
+read_lines(Stream, [Line|Rest]) :-
+    \+ at_end_of_stream(Stream),
+    read_line_to_codes(Stream, LineCodes),
+    atom_codes(Line, LineCodes),
+    read_lines(Stream, Rest).
+
 parse_line(Line, Username, Message) :-
     atomic_list_concat([UsernameAtom, MessageAtom], ':', Line),
     atom_string(UsernameAtom, Username),
