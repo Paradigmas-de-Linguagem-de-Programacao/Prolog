@@ -34,9 +34,9 @@ print_unlogged_menu_options :-
 
 print_logged_menu_options :-
     write("\n Jogos Disponíveis: "),
-    write("T - Tetris"),
-    write("F - FMCC"),
-    write("S - Sair").
+    write("\nT - Tetris"),
+    write("\nF - FMCC"),
+    write("\nS - Sair").
 
 clear_screen :-
     write('\e[H\e[2J').
@@ -64,6 +64,6 @@ autenticar_user :-
     read_line_to_string(user_input, Password),
     (
         flipio:checar_credenciais_de_usuario(Username, Password)
-        -> flipio:salvar_sessao(Username, Password)
+        -> flipio:salvar_sessao(Username, "Bem Vindo!")
         ; flipio:atualizar_mensagem_de_sessao("Username ou senha inválidos")
     ).

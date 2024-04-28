@@ -4,7 +4,8 @@
     checar_credenciais_de_usuario/2,
     get_username_from_session/1,
     get_message_from_session/1,
-    atualizar_mensagem_de_sessao/1
+    atualizar_mensagem_de_sessao/1,
+    reset_sessao/0
 ]).
 
 salvar_credenciais_de_usuario(Username, Password) :-
@@ -18,6 +19,11 @@ salvar_sessao(Username, SessionMessage) :-
     atomic_list_concat([Username, ':', SessionMessage], UserMessage),
     open('sessoes.txt', write, Stream),
     write(Stream, UserMessage),
+    close(Stream).
+
+reset_sessao :-
+    open('sessoes.txt', write, Stream),
+    write(Stream, ":"),
     close(Stream).
 
 atualizar_mensagem_de_sessao(Mensagem) :- 
