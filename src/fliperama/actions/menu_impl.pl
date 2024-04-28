@@ -22,12 +22,12 @@ handle_user_option(Option) :- Option = "L", menu_actions:autenticar_user.
 menu(MenuMessage) :-
     menu_actions:clear_screen,
     menu_actions:print_arte_menu,
-    flipio:get_username_from_session(LoggedUsername),
     (
-        flipio:get_mensagem_sessao(LoggedUsername, Message) = false ->
-        writeln(MenuMessage)
-        ; writeln(Message)
+        flipio:get_message_from_session(Message) = false ->
+        writeln("Não achou")
+        ; writeln("ACHOU")
     ),
+    flipio:get_username_from_session(LoggedUsername),
     (
         LoggedUsername = ''
         -> handle_unlogged_user

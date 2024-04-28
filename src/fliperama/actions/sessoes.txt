@@ -1,1 +1,1 @@
-ss:Opção Inválida
+:Opção Inválida
