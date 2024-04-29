@@ -1,4 +1,5 @@
-:- module(lib, [input/2, inputNumber/2, clearScreen/0, esperandoEnter/0, printString/1 , map/3, voltaMenu/0, formata_texto/0]).
+:- module(lib, [input/2, inputNumber/2, clearScreen/0, esperandoEnter/0, printString/1 , map/3, voltaMenu/0,
+                formata_texto/0, replica_String/2]).
 
 clearScreen :- tty_clear.
 
@@ -29,6 +30,13 @@ map(_ , [] , []).
 map(Funcao, [X|Xs] , [Y|Ys]):-
     call(Funcao , X , Y),
     map(Funcao , Xs, Ys).
+
+
+replica_String(Palavra, 1):- write(Palavra),!.
+replica_String(Palavra, Vezes_replicadas):-
+    write(Palavra), 
+    Replica_Vezes is Vezes_replicadas-1,
+    replica_String(Palavra, Replica_Vezes).
 
 voltaMenu:- lib:printString("Então nosso heroi precisa voltar ao menu para pensar sobre a vida não é? Tudo bem mas por favor volte o mundo precisa de você\n").
 

@@ -126,11 +126,39 @@ dialogo_pre_IA("Kanva"):-
                    "Heanes: Seu reinado de coisas feias e plastificadas vai acabar Kanva, vou terminar com você e aproveitar uma exposição de arte\n",
                    "Kanva: O fato de você não saber o que é a verdadeira arte não me impressiona, bom vamos parar com essa falação tenho mais obras lindas para fazer quando terminar com você\n"]).
 
+dialogo_pre_IA("PlayHub"):-
+    contaHistoria(["PlayHub: Olá heroi, pelo visto você cuidou dos nossos restos, bom apesar deles não terem chegado na perfeição que nos somos ainda eram nossa casca\n",
+                   "Heanes: Você ou vocês não sei como chamar, não tão com pena daquelas gosmas horrorosas não né? Sei nem se dá pra chamar aquilo de um ser vivo",
+                   "PlayHub?: Não fale assim deles seu maldito. Com esse corpo perfeito irei lhe derrotar e depois irei enfrentar o conversaGPT para me tornar a maior IA\n\nHeanes: Não se preocupe depois de acabar com você irei derrotar o GPT pra você não ficar de mal"]).
+
+dialogo_pre_IA("ConversaGPT"):-
+    contaHistoria(["ConversaGPT: então você conseguiu achar o erro da minha forma bem tenho que te parab...\nHeanes: Você tem certeza disso?",
+                   "ConversaGPT: Sei que funcionou antes mas agora vamos ter uma luta de verd...\nHeanes: Você tem certeza disso?",
+                   "ConversaGPT: Tudo bem Heanes já deu, perdeu a graça vamos levar a ser...\nHeanes: Você tem certeza dis...\n\nConversaGPT: PARA COM ISSO SEU MIZERA\n*ConversaGPT te ataca ferozmente parece que você irritou ele mesmo."]).
+
 dialogo_heanes_IA("Kanva"):-
     Opcoes_dialogo= ["Kanva, você vende apenas uma visão distorcida da realidade como arte",
                     "Seus pincéis criam monstruosidades, mas vou passar a pexeira nelas",
                     "Sua arte pode encantar os tolos, mas o teorema de euclides mostra a verdade!",
                     "Para trazer de volta a verdadeira arte, irei te destruir"],
+    random(0,5,Indice),
+    nth0(Indice,Opcoes_dialogo, Dialogo_jogador),
+    write("Heanes: ") , writeln(Dialogo_jogador), nl.
+
+dialogo_heanes_IA("PlayHub"):-
+    Opcoes_dialogo= ["Agora eu sei porque o GPT é o dono de tudo, você é bemm bléh, com essa força quer desafiar ele?.",
+                    "Seus ataques não me fazem nada, agora sua feiura me assusta",
+                    "PlayHub, você poderia cantar Animals de maroon 5?",
+                    "Por sua causa as crianças não leem e acham que vão entender um livro só te chamando, tu ta literal transformando o povo em burro"],
+    random(0,5,Indice),
+    nth0(Indice,Opcoes_dialogo, Dialogo_jogador),
+    write("Heanes: ") , writeln(Dialogo_jogador), nl.
+
+dialogo_heanes_IA("ConversaGPT"):-
+    Opcoes_dialogo= ["Acho que vai ter que pedir pra AbreAI criar uma versão melhor sua",
+                     "Seus ataques são tão fracos, você tem certeza que está levando isso sério?",
+                     "Ainda não acredito que para ganhar de você eu so precisei falar, *você tem certeza disso*",
+                     "Quando eu derrotar você nenhuma as pessoas vão voltar a procurar no Google pra ter respostas e elas vão achar as respostas certas"],
     random(0,5,Indice),
     nth0(Indice,Opcoes_dialogo, Dialogo_jogador),
     write("Heanes: ") , writeln(Dialogo_jogador), nl.
@@ -143,6 +171,23 @@ dialogos_IA("Kanva"):-
     random(0,4,Indice),
     nth0(Indice,Opcoes_dialogo, Dialogo_Kanva),
     write("Kanva: ") , writeln(Dialogo_Kanva), nl.
+
+dialogos_IA("PlayHub"):-
+    Opcoes_dialogo= ["Professor precisa de uma ajuda para resumir o livro de Matemática Discreta",
+                    "*VOZ ROBOTICA* O que você acha da minha voz? Se eu não der certo como IA irei começar uma carreira musical",
+                    "Se eu tivesse juntando nossos restos daria pra fazer outro eu?"],
+    random(0,4,Indice),
+    nth0(Indice,Opcoes_dialogo, Dialogo_Kanva),
+    write("PlayHub: ") , writeln(Dialogo_Kanva), nl.
+
+dialogos_IA("ConversaGPT"):-
+    Opcoes_dialogo= ["Bom tenho que te agradecer por se livrar do PlayHub aquela voz dele era irritante até pra mim",
+                     "Heanes você não quer que eu simule questões para sua prova?? estou doido para fazer perguntas sem sentidos e você perder seu emprego",
+                     "Você está lutando contra um inimigo invencível, Heanes! Meus bytes e consultas são mais afiados que qualquer espada que você possa ter"],
+    random(0,4,Indice),
+    nth0(Indice,Opcoes_dialogo, Dialogo_Kanva),
+    write("ConversaGPT: ") , writeln(Dialogo_Kanva), nl.
+
 
 dialogo_IA_deboche("Kanva"):- writeln("Kanva: Eita Heroi parece que eu tô te fazendo passar mal, quer uma água? HHAHAHAHA.").
 dialogo_IA_deboche("PlayHub"):- writeln("PlayHub: Parece que você não ta aguentando nos dois, ei Hub fica sem fazer nada se não nosso heroizinho quebra").
