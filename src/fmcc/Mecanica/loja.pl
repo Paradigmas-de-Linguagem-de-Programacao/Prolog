@@ -60,11 +60,11 @@ abre_loja_itens :-
     inputNumber("E então, deseja comprar algum item?\n(1)Sim.\n(2)Não.\n\n", Escolha),
     compra_item(Escolha).
 
-compra_item(2) :- writeln("Entendo pobre, volte ao menu com o rabo entre as pernas."). %volta volta ao menu
+compra_item(2) :- writeln("Entendo pobre, volte ao menu com o rabo entre as pernas.").
 compra_item(1) :-
     lib:input("\nDigite o nome do item que deseja comprar:\n", Input),
     (verifica_nome_item(Input, Resultado), Resultado == true -> compra_item_aux(Input); writeln("\nItem com nome incorreto, tente novamente.\n"), abre_loja_itens).
-compra_item(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde."). %volta pro menu
+compra_item(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde.").
 
 verifica_nome_item(Input, Resultado) :- 
     get_espada(X),
@@ -83,24 +83,36 @@ espada_compra(Espada) :-
     get_gold(Gold),
     Espada = espada(_, Preco,_,_,_),
     (Gold >= Preco -> compra_gold(Preco), adiciona_equipamento(Espada), write("\nItem comprado com sucesso!!\n"), nl;
-    write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n")). %aperte enter para continuar e volta pro menu
+    write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n"), lib:esperandoEnter).
 
 armadura_compra(Armadura) :-
     get_gold(Gold),
     Armadura = armadura(_, Preco,_,_,_),
     (Gold >= Preco -> compra_gold(Preco), adiciona_equipamento(Armadura), write("\nItem comprado com sucesso!!\n"), nl;
-    write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n")). %aperte enter para continuar e volta pro menu
+    write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n"), lib:esperandoEnter). 
 
 abre_loja_pocao :-
+    jogador_init, jogador_combate_init,
+    setup_inicial,
     writeln("\nOlá Héroi, essa são as minhas recomendações de poções pra você:\n"), printa_pocao,
     inputNumber("\nE então, deseja comprar?\n(1)Sim.\n(2)Não.\n\n", Escolha),
     compra_pocao(Escolha).
 
-compra_pocao(2) :- writeln("Entendo pobre, volte ao menu com o rabo entre as pernas."). %volta volta ao menu
+compra_pocao(2) :- writeln("Entendo pobre, volte ao menu com o rabo entre as pernas.").
 compra_pocao(1) :-
     lib:input("\nConfirme o nome da poção que deseja comprar:\n", Input),
-    (verifica_nome_pocao(Input, Resultado), Resultado == true -> compra_pocao_aux ; writeln("\nPoção com nome incorreto, tente novamente.\n"), abre_loja_pocao).
-compra_pocao(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde."). %volta pro menu
+    (verifica_nome_pocao(Input, Resultado), Resultado == true -> 
+    (get_pocoes(Y),inventario_pocao(Y, Input, Possui_pocao), Possui_pocao == true -> get_pocoes(Potions), incrementa_pocao(Input, Potions) ; compra_pocao_aux) ;
+    writeln("\nPoção com nome incorreto, tente novamente.\n"), abre_loja_pocao).
+compra_pocao(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde.").
+
+inventario_pocao([Head|Tail], Input, Possui_pocao) :- (Head = pocao(Input,_,_,_,_,_) -> Possui_pocao = true ; Possui_pocao = false, inventario_pocao(Tail, Input, Possui_pocao)).
+
+incrementa_pocao(Input, [Head|Tail]) :-
+    (Head = pocao(Input,Preco,Vida,Ataque,Defesa,Quantidade) -> 
+    remove_pocao(Input), Quantidade_atual is Quantidade + 1, Pocao_att = pocao(Input,Preco,Vida,Ataque,Defesa,Quantidade_atual), adiciona_pocao(Pocao_att),
+    write("\nPoção comprada com sucesso, olhe ela no seu inventário:\n") ; incrementa_pocao(Input, Tail)),
+    formata_pocao(Input,Preco,Vida,Ataque,Defesa,Quantidade_atual, Resultado), nl, write(Resultado), nl.
 
 verifica_nome_pocao(Input, Resultado) :- 
     get_pocao(X),
@@ -111,8 +123,8 @@ compra_pocao_aux :-
     get_pocao(Pocao),
     get_gold(Gold),
     Pocao = pocao(_,Preco,_,_,_,_),
-    (Gold >= Preco -> compra_gold(Preco), adiciona_pocao(Pocao), write("\nItem comprado com sucesso!!\n"), nl;
-    write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n")). %aperte enter para continuar e volta pro menu
+    (Gold >= Preco -> compra_gold(Preco), adiciona_pocao(Pocao), write("\nPocao comprada com sucesso!!\n"), nl;
+    write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n"), lib:esperandoEnter).
 
 equipa_item :-
     write("\nEsses são os seus equipamentos:\n\n"),
@@ -120,12 +132,13 @@ equipa_item :-
     lib:input("\nEscreva o nome do item que deseja equipar, se quiser desistir da ação digite: 'VOLTAR'.\n\n", Escolha),
     equipa_item_aux(Escolha).
 
-equipa_item_aux("VOLTAR"). %volta ao menu
+equipa_item_aux("VOLTAR").
 equipa_item_aux(Nome) :- (get_equipamentos(Itens), verifica_equips(Nome, Itens, Resultado), Resultado = true ->
     acha_item(Nome, Itens) ; write("Você não possui esse equipamento, assalariado.")).
 
 verifica_equips(_,[], Resultado) :- Resultado = false.
-verifica_equips(Nome, [Head|Tail], Resultado) :- ((Head = espada(Nome,_,_,_,_) ; Head = armadura(Nome,_,_,_,_)) -> Resultado = true ; verifica_equips(Nome, Tail, Resultado)).
+verifica_equips(Nome, [Head|Tail], Resultado) :- ((Head = espada(Nome,_,_,_,_) ; Head = armadura(Nome,_,_,_,_)) ->
+                                                 Resultado = true ;Resultado = false, verifica_equips(Nome, Tail, Resultado)).
 
 acha_item(Nome, [Head|Tail]) :- ((Head = espada(Nome,_, Ataque, Defesa,_) ; Head = armadura(Nome,_, Ataque, Defesa,_)) ->
                                  usa_item_aux(Ataque, Defesa), remove_equipamento(Nome), write("\nItem equipado com sucesso.\n"), exibe_jogador_combate ; acha_item(Nome, Tail)).
@@ -147,8 +160,14 @@ equipa_pocao_aux(Nome) :- (get_pocoes(Pocoes), verifica_pocoes(Nome, Pocoes, Res
 verifica_pocoes(_,[], Resultado) :- Resultado = false.
 verifica_pocoes(Nome, [Head|Tail], Resultado) :- (Head = pocao(Nome,_,_,_,_,_) -> Resultado = true ; verifica_equips(Nome, Tail, Resultado)).
 
-acha_pocao(Nome, [Head|Tail]) :- (Head = pocao(Nome,_,Vida,Ataque,Defesa,_) -> 
-                                usa_pocao_aux(Vida, Ataque, Defesa), remove_pocao(Nome), write("\nPoção equipada com sucesso.\n"), exibe_jogador_combate ; acha_pocao(Nome, Tail)).
+acha_pocao(Nome, [Head|Tail]) :- (Head = pocao(Nome,Preco,Vida,Ataque,Defesa,Quantidade) ->
+    (Quantidade>1 -> remove_pocao(Nome), decrementa_pocao(Nome,Preco,Vida,Ataque,Defesa,Quantidade), usa_pocao_aux(Vida, Ataque, Defesa) write("\nPoção usada com sucesso.\n") ; 
+    usa_pocao_aux(Vida, Ataque, Defesa), remove_pocao(Nome), write("\nPoção usada com sucesso.\n")); acha_pocao(Nome, Tail)).
+
+decrementa_pocao(Nome, Preco, Vida, Ataque, Defesa, Quantidade) :-
+    Quantidade_atual is Quantidade - 1,
+    Pocao_atualizada = pocao(Nome, Preco, Vida, Ataque, Defesa, Quantidade_atual),
+    adiciona_pocao(Pocao_atualizada).
 
 usa_pocao_aux(Vida, Ataque, Defesa) :-
     set_pocoes_tomadas, set_vida_heroi(Vida),
