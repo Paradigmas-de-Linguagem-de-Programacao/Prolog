@@ -1,39 +1,41 @@
-:- module(combate_mecanica , [visualiza_status/0, ataque_heroi/0, ataque_inimigo/0, verifica_inimigo_morto/0, verifica_heroi_morto/0,
-                             verifica_pocoes_tomadas/0, turno_preparacao/0, morte_dano/0]).
+:- module(combate_mecanica , [visualiza_status/1, ataque_heroi/1, ataque_inimigo/1, turno_preparacao/0,
+                              morte_dano/0, morte_pocao/0]).
 
 :- use_module('../Util/lib.pl').
 :- use_module('../Models/jogador.pl').
 :- use_module('../Models/inimigo.pl').
 
 turno_preparacao:-
-    inimigo_inicial,
+    writeln("Dê uma olhada nos seus status e nos status de seu inimigo.\nQuando utilizar um item ou poção os atributos vão ser adicionados aos seus status básicos.\nQuando você utiliza um equipamento ou poção, ele é descartado após o combate, logo, tenha cuidado no que vai usar.\n"),
     jogador_combate_init.
 
-visualiza_status:-
-    writeln("Dê uma olhada nos seus status e nos status de seu inimigo. Quando utilizar um item ou poção os atributos vão ser adicionados aos seus status básicos. Quando você utiliza um equipamento ou poção, ele é descartado após o combate, logo, tenha cuidado no que vai usar.\n"),
+visualiza_status(Nome_inimigo):-
+    writeln("Dê uma olhada nos seus status e nos status de seu inimigo.\nQuando utilizar uma poção os atributos vão ser adicionados aos seus status básicos, ao usar essa é descartado após o combate, logo, tenha cuidado no que vai usar.\n\n"),
     writeln("Status Inimigo: "),
-    exibe_inimigo,
+    exibe_inimigo(Nome_inimigo),
     formata_texto,
     writeln("Seus Status: "),
     exibe_jogador_combate,
     formata_texto.
 
-ataque_heroi:-
+ataque_heroi(Nome_Inimigo):-
     get_ataque_heroi(Ataque),
-    recebe_dano_inimigo(Ataque),
-    exibe_inimigo.
-
-ataque_inimigo:-
-    get_ataque_inimigo(Ataque),
-    recebe_dano(Ataque),
-    exibe_jogador_combate.
-
-verifica_inimigo_morto:- get_vida_inimigo(Vida), Vida=:=0.
-verifica_heroi_morto:- get_vida_heroi(Vida), Vida=:=0.
-verifica_pocoes_tomadas:-get_pocoes_tomadas(Pocoes_Tomadas), Pocoes_Tomadas=:=6. %desbloquear conquista.
-
-morte_dano:- 
-    writeln("Você morreu, sei que é complicado digerir isso mas é um jogo então sempre da pra voltar! Porém, você perdeu TODAS AS MOEDAS.\n"),
+    recebe_dano_inimigo(Nome_Inimigo, Ataque),
+    exibe_inimigo(Nome_Inimigo), nl,
     esperandoEnter.
+
+ataque_inimigo(Nome_Inimigo):-
+    get_ataque_inimigo(Nome_Inimigo, Ataque),
+    recebe_dano(Ataque),
+    exibe_jogador_combate, nl.
+    
+morte_dano:- 
+    printString("Você morreu, sei que é complicado digerir isso mas é um jogo então sempre da pra voltar! Porém, você perdeu TODAS AS MOEDAS.\n").
+
+morte_pocao:-
+    writeln("Seu coração te da uma pontada... VOCÊ... VOCÊ INFARTOU!!"),
+    printString("É parece que tomar todo aquele energético realmente não faz bem para o coração... Os médicos estavam certos fica o aviso crianças se lutarem contra inteligência artificial cuidado com o coração").
+    %desbloquear conquista
+    
 
 
