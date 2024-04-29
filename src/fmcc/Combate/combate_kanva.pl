@@ -34,7 +34,7 @@ combate_kanva:-
     writeln("Se prepare rapidamente para o combate!."),
     printString("C.W. te acompanhou de longe e liberou uma poção a mais no seu inventário, essa poção é uma nova criação do Mestre dos Magos, e não pode ser comprada.\n"),
     %funcao que adiciona o monster
-    combate_IA.
+    combate_IA(1).
 
 
     

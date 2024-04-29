@@ -1,4 +1,4 @@
-:- module(combate_IA , [combate_IA/0]).
+:- module(combate_IA , [combate_IA/1]).
 
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Util/lib.pl').
@@ -7,10 +7,9 @@
 :- use_module('../Models/inimigo.pl').
 :- use_module('../Combate/combate_mecanica').   
 
-combate_IA:-
-    get_progresso(Progresso),
-    dialogo_pre_IA(Progresso),
+combate_IA(Progresso):-
     get_nome_Ia(Progresso , Nome_Inimigo),
+    dialogo_pre_IA(Nome_Inimigo),
     visualiza_status(Nome_Inimigo),
     turno_heroi(Nome_Inimigo).
 
@@ -45,7 +44,7 @@ turno_inimigo(Nome_Inimigo):-
 
 fim_combate(Nome_Inimigo):-
     dialogo_fim_combate(Nome_Inimigo),
-    get_nome_Ia(Nome_Inimigo,Progresso),
+    get_nome_Ia(Progresso ,Nome_Inimigo),
     writeln(Progresso). %isso aqui vai ser a funcao que salva o game
     
 

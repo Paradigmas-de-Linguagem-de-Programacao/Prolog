@@ -1,7 +1,7 @@
 :- module(dialogos, [menuInicial/0, contaHistoria/1 , dialogoInicial/1 ,opcoesCaminhaCidadela/1, 
                     menu_historia_principal/0 , dialogoFerreira/1, dialogoPraca/1,
                     dialogo_historia/1, dialogo_pre_combate/1, dialogo_pre_IA/1, dialogo_heanes_IA/1, 
-                    dialogos_IA/1, dialogo_IA_deboche/1]).
+                    dialogos_IA/1, dialogo_IA_deboche/1, dialogo_fim_combate/1]).
 
 :- use_module('./lib.pl').
 
@@ -121,7 +121,7 @@ dialogo_pre_combate(3):-
                    "Heanes: Ganhei de todos os outros sem suar e você acha que vai me parar? Conversa, você é apenas o último obstaculo antes de voltar para minha casa e lutar meu judo.",
                    "ConversaGPT: Bom, vamos ver do que você é capaz"]).
 
-dialogo_pre_IA(1):-
+dialogo_pre_IA("Kanva"):-
     contaHistoria(["Kanva: Meus doguinhos... então vai ser assim humano. BEM-VINDO A SEU MAIOR PESADELO, VAMOS ALTERAR O SEU ATRIBUTO .ALIVE PARA = DEAD?\n",
                    "Heanes: Seu reinado de coisas feias e plastificadas vai acabar Kanva, vou terminar com você e aproveitar uma exposição de arte\n",
                    "Kanva: O fato de você não saber o que é a verdadeira arte não me impressiona, bom vamos parar com essa falação tenho mais obras lindas para fazer quando terminar com você\n"]).
@@ -148,3 +148,18 @@ dialogo_IA_deboche("Kanva"):- writeln("Kanva: Eita Heroi parece que eu tô te fa
 dialogo_IA_deboche("PlayHub"):- writeln("PlayHub: Parece que você não ta aguentando nos dois, ei Hub fica sem fazer nada se não nosso heroizinho quebra").
 dialogo_IA_deboche("ConversaGPT"):- writeln("ConversaGPT: Você tem certeza disso? pelo que eu vejo nas minhas pesquisas energetico faz mal... eu quero que você morra pra mim e não pro seu coração").
 
+dialogo_fim_combate("Kanva"):-
+    contaHistoria(["Após desferir o último ataque no peito de kanva, a IA que antes parecia uma montanha desaba e solta seu pincel",
+                   "Kanva: NÃAAAAO MINHA ARTE COMO VOC... *Kanva que parecia invencível desaba e desaparece em infinitos 0's e 1's*",
+                   "*Depois de sair do museu*\nC.W: HAHAHAHA Heanes você conseguiu o que achou da minha nova criação é o Monster como você deve ter visto ele aumenta seu ataque em 50 pontos\nHeanes: Ótima, mas por que você não vai vender ela?\nC.W: Muito cara o custo de produção, mas não se preocupe vou colocar na loja uma nova poção que se chama red Bull ela vai lhe oferecer 20 de ataque e 15 de defesa para suas batalhas\nLeandro: Heanes você é realmente um heroi, bom agora me despeço, pois irei começar a organizar o museu, mas amanhã\nC.W: Vamos voltar também Heanes você merece um descanso\n*Heanes fecha os olhos e vai dormir seu corpo, começa a se recuperar UAU você é realmente abençoado*"]).
+
+dialogo_fim_combate("PlayHub"):-
+    contaHistoria(["Após desferir o último ataque, você corta do olho até a boca daquela monstruosidade\nPlayHub tenta falar, mas apenas murmúrios saem da sua voz, se reinado de terror e voz robótica sem graça acabaram",
+                   "você se dirige a saída da floresta onde vê professor G e Wendell feliz gritando seu nome\n
+                   \nProfessor G e Wendell: BOAAAAAA HEANES você CONSEGUIU\nHeanes: Foi realmente difícil ele ou eles eram muito forte, mas terminou finalmente bom agora vamos voltar que amanhã é sábado e eu me recuso a fazer qualquer coisa\nProfessor G: Realmente sábado é sagrado."]).
+
+
+dialogo_fim_combate("ConversaGPT"):-
+    contaHistoria(["O último golpe, ConversaGPT o líder de tudo e a causa da cidedala está estranha cai\nConversaGPT: Então é assim que termina para mim, mas saiba Heanes isso ainda não acabou, a IA nunca vai morrer.", 
+                   "GPT Some se transforma apenas em um monte de consulta, Heanes que lutou bravamente mal se aguenta em pé e logo quando ia cair sente alguém o segurando\nNão se sabe se foi mestre dos magos que chegou ou se o espírito de Euclides veio te socorrer, mas você vê que chegou em casa e já é um outro dia.", 
+                   "Ao olhar para sua escrivaninha lá está uma faixa preta algo que todos os judocas sonham, mas você agora tem, não sei se esse é o pagamento de C.W ou se é a própria existência da cidadela te pagando pelo que você fez, mas você veste aquele kimono e usa aquela faixa por que é sua por direito."]).
