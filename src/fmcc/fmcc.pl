@@ -6,7 +6,7 @@
 mock_fmcc:- 
     menu.
 
-menu :-esperandoEnter,
+menu :-
     clearScreen,
     dialogos:menuInicial,
     lib:inputNumber("Sua escolha é: ", Escolha),

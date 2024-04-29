@@ -1,5 +1,5 @@
-:- module(combate_mecanica , [visualiza_status/1, ataque_heroi/1, ataque_inimigo/1, turno_preparacao/0,
-                              morte_dano/0, morte_pocao/0]).
+:- module(combate_mecanica , [visualiza_status/1, ataque_heroi/1, ataque_inimigo/1,ataque_inimigo_especial/1,
+                              turno_preparacao/0, morte_dano/0, morte_pocao/0]).
 
 :- use_module('../Util/lib.pl').
 :- use_module('../Models/jogador.pl').
@@ -28,6 +28,12 @@ ataque_inimigo(Nome_Inimigo):-
     get_ataque_inimigo(Nome_Inimigo, Ataque),
     recebe_dano(Ataque),
     exibe_jogador_combate, nl.
+
+ataque_inimigo_especial(Nome_Inimigo):-
+    get_habilidade_especial_inimigo(Nome_Inimigo, Habilidade),
+    recebe_dano(Habilidade),
+    exibe_jogador_combate, nl.
+
     
 morte_dano:- 
     printString("Você morreu, sei que é complicado digerir isso mas é um jogo então sempre da pra voltar! Porém, você perdeu TODAS AS MOEDAS.\n").

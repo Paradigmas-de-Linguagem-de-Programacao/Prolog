@@ -4,6 +4,7 @@
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Models/jogador.pl').
 :- use_module('../Combate/combate_kanva.pl').
+:- use_module('../Mecanica/gold.pl').
 
 curso_historia(Progresso):-
     dialogo_historia(Progresso),
@@ -13,8 +14,7 @@ combate_inicial(1):- pre_combate_kanva.
 
 opcao_historia(1):-
     writeln("Ganhar alguns mangos sempre é bom, talvez assim nosso herói não precise aderir a nenhuma greve. Como iremos angariar fundos?\n"),
-    %funcao que vai para sistema gold,
-    lib:esperandoEnter. %tirar isso quando colocar a funçao
+    menugold.
 
 opcao_historia(2):-
     %funcao que vai loja de pocao

@@ -38,6 +38,12 @@ usa_pocao(Nome_Inimigo):-
     dialogo_IA_deboche(Nome_Inimigo).
 
 turno_inimigo(Nome_Inimigo):-
+    habilidade_especial_desbloqueada(Nome_Inimigo),
+    dialogos_IA_especial(Nome_Inimigo),
+    ataque_inimigo_especial(Nome_Inimigo),
+    (verifica_heroi_morto -> morte_dano ; turno_heroi(Nome_Inimigo)).
+
+turno_inimigo(Nome_Inimigo):-
     dialogos_IA(Nome_Inimigo),
     ataque_inimigo(Nome_Inimigo),
     (verifica_heroi_morto -> morte_dano ; turno_heroi(Nome_Inimigo)).

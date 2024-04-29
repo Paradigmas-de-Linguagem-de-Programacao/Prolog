@@ -103,5 +103,5 @@ verifica_heroi_morto:- jogador_combate(0, _, _,_ ,_).
 verifica_pocoes_tomadas:- jogador_combate(_, _, _,_ ,6).
 
 exibe_jogador_combate :-
-    jogador_combate(Vida, Ataque, Defesa,Pocoes, Qtde_pocoes_tomadas),
+    jogador_combate(Vida, Ataque, Defesa,_, Qtde_pocoes_tomadas),
     format("Vida: ~d | Ataque: ~d | Defesa: ~d \nPocoes Consumidas: ~d\n", [Vida, Ataque, Defesa, Qtde_pocoes_tomadas]).
