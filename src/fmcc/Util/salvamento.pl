@@ -4,7 +4,7 @@
 :- use_module('../Mecanica/loja.pl').
 
 %jogador_init(Nome,Gold,Equipamento,Pocoes,Progresso).
-inicializa_jogador :- jogador_init, jogador_combate_init.
+inicializa_jogador :- jogador_init, jogador_combate_init, inicializa_loja.
 
 %loja_init
-inicializa_loja :- setup_inicial.
+inicializa_loja :- atualiza_loja.

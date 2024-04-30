@@ -1,34 +1,23 @@
-:- module(loja, [setup_inicial/0, printa_itens/0, printa_pocao/0, abre_loja_pocao/0, abre_loja_itens/0]).
+:- module(loja, [setup_inicial/0, printa_itens/0,atualiza_loja/0, printa_pocao/0, abre_loja_pocao/0, abre_loja_itens/0]).
 :- dynamic loja/3.
 :- use_module('../Util/lib.pl').
 :- use_module('../Models/jogador.pl').
 
 setup_inicial :- 
-
     asserta(loja(
         espada("Espada de Pedra", 30, 30, 0, "So usa espada quem nao se garante."),
         armadura("Armadura de Couro", 30, 0, 30, "Proteger nem protege muito, mas se tu ta achando ruim vai sem."),
         pocao("Café", 20, 40, 0, 0, 1))).
 
 atualiza_loja :-
-
-    retract(loja(
-        espada("Espada de Pedra", 30, 30, 0, "So usa espada quem nao se garante."),
-        armadura("Armadura de Couro", 30, 0, 30, "Proteger nem protege muito, mas se tu ta achando ruim vai sem."),
-        pocao("Café", 20, 40, 0, 0, 1))),
-    
+    retractall(loja(_,_,_)),  
     asserta(loja(
         espada("Espada de Ferro", 100, 60, 0, "Espada um pouco enferrujada, se nao matar na espadada mata no tetano."),
         armadura("Armadura de Ferro", 100, 0, 60, "Essa daqui até que protege contra as falácias da I.A."),
         pocao("Red Bull", 60, 30, 20, 20, 1))).
 
 loja_final :-
-
-    retract(loja(
-        espada("Espada de Ferro", 100, 60, 0, "Espada um pouco enferrujada, se nao matar na espadada mata no tetano."),
-        armadura("Armadura de Ferro", 100, 0, 60, "Essa daqui até que protege contra as falácias da I.A."),
-        pocao("Red Bull", 60, 30, 20, 20, 1))),
-
+    retractall(loja(_,_,_)),
     asserta(loja(
         espada("Espada de Diamante", 160, 100, 0, "Espada do minecraft."),
         armadura("Armadura de Diamante", 160, 0, 100, "Armadura do minecraft."),

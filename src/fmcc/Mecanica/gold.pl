@@ -80,15 +80,16 @@ sgp(GOLD) :-
     current_input(I),
     wait_for_input([I], A, 3),
     (A = [] ->
-        GOLD2 is GOLD + 10,
-        sgp(GOLD2)
+        Gold_adicionado is GOLD + 10,
+        sgp(Gold_adicionado)
     ;
-        GOLD2 is GOLD + 10,
+        lib:esperandoEnter, %função para limpar o buffer e a tela
+        Gold_adicionado is GOLD + 10,
         write("C.W.:Você se cansa rápido para um héroi...\n\n*Após todo esse esforço jogando caixa pra lá e pra cá você recebeu: "),
-        write(GOLD2),
+        write(Gold_adicionado),
         writeln(" moedas de critais.*"),
-        lib:esperandoEnter,
-        jogador:modifica_gold(GOLD2)).
+        lib:formata_texto,
+        jogador:modifica_gold(Gold_adicionado)).
 
 
  
