@@ -5,6 +5,7 @@
 :- use_module('../Models/jogador.pl').
 :- use_module('../Combate/combate_kanva.pl').
 :- use_module('../Mecanica/gold.pl').
+:- use_module('../Mecanica/loja.pl').
 
 curso_historia(Progresso):-
     dialogo_historia(Progresso),
@@ -17,12 +18,10 @@ opcao_historia(1):-
     menugold.
 
 opcao_historia(2):-
-    %funcao que vai loja de pocao
-    lib:esperandoEnter.  %tirar isso quando colocar a funçao
+    abre_loja_pocao.
 
 opcao_historia(3):-
-    %funcao que vai loja de itens
-    lib:esperandoEnter.  %tirar isso quando colocar a funçao
+    abre_loja_itens.
 
 escolha_historia_principal(5):- voltaMenu.
 

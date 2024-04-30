@@ -1,4 +1,4 @@
-:- module(loja, [setup_inicial/0, printa_itens/0, printa_pocao/0]).
+:- module(loja, [setup_inicial/0, printa_itens/0, printa_pocao/0, abre_loja_pocao/0, abre_loja_itens/0]).
 :- dynamic loja/3.
 :- use_module('../Util/lib.pl').
 :- use_module('../Models/jogador.pl').
@@ -92,8 +92,6 @@ armadura_compra(Armadura) :-
     write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n"), lib:esperandoEnter). 
 
 abre_loja_pocao :-
-    jogador_init, jogador_combate_init,
-    setup_inicial,
     writeln("\nOlá Héroi, essa são as minhas recomendações de poções pra você:\n"), printa_pocao,
     inputNumber("\nE então, deseja comprar?\n(1)Sim.\n(2)Não.\n\n", Escolha),
     compra_pocao(Escolha).
@@ -128,9 +126,18 @@ compra_pocao_aux :-
 
 equipa_item :-
     write("\nEsses são os seus equipamentos:\n\n"),
-    get_equipamentos(Equipamentos), write(Equipamentos),
+    get_equipamentos(Equipamentos), formata_equipamentos(Equipamentos, Resultado), write(Resultado), nl,
     lib:input("\nEscreva o nome do item que deseja equipar, se quiser desistir da ação digite: 'VOLTAR'.\n\n", Escolha),
     equipa_item_aux(Escolha).
+
+formata_equipamentos([],[]).
+formata_equipamentos([Head|Tail], Resultado) :- formata_equipamentos(Tail, Resultado_antigo), (Head = espada(Nome,_,Ataque,_,_) -> 
+    formata_espada_possuida(Nome, Ataque, Result), append([Result], Resultado_antigo, Resultado) ;
+    Head = armadura(Nome,_,_,Defesa,_) -> formata_armadura_possuida(Nome, Defesa, Result), append([Result], Resultado_antigo, Resultado)).
+
+formata_espada_possuida(Nome, Ataque, String) :- format(atom(String), " ~w | Ataque: ~d", [Nome, Ataque]).
+formata_armadura_possuida(Nome, Defesa, String) :- format(atom(String), " ~w | Defesa: ~d", [Nome, Defesa]).
+formata_pocao_possuida(Nome, Vida, Ataque, Defesa, String) :- format(atom(String), " ~w | Vida: ~d | Ataque: ~d | Defesa: ~d", [Nome, Vida, Ataque, Defesa]).
 
 equipa_item_aux("VOLTAR").
 equipa_item_aux(Nome) :- (get_equipamentos(Itens), verifica_equips(Nome, Itens, Resultado), Resultado = true ->
@@ -149,9 +156,13 @@ usa_item_aux(Ataque, Defesa) :-
 
 equipa_pocao :-
     write("\nEssas são suas poções disponíveis:\n\n"),
-    get_pocoes(Pocoes), write(Pocoes),
+    get_pocoes(Pocoes), formata_pocoes_possuidas(Pocoes, Resultado), write(Resultado), nl,
     lib:input("\nConfirme o nome da poção que deseja tomar, se quiser desistir da ação digite: 'VOLTAR'.\n\n", Input),
     equipa_pocao_aux(Input).
+
+formata_pocoes_possuidas([],[]).
+formata_pocoes_possuidas([Head|Tail], Resultado) :- formata_pocoes_possuidas(Tail, Resultado_antigo), (Head = pocao(Nome,_,Vida,Ataque,Defesa,_) -> 
+    formata_pocao_possuida(Nome, Vida, Ataque, Defesa, Result), append([Result], Resultado_antigo, Resultado)).
 
 equipa_pocao_aux("VOLTAR").
 equipa_pocao_aux(Nome) :- (get_pocoes(Pocoes), verifica_pocoes(Nome, Pocoes, Resultado), Resultado = true ->
@@ -170,7 +181,7 @@ decrementa_pocao(Nome, Preco, Vida, Ataque, Defesa, Quantidade) :-
     adiciona_pocao(Pocao_atualizada).
 
 usa_pocao_aux(Vida, Ataque, Defesa) :-
-    set_pocoes_tomadas, set_vida_heroi(Vida),
+    aumenta_pocao_tomada, set_vida_heroi(Vida),
     set_ataque(Ataque), set_defesa(Defesa).
 
 formata_espada(Nome, Preco, Ataque, Defesa, Descricao, String) :-
