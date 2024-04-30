@@ -34,7 +34,6 @@ ataque_inimigo_especial(Nome_Inimigo):-
     recebe_dano(Habilidade),
     exibe_jogador_combate, nl.
 
-    
 morte_dano:- 
     printString("Você morreu, sei que é complicado digerir isso mas é um jogo então sempre da pra voltar! Porém, você perdeu TODAS AS MOEDAS.\n").
 

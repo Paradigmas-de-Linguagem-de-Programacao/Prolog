@@ -161,7 +161,7 @@ verifica_pocoes(_,[], Resultado) :- Resultado = false.
 verifica_pocoes(Nome, [Head|Tail], Resultado) :- (Head = pocao(Nome,_,_,_,_,_) -> Resultado = true ; verifica_equips(Nome, Tail, Resultado)).
 
 acha_pocao(Nome, [Head|Tail]) :- (Head = pocao(Nome,Preco,Vida,Ataque,Defesa,Quantidade) ->
-    (Quantidade>1 -> remove_pocao(Nome), decrementa_pocao(Nome,Preco,Vida,Ataque,Defesa,Quantidade), usa_pocao_aux(Vida, Ataque, Defesa) write("\nPoção usada com sucesso.\n") ; 
+    (Quantidade>1 -> remove_pocao(Nome), decrementa_pocao(Nome,Preco,Vida,Ataque,Defesa,Quantidade), usa_pocao_aux(Vida, Ataque, Defesa), write("\nPoção usada com sucesso.\n") ; 
     usa_pocao_aux(Vida, Ataque, Defesa), remove_pocao(Nome), write("\nPoção usada com sucesso.\n")); acha_pocao(Nome, Tail)).
 
 decrementa_pocao(Nome, Preco, Vida, Ataque, Defesa, Quantidade) :-
