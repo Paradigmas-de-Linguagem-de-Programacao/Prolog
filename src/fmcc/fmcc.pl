@@ -1,30 +1,27 @@
 :- use_module('./Util/lib.pl').
 :- use_module('./Util/dialogos.pl').
-:- use_module('./Historia/prologo.pl').
 :- use_module('./Util/salvamento.pl').
+
 
 mock_fmcc:- 
     menu.
 
-menu :-esperandoEnter,
+menu :-
     clearScreen,
     dialogos:menuInicial,
     lib:inputNumber("Sua escolha é: ", Escolha),
     menuOpcao(Escolha).
 
 menuOpcao(1) :-
-    salvamento:inicializa_jogador,
-    prologo:comecaJogo,
+    salvamento:comeca_jogo,
     menu.
 
 menuOpcao(2) :-
-    % vai ser a funçao de carregaJogo,
-    esperandoEnter,
+    salvamento:carrega_jogo,
     menu.
 
 menuOpcao(3) :-
-    % help,
-    esperandoEnter,
+    salvamento:help,
     menu.
 
 menuOpcao(4) :-

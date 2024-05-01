@@ -1,0 +1,4 @@
+:- dynamic jogador/5.
+
+jogador("Heanes", 1000, [], [], 1).
+

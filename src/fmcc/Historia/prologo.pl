@@ -3,7 +3,7 @@
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Util/lib.pl').
 :- use_module('./cidadela.pl').
-:- use_module('../Models/jogador.pl').
+
 
 comecaJogo:-
     dialogos:contaHistoria([
@@ -52,5 +52,5 @@ inicioAventura:-
         "C.W.: Bom, eu esqueci um energético no caldeirão, fique livre para explorar a cidade e falar com todos, e quando se sentir tranquilo vá até a minha torre para você entender sobre as forças desse mundo.\n"
     ]),
     clearScreen,
-    altera_progresso(2),
+    salvamento:checkPoint,
     cidadela:irCidadelaDeCristal.

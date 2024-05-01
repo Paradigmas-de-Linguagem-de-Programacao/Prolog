@@ -7,7 +7,7 @@ inimigo("Cachorros caramelos", 40, 5, 50, 0).
 inimigo("Kanva", 55, 10, 200, 85).
 inimigo("PlayHub", 40, 0, 300, 85).
 inimigo("ConversaGPT", 120, 30, 5000, 160).
-inimigo("Play", 70, 15, 250, 0).
+inimigo("Play", 110, 15, 250, 0).
 inimigo("Hub", 85 , 15, 100, 0).
 
 get_ataque_inimigo(Nome, Ataque) :-
