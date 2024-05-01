@@ -3,7 +3,6 @@
 :- use_module('../Util/lib.pl').
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Historia/historia_principal.pl').
-:- use_module('../Models/jogador.pl').
 
 opcao(1, Progresso) :- visualizarItensLoja(Progresso). % colocar aqui o ir pra loja
 opcao(2, Progresso) :- dialogoFerreira(Progresso).

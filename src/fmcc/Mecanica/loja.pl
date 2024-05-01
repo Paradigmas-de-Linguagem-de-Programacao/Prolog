@@ -1,7 +1,6 @@
 :- module(loja, [inicializa_loja/1, printa_itens/0, printa_pocao/0, abre_loja_pocao/0, abre_loja_itens/0]).
 :- dynamic loja/3.
 :- use_module('../Util/lib.pl').
-:- use_module('../Models/jogador.pl').
 
 inicializa_loja(1) :- 
     retractall(loja(_,_,_)),  

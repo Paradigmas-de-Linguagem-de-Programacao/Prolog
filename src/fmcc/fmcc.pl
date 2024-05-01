@@ -1,6 +1,7 @@
 :- use_module('./Util/lib.pl').
 :- use_module('./Util/dialogos.pl').
-:- use_module('./Util/salvamento.pl').
+:- consult('./Util/salvamento.pl').
+:- consult('./Models/jogador.pl').
 
 
 mock_fmcc:- 

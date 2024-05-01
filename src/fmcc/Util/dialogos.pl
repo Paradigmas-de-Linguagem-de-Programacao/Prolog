@@ -1,7 +1,7 @@
 :- module(dialogos, [menuInicial/0, contaHistoria/1 , dialogoInicial/1 ,opcoesCaminhaCidadela/1, 
                     dialogoFerreira/1, dialogoPraca/1, dialogo_historia/1, dialogo_pre_IA/1, 
                     dialogo_heanes_IA/1, dialogos_IA/1, dialogo_IA_deboche/1, dialogo_fim_combate/1,
-                    dialogo_play_hub/1, dialogo_deboche_play_hub/1]).
+                    dialogo_play_hub/1, dialogo_deboche_play_hub/1, dialogo_IA_especial/1]).
 
 :- use_module('./lib.pl').
 
@@ -168,6 +168,10 @@ dialogo_IA_deboche("PlayHub"):- writeln("PlayHub: Parece que você não ta aguen
 dialogo_IA_deboche("ConversaGPT"):-writeln("ConversaGPT: Você tem certeza disso? pelo que eu vejo nas minhas pesquisas energetico faz mal... eu quero que você morra pra mim e não pro seu coração").
 dialogo_deboche_play_hub("Play"):- writeln("Play ri de você com uma voz sarcástico").
 dialogo_deboche_play_hub("Hub"):-  writeln("Hub escreve na tela uma risada formada por KJKJKJKJKJJJ").
+
+dialogo_IA_especial("Kanva"):- writeln("Kanva: Com minhas ultimas forças vou fazer minha obra prima, receba meu DRAGÃO BRANCO DE OLHOS AZUIS\nHeanes: Isso tá mais pra uma lagartixa prateada").
+dialogo_IA_especial("PlayHub"):- writeln("PlayHub: RECEBA ESSE É O GOLPE DA IA DE LUVA DE PREDEIRO\n*Não preciso dizer de quem é a voz que o PlayHub imita né?*").
+dialogo_IA_especial("ConversaGPT"):- writeln("ConversaGPT: Tome meu golpe final GENKI DAMA DE BYTESSSSSSS.").
 
 dialogo_fim_combate("Kanva"):-
     contaHistoria(["Após desferir o último ataque no peito de kanva, a IA que antes parecia uma montanha desaba e solta seu pincel",

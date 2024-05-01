@@ -1,10 +1,8 @@
-:- module(salvamento , [comeca_jogo/0, checkPoint/0, help/0, carrega_jogo/0]).
-
-:- use_module('../Models/jogador.pl').
 :- use_module('../Mecanica/loja.pl').
 :- use_module('../Historia/prologo.pl').
 :- use_module('../Historia/cidadela.pl').
 :- use_module('../Historia/final.pl').
+:- use_module('../Models/inimigo.pl').
 
 comeca_jogo :-
     writeln("Inicializando dados..."),
@@ -31,7 +29,10 @@ comeca_fase(2) :- inicializa_fase(2).
 comeca_fase(3) :- inicializa_fase(3).
 comeca_fase(4) :- final:fim_de_jogo.
 
-inicializa_fase(Progresso) :- loja:inicializa_loja(Progresso), cidadela:irCidadelaDeCristal.
+inicializa_fase(Progresso) :- 
+    loja:inicializa_loja(Progresso),
+    inimigo:inicializa_inimigos(Progresso),
+    cidadela:irCidadelaDeCristal.
 
 
 help :- maplist(writeln,
@@ -44,3 +45,11 @@ help :- maplist(writeln,
             , "Por fim o que separa uma parte da história de outra são traços na tela: ----, como essa logo abaixo.\n"
             , "Bom jogo, e seja bem vindo a Fábulas de Magia : Cidadela de Cristal (FMCC)!"]),
         formata_texto.
+
+
+carrega_jogador :- consult('../src/fmcc/Diretorio/jogador.txt').
+
+salva_jogador :-
+    tell('../src/fmcc/Diretorio/jogador.txt'),
+    listing(jogador),
+    told.

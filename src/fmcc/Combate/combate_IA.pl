@@ -2,8 +2,6 @@
 
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Util/lib.pl').
-:- use_module('../Util/salvamento.pl').
-:- use_module('../Models/jogador.pl').
 :- use_module('../Models/inimigo.pl').
 :- use_module('../Combate/combate_mecanica').   
 
@@ -39,7 +37,7 @@ usa_pocao(Nome_Inimigo):-
 
 turno_inimigo(Nome_Inimigo):-
     habilidade_especial_desbloqueada(Nome_Inimigo),
-    dialogos_IA_especial(Nome_Inimigo),
+    dialogo_IA_especial(Nome_Inimigo),
     ataque_inimigo_especial(Nome_Inimigo),
     (verifica_heroi_morto -> morte_dano ; turno_heroi(Nome_Inimigo)).
 
@@ -50,8 +48,7 @@ turno_inimigo(Nome_Inimigo):-
 
 fim_combate(Nome_Inimigo):-
     dialogo_fim_combate(Nome_Inimigo),
-    get_nome_Ia(Progresso ,Nome_Inimigo),
-    writeln(Progresso). %isso aqui vai ser a funcao que salva o game
+    salvamento:checkPoint.
     
 
 

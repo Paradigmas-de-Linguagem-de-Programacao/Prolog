@@ -2,7 +2,6 @@
                               turno_preparacao/0, morte_dano/0, morte_pocao/0]).
 
 :- use_module('../Util/lib.pl').
-:- use_module('../Models/jogador.pl').
 :- use_module('../Models/inimigo.pl').
 
 turno_preparacao:-

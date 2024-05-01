@@ -1,7 +1,7 @@
 :- module(gold , [menugold/0]).
 
 :- use_module('../Util/lib.pl').
-:- use_module('../Models/jogador.pl').
+
 
 menugold :-
             writeln("(1) Trabalhar ajudando a carregar alguns suprimentos para um mercado mágico próximo.\n(2) Responder enigmas que as IAs utilizam para afirmar sua superioridade.\n(3) N.D.A."),
@@ -19,17 +19,17 @@ sistemagold(2) :- clearScreen,
                 jogador:get_progresso(Progresso),
                 sga(Progresso).
 
-sistemagold(X):- X =\= 1, X =\= 2, writeln("Não quer trabalhar hein, tudo bem. Boa sorte!\n"), esperandoEnter.
+sistemagold(_):- writeln("Não quer trabalhar hein, tudo bem. Boa sorte!\n"), esperandoEnter.
 
 sga(1) :- 
     lib:input("Vending Machine: QUAL A MELHOR LINGUAGEM DE PROGRAMAÇÃO JÁ CRIADA?\n", ENTRADA),
     string_upper(ENTRADA, UPPER),
     (UPPER = "PROLOG" -> 
-        maquina_irritada,!
+        maquina_irritada
     ;
         writeln("Vending Machine: MUITO BEM, HUMANO! AINDA BEM QUE MEU PROGRAMADOR NÃO ME FEZ EM PROLOG... ECA!"),
         jogador:modifica_gold(50),
-        parabeniza_acerto),!.
+        parabeniza_acerto).
 
 sga(2) :-
     lib:inputNumber("Vending Machine: A QUANTOS ANOS A CIDADELA DE CRISTAIS FOI FUNDADA?\n", ENTRADA),

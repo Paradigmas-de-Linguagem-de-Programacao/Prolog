@@ -2,7 +2,6 @@
 
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Util/lib.pl').
-:- use_module('../Models/jogador.pl').
 :- use_module('../Combate/combate_mecanica').   
 :- use_module('../Models/inimigo.pl').
 :- use_module('../Combate/combate_IA.pl').

@@ -2,7 +2,6 @@
 
 :- use_module('../Util/lib.pl').
 :- use_module('../Util/dialogos.pl').
-:- use_module('../Models/jogador.pl').
 :- use_module('../Combate/combate_kanva.pl').
 :- use_module('../Combate/combate_playHub.pl').
 :- use_module('../Combate/combate_conversaGPT.pl').

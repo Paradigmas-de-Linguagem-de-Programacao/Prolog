@@ -2,7 +2,6 @@
 
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Util/lib.pl').
-:- use_module('../Models/jogador.pl').
 :- use_module('../Combate/combate_mecanica').   
 :- use_module('../Models/inimigo.pl').
 :- use_module('../Combate/combate_IA.pl').
@@ -10,7 +9,6 @@
 pre_combate_playHub:-
     historia_pre_combate,
     turno_preparacao,
-    visualiza_status("Cachorros caramelos"),
     turno_heroi.
 
 turno_heroi:-
@@ -50,9 +48,9 @@ ataque_inimigo:-
 ataque_inimigo:-
     writeln("Play grita e lhe causa um dano sonoro"), nl,
     ataque_inimigo("Play"),
-    writeln("Inspirado pelo ataque de Play"), 
-    writeln("Hub lê o pdf que guarda o ataque e mostra na sua tela, aplicando em seguida em você"),
-    ataque_inimigo("Hub"), nl.
+    writeln("Inspirado pelo ataque de Play"),
+    writeln("Hub lê o pdf que guarda o ataque e mostra na sua tela, aplicando em seguida em você"), nl,
+    ataque_inimigo("Hub").
 
 escolha_acao_heroi(1):-
     writeln("Como pode ver existe duas partes para você bater então em quem você vai dar o ataque?"),
