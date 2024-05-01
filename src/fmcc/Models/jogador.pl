@@ -7,7 +7,7 @@
 :- dynamic jogador_combate/5.
 
 %jogador(Nome,Gold,Equipamento,Pocoes,Progresso).
-jogador_init :- asserta(jogador("Heanes", 1000, [], [], 0)).
+jogador_init :- asserta(jogador("Heanes", 1000, [], [], 1)).
 
 %jogador_combate(Vida,Ataque,Defesa,Pocoes,Pocoes_tomadas).
 jogador_combate_init :- asserta(jogador_combate(100, 65, 65, [], 0)).
