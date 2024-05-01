@@ -5,7 +5,7 @@
 :- dynamic jogador_combate/5.
 
 %jogador(Nome,Gold,Equipamento,Pocoes,Progresso).
-jogador_init :- asserta(jogador("Heanes", 1000, [], [], 0)).
+jogador_init :- asserta(jogador("Heanes", 1000, [], [], 1)).
 
 carrega_jogador :- consult('../src/fmcc/Diretorio/jogador.txt').
 
