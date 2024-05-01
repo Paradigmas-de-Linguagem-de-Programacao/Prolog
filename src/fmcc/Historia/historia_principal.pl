@@ -11,12 +11,17 @@
 
 curso_historia(Progresso):-
     dialogo_historia(Progresso),
-    historia_principal. % função que chama as escolhas da  historia principal mas não pensei em um nome bom!
+    historia_principal.
 
 
 historia_principal:-
     writeln("O que deseja fazer agora que está de volta a cidade?\n"),
-    menu_historia_principal,
+    writeln("(1) Ganhar dinheiro"),
+    writeln("(2) Comprar poções com C.W."),
+    writeln("(3) Visitar o ferreiro Ferreira"),
+    writeln("(4) Me garanto em enfrentar a I.A."),
+    writeln("(5) Voltar ao menu"),
+    write("\n------------------------------------------------------------------------------------\n"),
     lib:inputNumber("Faça sua escolha: ", Escolha),
     escolha_historia_principal(Escolha).
 

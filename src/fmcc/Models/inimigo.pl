@@ -5,8 +5,10 @@
 %inimigo(Nome, ataque, defesa, vida , ataqueEspecial)
 inimigo("Cachorros caramelos", 40, 5, 50, 0).
 inimigo("Kanva", 55, 10, 200, 85).
-inimigo("Playhub", 40, 0, 300, 85).
+inimigo("PlayHub", 40, 0, 300, 85).
 inimigo("ConversaGPT", 120, 30, 5000, 160).
+inimigo("Play", 70, 15, 250, 0).
+inimigo("Hub", 85 , 15, 100, 0).
 
 get_ataque_inimigo(Nome, Ataque) :-
     inimigo(Nome,Ataque,_,_,_).
@@ -29,5 +31,5 @@ habilidade_especial_desbloqueada(Nome):-
     inimigo(Nome,_,_,Vida,_), Vida=<35.
 
 get_nome_Ia(1,"Kanva").
-get_nome_Ia(2, "Playhub").
+get_nome_Ia(2, "PlayHub").
 get_nome_Ia(3, "ConversaGPT").

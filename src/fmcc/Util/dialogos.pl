@@ -1,7 +1,7 @@
 :- module(dialogos, [menuInicial/0, contaHistoria/1 , dialogoInicial/1 ,opcoesCaminhaCidadela/1, 
-                    menu_historia_principal/0 , dialogoFerreira/1, dialogoPraca/1,
-                    dialogo_historia/1, dialogo_pre_combate/1, dialogo_pre_IA/1, dialogo_heanes_IA/1, 
-                    dialogos_IA/1, dialogo_IA_deboche/1, dialogo_fim_combate/1]).
+                    dialogoFerreira/1, dialogoPraca/1, dialogo_historia/1, dialogo_pre_IA/1, 
+                    dialogo_heanes_IA/1, dialogos_IA/1, dialogo_IA_deboche/1, dialogo_fim_combate/1,
+                    dialogo_play_hub/1, dialogo_deboche_play_hub/1]).
 
 :- use_module('./lib.pl').
 
@@ -92,35 +92,6 @@ dialogo_historia(2):-
 dialogo_historia(3):-
     lib:printString( "Segunda feira é um dia que tem algo que te puxa para baixo, você decide ir procrastinar e deixar para salvar o mundo para depois.\nApós uma boa descansada sem proposito você parte para sua aventura").
 
-menu_historia_principal:-
-    maplist(writeln, [
-        "(1) Ganhar dinheiro","(2) Comprar poções com C.W.",
-        "(3) Visitar o ferreiro Ferreira","(4) Me garanto em enfrentar a I.A.","(5) Voltar ao menu"]),
-    write("\n------------------------------------------------------------------------------------\n").
-
-dialogo_pre_combate(1):-
-    contaHistoria(["C.W.: Tudo bem, vejo que você já que você está preparado, espero que tenha se equipado ao maximo, recomendo ir ao Museu, lá existem feras que estão fora de controle, mas antes deixa eu te ensinar como lutar\n",
-                   "Quando você estiver em combate, suas jogadas serão definidas em turnos intercalados entre você e seu inimigo, por isso, tome bastante cuidado nas suas decisões.\nVocê pode escolher atacar ou tomar poções, mas tomar uma poção tem seu preço.",
-                   "*Na frente do museu, Heanes vê um homem completamente desesperado de estatura mediana e cabelos bagunçados*\n",
-                   "Homem completamente desesperado: Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte. Isso não é arte...\n",
-                   "Heanes: Você é o Leandro??\nLeandro: Sim, sou eu. E pelo que me disseram, você é o herói. Não temos tempo a perder, dentro do museu a I.A. chamada Kanva está alterando tudo, substituindo as pinturas mais perfeitas por suas imagens disformes.\n",
-                   "*Enquanto Leandro falava, grandes sombras de cor caramelo surgiam ao redor*\n",
-                   "Leandro: Meu Deus, os fiéis companheiros do Kanva seus cachorros caramelos distorcidos, olha só aquele tem 3 focinhos\n",
-                   "OS CACHORROS FAREJAM VOCES E VÃO EM SUA DIREÇÃO! Heanes e Leandro são cercados por cachorros caramelos gigantes disformes.\nLeandro: Esses são os cachorros criados pelo kanva, fique de costas para mim para nao sermos cercados completamente!!!\n"]).
-
-dialogo_pre_combate(2):-
-    contaHistoria(["C.W: Heanes vá em direção à floresta das IA's lá você vai encontrar duas pessoas que lhe explicaram a situação, G e Wendell\n*Após caminhar durante algumas horas Heanes avista duas pessoas*",
-                   "Professor G: Meu Deus aquela coisa se fundiu e agora Wendell o que a gente faz\nWendell: E eu sei lá... ei olha que está vindo ali\nHeanes: Meu Deus. Como aquilo existe, parece que um casamento de carne foi feito.",
-                   "Wendell: Então você é o herói que Leandro falou, bom como pode ver aquela monstruosidade de boca e olhos é uma IA, anteriormente eram duas uma apenas olho com a função de ler PDF e a outra apenas boca que reproduzia uma voz grotesca, agora bom se tornou isso\nHeanes: Apesar de ser muito feio irei enfrentar-lá me desejem sorte.",
-                   "Professor G: Calma herói, apesar das IA's terem se fundido sua fusão não foi perfeita e partes dos seus restos ficaram como caminho e tem vida, pelo que parece você vai ter que passar por uma batalha contra essas duas coisas.",
-                   "Heanes: AHHHHHHH mais trabalho pra mim... meu salário não cobre essas coisas"]).
-
-dialogo_pre_combate(3):-
-    contaHistoria(["C.W: Enfim chegamos ao fim, está vendo aquele castelo nada chamativo em cima de uma montanha nada caricata de filme, é lá onde o líder das IA's ConversaGPT vive, por favor Heanes nos ajude uma última vez.",
-                   "*Indo em direção ao castelo dessa vez você não encontra ninguem apenas você até que de repente*\nConversaGPT: Olha olha se não é Heanes a pessoa mais falada desse mundo, parece que você andou batendo nos meus amigos não é? Infelizmente pelo bem do meu reinado vou ter que te eliminar, não leve para o pessoal.",
-                   "Heanes: Ganhei de todos os outros sem suar e você acha que vai me parar? Conversa, você é apenas o último obstaculo antes de voltar para minha casa e lutar meu judo.",
-                   "ConversaGPT: Bom, vamos ver do que você é capaz"]).
-
 dialogo_pre_IA("Kanva"):-
     contaHistoria(["Kanva: Meus doguinhos... então vai ser assim humano. BEM-VINDO A SEU MAIOR PESADELO, VAMOS ALTERAR O SEU ATRIBUTO .ALIVE PARA = DEAD?\n",
                    "Heanes: Seu reinado de coisas feias e plastificadas vai acabar Kanva, vou terminar com você e aproveitar uma exposição de arte\n",
@@ -188,10 +159,15 @@ dialogos_IA("ConversaGPT"):-
     nth0(Indice,Opcoes_dialogo, Dialogo_Kanva),
     write("ConversaGPT: ") , writeln(Dialogo_Kanva), nl.
 
+dialogo_play_hub("Play"):- writeln("Heanes ataca com intenção de calar essa coisa feia para sempre.").
+dialogo_play_hub("Hub"):- writeln("Heanes ataca com intenção de quebrar essa tela.").
+
 
 dialogo_IA_deboche("Kanva"):- writeln("Kanva: Eita Heroi parece que eu tô te fazendo passar mal, quer uma água? HHAHAHAHA.").
 dialogo_IA_deboche("PlayHub"):- writeln("PlayHub: Parece que você não ta aguentando nos dois, ei Hub fica sem fazer nada se não nosso heroizinho quebra").
-dialogo_IA_deboche("ConversaGPT"):- writeln("ConversaGPT: Você tem certeza disso? pelo que eu vejo nas minhas pesquisas energetico faz mal... eu quero que você morra pra mim e não pro seu coração").
+dialogo_IA_deboche("ConversaGPT"):-writeln("ConversaGPT: Você tem certeza disso? pelo que eu vejo nas minhas pesquisas energetico faz mal... eu quero que você morra pra mim e não pro seu coração").
+dialogo_deboche_play_hub("Play"):- writeln("Play ri de você com uma voz sarcástico").
+dialogo_deboche_play_hub("Hub"):-  writeln("Hub escreve na tela uma risada formada por KJKJKJKJKJJJ").
 
 dialogo_fim_combate("Kanva"):-
     contaHistoria(["Após desferir o último ataque no peito de kanva, a IA que antes parecia uma montanha desaba e solta seu pincel",

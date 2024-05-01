@@ -52,5 +52,5 @@ inicioAventura:-
         "C.W.: Bom, eu esqueci um energético no caldeirão, fique livre para explorar a cidade e falar com todos, e quando se sentir tranquilo vá até a minha torre para você entender sobre as forças desse mundo.\n"
     ]),
     clearScreen,
-    altera_progresso(1),
+    altera_progresso(2),
     cidadela:irCidadelaDeCristal.

@@ -9,7 +9,7 @@
 :- use_module('../Combate/combate_IA.pl').
 
 pre_combate_conversaGPT :-
-    dialogo_pre_combate(3),
+    historia_pre_combate,
     turno_preparacao,
     %visualiza_status("ConversaGPT"),
     write("\nHeanes: Espere, tem algo errado...que glitchs são esses?? C.W. não me disse nada!!\nConversaGPT:CUIDAAAADO Dog, tubarao vai te pegar."),
@@ -64,3 +64,9 @@ duvida_gpt(Vezes) :-
 
 duvida_gpt_errado(_) :-
     write("\nVocê deveria ter continuado a duvidar, humano.\n"). %jogador morre novamente.
+
+historia_pre_combate:-
+    contaHistoria(["C.W: Enfim chegamos ao fim, está vendo aquele castelo nada chamativo em cima de uma montanha nada caricata de filme, é lá onde o líder das IA's ConversaGPT vive, por favor Heanes nos ajude uma última vez.",
+                   "*Indo em direção ao castelo dessa vez você não encontra ninguem apenas você até que de repente*\nConversaGPT: Olha olha se não é Heanes a pessoa mais falada desse mundo, parece que você andou batendo nos meus amigos não é? Infelizmente pelo bem do meu reinado vou ter que te eliminar, não leve para o pessoal.",
+                   "Heanes: Ganhei de todos os outros sem suar e você acha que vai me parar? Conversa, você é apenas o último obstaculo antes de voltar para minha casa e lutar meu judo.",
+                   "ConversaGPT: Bom, vamos ver do que você é capaz"]).

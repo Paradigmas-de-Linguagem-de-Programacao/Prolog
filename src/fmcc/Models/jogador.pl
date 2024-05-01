@@ -10,7 +10,7 @@
 jogador_init :- asserta(jogador("Heanes", 1000, [], [], 0)).
 
 %jogador_combate(Vida,Ataque,Defesa,Pocoes,Pocoes_tomadas).
-jogador_combate_init :- asserta(jogador_combate(100, 150, 5, [], 0)).
+jogador_combate_init :- asserta(jogador_combate(100, 65, 65, [], 0)).
 
 get_gold(Dinheiro) :- jogador(_,Dinheiro,_,_,_).
 
@@ -71,7 +71,7 @@ set_vida_heroi(Hp) :-
 
 recebe_dano(Ataque_Inimigo) :-
     retract(jogador_combate(Hp_antigo, Ataque, Defesa, Potions, Pocoes_Tomadas)),
-    Dano_sofrido is Ataque_Inimigo - Defesa,
+    Dano_sofrido is max(Ataque_Inimigo - Defesa, 5),
     Hp_atual is max(Hp_antigo - Dano_sofrido, 0),
     asserta(jogador_combate(Hp_atual, Ataque, Defesa, Potions, Pocoes_Tomadas)).
 
