@@ -12,12 +12,12 @@ limpar_linhas([Linha | Linhas], [LinhaLimpa | LinhasLimpas], QuantidadeLinhasTro
 
 limpar_linhas([Linha | Linhas], [Linha | LinhasLimpas], QuantidadeLinhasTrocadas) :- limpar_linhas(Linhas, LinhasLimpas, QuantidadeLinhasTrocadas).
 
-shift_baixo([], []).
+shift_baixo_clear([], []).
 
-shift_baixo([LinhaAbaixo, LinhaAcima | LinhasAcima], [LinhaAcima | LinhasAcimaComShift]) :- pode_limpar_linha(LinhaAbaixo),
-                                                                                            shift_baixo([LinhaAbaixo | LinhasAcima], LinhasAcimaComShift), !.
+shift_baixo_clear([LinhaAbaixo, LinhaAcima | LinhasAcima], [LinhaAcima | LinhasAcimaComShift]) :- pode_limpar_linha(LinhaAbaixo),
+                                                                                                  shift_baixo_clear([LinhaAbaixo | LinhasAcima], LinhasAcimaComShift), !.
 
-shift_baixo([LinhaAbaixo, LinhaAcima | LinhasAcima], [LinhaAbaixo | LinhasAcimaComShift]) :- shift_baixo([LinhaAcima | LinhasAcima], LinhasAcimaComShift).
+shift_baixo_clear([LinhaAbaixo, LinhaAcima | LinhasAcima], [LinhaAbaixo | LinhasAcimaComShift]) :- shift_baixo_clear([LinhaAcima | LinhasAcima], LinhasAcimaComShift).
 
 clear_game(Linhas, NovasLinhas, QuantidadeLinhasLimpas) :- limpar_linhas(Linhas, LinhasLimpas, QuantidadeLinhasLimpas),
-                                                           shift_baixo(LinhasLimpas, NovasLinhas).
+                                                           shift_baixo_clear(LinhasLimpas, NovasLinhas).

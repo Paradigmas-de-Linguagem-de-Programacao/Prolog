@@ -31,3 +31,15 @@ gera_estado(Window) :-
     send(TextoNivel, font, FontEstado),
     send(TextoLinhas, font, FontEstado),
     send(TextoTempo, font, FontEstado).
+
+escreve_jogo(Window, Pontuacao, Nivel, Linhas, Tempo) :-
+    X = 950,
+    new(FontEstado, font(times, normal, 25)),
+    send(Window, display, new(TextoPontuacao, text(Pontuacao)), point(X,525)),
+    send(Window, display, new(TextoNivel, text(Nivel)), point(X,575)),
+    send(Window, display, new(TextoLinhas, text(Linhas)), point(X,625)),
+    send(Window, display, new(TextoTempo, text(Tempo)), point(X,675)),
+    send(TextoPontuacao, font, FontEstado),
+    send(TextoNivel, font, FontEstado),
+    send(TextoLinhas, font, FontEstado),
+    send(TextoTempo, font, FontEstado).

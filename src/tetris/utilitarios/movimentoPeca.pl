@@ -84,5 +84,11 @@ shift_baixo_linha([[], []], [[], []]).
 shift_baixo_linha([[PecaAbaixo | PecasAbaixo], [PecaAcima | PecasAcima]], [PecasAbaixoShift, PecasAcimaShift]) :- 
     shift_baixo_linha([PecasAbaixo, PecasAcima], [PecasAbaixoPilha, PecasAcimaPilha]),
     (eh_peca(PecaAcima) -> (PecasAbaixoShift = [PecaAcima | PecasAbaixoPilha], PecasAcimaShift = [PecaAbaixo | PecasAcimaPilha]);
-     (PecasAbaixoShift = [PecaAbaixo | PecasAbaixoPilha], PecasAcimaShift = [PecaAcima | PecasAcimaPilha])
+    (PecasAbaixoShift = [PecaAbaixo | PecasAbaixoPilha], PecasAcimaShift = [PecaAcima | PecasAcimaPilha])
     ).
+
+shift_baixo([], []).
+shift_baixo([Linha], [Linha]).
+shift_baixo([LinhaAbaixo, LinhaAcima | LinhasAcima], [NovaLinhaAbaixo, NovaLinhaAcima | NovasLinhasAcimas]) :- 
+    shift_baixo([LinhaAcima | LinhasAcima], [NovaLinhaAcimaPilha | NovasLinhasAcimas]),
+    shift_direita_linha([LinhaAbaixo, NovaLinhaAcimaPilha], [NovaLinhaAbaixo, NovaLinhaAcima]).
