@@ -40,15 +40,21 @@ mock_tetris :-
     
     pacote_texto_fixo(@window),
     
-    pacote_texto_estado_jogo(@window, Pontuacao, Nivel, Linhas, Tempo),
+    pacote_texto_estado_jogo(@window, (Pontuacao, Nivel, Linhas, Tempo), (TextoPontuacao, TextoNivel, TextoLinhas, TextoTempo)),
     
+    create_caixas_texto(TextoPontuacao, TextoNivel, TextoLinhas, TextoTempo),
+
     send(@window, recogniser, new(K, key_binding(@nil, argument))),
+    
     send(K, function, 'cursor_down', message(@prolog, evento_tecla_down)),
     send(K, function, 'cursor_left', message(@prolog, evento_tecla_left)),
     send(K, function, 'cursor_right', message(@prolog, evento_tecla_right)),
+    
     send(K, function, 'r', message(@prolog, evento_tecla_r)),
     send(K, function, 'R', message(@prolog, evento_tecla_r)),
+    
     send(K, function, 'SPC', message(@prolog, evento_tecla_space)),
+    
     send(K, function, 'x', message(@prolog, evento_tecla_x)),
     send(K, function, 'X', message(@prolog, evento_tecla_x)),
     send(K, function, 'z', message(@prolog, evento_tecla_z)),
@@ -132,12 +138,15 @@ jogar_para_baixo( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPec
                 update_estado( NovaGrid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed ),
                 Mudei = 0
             ); (            
+                % Operações de Grid
                 congelar_tudo(Grid, GridCongelada),
-                clear_game(GridCongelada, GridLimpa, _),
+                clear_game(GridCongelada, GridLimpa, QuantidadeLinhasLimpas),
                 gera_peca(IdProximaPeca, NovaAtualPeca, (Xo, Yo), (Xf, Yf)),
                 atribuicao_peca(GridLimpa, NovaAtualPeca, [Xo, Yo], [Xf, Yf], NovaGrid),
                 get_grid_jogo(GridRenderizavel),
                 update_grid(NovaGrid, GridRenderizavel),
+
+                % Operações de próxima Peça
                 get_grid_peca(PecaRenderizavelAtual),
                 apaga_grid(PecaRenderizavelAtual),
                 NovoIdProximaPeca is ((IdProximaPeca + Linhas + Nivel + Tempo + Pontuacao) mod 7),
@@ -146,6 +155,24 @@ jogar_para_baixo( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPec
                 create_grid_peca(PecaRenderizavel),
                 reverse(PecaRenderizavel, PecaVisao),
                 renderiza_grid(@window, 800, 350, 30, PecaVisao),
-                update_estado( NovaGrid, Linhas, Nivel, Tempo, Pontuacao, NovaAtualPeca, NovoIdProximaPeca, FramePast, FrameNeed ),
+
+                % Atualiza Estado
+                NovasLinhas is Linhas + QuantidadeLinhasLimpas,
+                NovoNivel is (NovasLinhas // 10) + 1,
+                NovaPontuacao is (Pontuacao + QuantidadeLinhasLimpas * Nivel * 5),
+                NovoFrameNeed is (60 // Nivel) - 3,
+                
+                get_caixas_texto(TextoPontuacao, TextoNivel, TextoLinhas, TextoTempo),
+                free(TextoPontuacao),
+                free(TextoNivel),
+                free(TextoLinhas),
+                free(TextoTempo),
+
+                pacote_texto_estado_jogo(@window, (NovaPontuacao, NovoNivel, NovasLinhas, Tempo), (TextoPontuacaoNova, TextoNivelNova, TextoLinhasNova, TextoTempoNova)),
+
+                update_caixas_texto(TextoPontuacaoNova, TextoNivelNova, TextoLinhasNova, TextoTempoNova),
+
+                update_estado( NovaGrid, NovasLinhas, NovoNivel, Tempo, NovaPontuacao, NovaAtualPeca, NovoIdProximaPeca, FramePast, NovoFrameNeed ),
+                
                 Mudei = 1            
             )).

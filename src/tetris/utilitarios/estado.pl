@@ -36,3 +36,14 @@ get_grid_peca(Grid) :-
 update_grid_peca(NovaGrid) :-
     retract(grid_peca(_)),
     assertz(grid_peca(NovaGrid)).
+
+create_caixas_texto(TextoPontuacao, TextoNivel, TextoLinhas, TextoTempo) :-
+    retractall(caixas_texto(_, _, _, _)),
+    assertz(caixas_texto(TextoPontuacao, TextoNivel, TextoLinhas, TextoTempo)).
+
+get_caixas_texto(TextoPontuacao, TextoNivel, TextoLinhas, TextoTempo) :-
+    caixas_texto(TextoPontuacao, TextoNivel, TextoLinhas, TextoTempo).
+
+update_caixas_texto(NovaTextoPontuacao, TextoNivel, TextoLinhas, TextoTempo) :-
+    retract(caixas_texto(_, _, _, _)),
+    assertz(caixas_texto(NovaTextoPontuacao, TextoNivel, TextoLinhas, TextoTempo)).
