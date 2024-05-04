@@ -46,6 +46,12 @@ turno_inimigo(Nome_Inimigo):-
     ataque_inimigo(Nome_Inimigo),
     (verifica_heroi_morto -> morte_dano ; turno_heroi(Nome_Inimigo)).
 
+fim_combate("ConversaGPT"):-
+    dialogo_fim_combate("ConversaGPT"),
+    desbloquea_conquista("Faixa Preta"),
+    salvamento:checkPoint,!.
+
+
 fim_combate(Nome_Inimigo):-
     dialogo_fim_combate(Nome_Inimigo),
     salvamento:checkPoint.

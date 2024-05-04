@@ -1,0 +1,4 @@
+:- dynamic conquista/2.
+
+conquista("Faixa Preta", "Derrotou ConversaGPT").
+

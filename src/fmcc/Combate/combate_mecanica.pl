@@ -37,9 +37,8 @@ morte_dano:-
     printString("Você morreu, sei que é complicado digerir isso mas é um jogo então sempre da pra voltar! Porém, você perdeu TODAS AS MOEDAS.\n").
 
 morte_pocao:-
-    writeln("Seu coração te da uma pontada... VOCÊ... VOCÊ INFARTOU!!"),
-    printString("É parece que tomar todo aquele energético realmente não faz bem para o coração... Os médicos estavam certos fica o aviso crianças se lutarem contra inteligência artificial cuidado com o coração").
-    %desbloquear conquista
+    printString("Seu coração te da uma pontada... VOCÊ... VOCÊ INFARTOU!!"),
+    desbloquea_conquista("Infarto").
     
 
 

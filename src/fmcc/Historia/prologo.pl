@@ -29,8 +29,7 @@ escolha_jogador(_):-
 negaCarl(8):-
     writeln("Heanes: Quantas vezes vou ter que repetir eu não quero fazer isso???"),
     writeln("Carl Wilson: Então você escolheu isso... não me culpe meu amigo\n\n*você foi ejetado para o limbo*\n"),
-    %desbloquea conquista jubilado,
-    esperandoEnter,
+    desbloquea_conquista("Jubilado"),
     !.
 
 negaCarl(VezesNegado):-

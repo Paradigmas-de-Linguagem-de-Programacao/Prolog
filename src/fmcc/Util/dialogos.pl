@@ -23,7 +23,8 @@ menuInicialOpcoes:-
     writeln('1 - Começar o jogo'),
     writeln('2 - Carregar o jogo'),
     writeln('3 - Ajuda'),
-    writeln('4 - Sair').
+    writeln('4 - Conquistas'),
+    writeln('5 - Sair').
 
 menuInicial:-
     slogan,

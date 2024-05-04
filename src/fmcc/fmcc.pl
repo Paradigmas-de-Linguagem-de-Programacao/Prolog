@@ -4,7 +4,8 @@
 :- consult('./Models/jogador.pl').
 
 
-mock_fmcc:- 
+mock_fmcc:-
+    carrega_conquista,
     menu.
 
 menu :-
@@ -25,7 +26,12 @@ menuOpcao(3) :-
     salvamento:help,
     menu.
 
-menuOpcao(4) :-
+menuOpcao(4):-
+    mostra_conquista,
+    esperandoEnter,
+    menu.
+
+menuOpcao(5) :-
     writeln('Então você decidiu dar uma pausa. Tudo bem... Espero que você volte. Aqui não é o mesmo sem você.').
 
 menuOpcao(_) :-

@@ -58,3 +58,43 @@ salva_jogador :-
     told,
     retract(jogador(Nome, _, _, _, _)),
     asserta(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)).
+
+inicializa_conquista:- dynamic conquista/2.
+
+ler_conquista:- consult('../src/fmcc/Diretorio/conquista.txt').
+
+carrega_conquista:- (exists_file('../src/fmcc/Diretorio/conquista.txt') -> ler_conquista ; inicializa_conquista).
+
+
+desbloquea_conquista("Jubilado"):-
+    printString("Parabéns você acabou de ser ejetado... Não sei se vale um parabéns mas você desbloqueou a conquista Jubilado!!"),
+    (\+ conquista("Jubilado", "Negue Carl Wilson 8 vezes") ->
+        assertz(conquista("Jubilado", "Negue Carl Wilson 8 vezes")),
+        salva_conquista ; true).
+
+desbloquea_conquista("Infarto"):-
+    printString("É parece que tomar todo aquele energético realmente não faz bem para o coração...\nOs médicos estavam certos fica o aviso crianças se lutarem contra inteligência artificial cuidado com o coração\nContudo nem tudo são perdas parabéns você desbloqueou uma conquista apesar que custou o coração do nosso héroi"),
+    (\+ conquista("Se voce nao parar eu Paro", "Tome 5 Pocoes e faça Heanes infartar") ->
+        assertz(conquista("Se voce nao parar eu Paro", "Tome 5 Pocoes e faça Heanes infartar")),
+        salva_conquista ; true).
+
+desbloquea_conquista("Faixa Preta"):-
+    printString("Você realmente foi surpreendete e salvou a todos, parabéns!!!\nCom isso você ganhou o sonho de qualquer judoka, você é FAIXA PRETA além disso também desbloqueou uma conquista!!!"),
+    (\+ conquista("Faixa Preta", "Derrotou ConversaGPT") ->
+        assertz(conquista("Faixa Preta", "Derrotou ConversaGPT")),
+        salva_conquista ; true).
+
+salva_conquista:-
+    tell('../src/fmcc/Diretorio/conquista.txt'),
+    listing(conquista),
+    told.
+
+
+lista_conquista:-     
+    writeln("Suas conquistas: "), nl,
+    forall(conquista(Nome, Descricao),
+           format("Nome: ~w~nDescrição: ~w~n~n", [Nome, Descricao])).
+
+mostra_conquista:-
+    (exists_file('../src/fmcc/Diretorio/conquista.txt') -> lista_conquista ; writeln("Parece que você não tem nenhuma conquista. Tente jogar mais e explorar todas as possibilidades.")).
+
