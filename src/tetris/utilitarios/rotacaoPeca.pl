@@ -2,6 +2,9 @@
 
 :- consult('movimentoPeca.pl').
 
+eh_vazio(0).
+nao_eh_vazio(X) :- \+ eh_vazio(X).
+
 mapeia_coordenadas([], IndiceLinha, [IndiceLinha, IndiceLinha], [-1, -1]).
 mapeia_coordenadas([Linha | ProximasLinhas], IndiceLinha, [Xo, Yo], [Xf, Yf]) :- 
     ProximoIndiceLinha is IndiceLinha + 1,
@@ -43,25 +46,12 @@ gera_coordenadas([Xo, Yo], [Xf, Yf], [NovoXo, Yo], [NovoXf, Yf]) :- calcula_dime
                                                                                             (NovoXf is Xf + Diferenca, NovoXo = Xo)
                                                                     ), !.
 
-% gera_peca_linha(_, [], []).
-% gera_peca_linha(LinhaGrid, [IndiceX | IndicesX], [Peca | Pecas]) :- nth0(IndiceX, LinhaGrid, PossivelPeca),
-%                                                                     (eh_peca(PossivelPeca) -> Peca = PossivelPeca ; Peca = 0),
-%                                                                     gera_peca_linha(LinhaGrid, IndicesX, Pecas).
-
-% gera_peca_recursivo(_, _, [], []).
-% gera_peca_recursivo(Grid, IndicesX, [IndiceY | IndicesY], [LinhaMatriz | LinhasMatriz]) :- nth0(IndiceY, Grid, LinhaGrid),
-%                                                                                            gera_peca_linha(LinhaGrid, IndicesX, LinhaMatriz),
-%                                                                                            gera_peca_recursivo(Grid, IndicesX, IndicesY, LinhasMatriz).
-
-% gera_peca(Grid, [Xo, Yo], [Xf, Yf], Peca) :- gera_indices([Xo, Yo], [Xf, Yf], IndicesX, IndicesY),
-%                                              gera_peca_recursivo(Grid, IndicesX, IndicesY, Peca).
- 
 gera_indices([Xo, Yo], [Xf, Yf], IndicesX, IndicesY) :- findall(X, between(Xo,Xf,X), IndicesX),
                                                         findall(Y, between(Yo,Yf,Y), IndicesY).
 
 reverter_peca([], []).
-reverter_peca([LinhaPeca | LinhasPeca], [NovaLinhaPeca, NovasLinhasPeca]) :- reverse(LinhaPeca, NovaLinhaPeca), 
-                                                                             reverter_peca(LinhasPeca, NovasLinhasPeca).
+reverter_peca([LinhaPeca | LinhasPeca], [NovaLinhaPeca | NovasLinhasPeca]) :- reverse(LinhaPeca, NovaLinhaPeca), 
+                                                                              reverter_peca(LinhasPeca, NovasLinhasPeca).
 
 rotaciona_peca_anti_horario(Peca, PecaRotacionada) :- reverter_peca(Peca, PecaReversa),
                                                       transpose(PecaReversa, PecaRotacionada).
@@ -71,13 +61,14 @@ rotaciona_peca_horario(Peca, PecaRotacionada) :- transpose(Peca, PecaTransposta)
 
 pode_atribuir_peca_linha(_, [], []).
 pode_atribuir_peca_linha(LinhaGrid, [Peca | ProximasPecas], [IndiceX | IndicesX]) :- nth0(IndiceX, LinhaGrid, PossivelPeca),
-                                                                                  (eh_peca(Peca) -> \+ eh_peca(PossivelPeca)),
-                                                                                  pode_atribuir_peca_linha(LinhaGrid, ProximasPecas, IndicesX).
+                                                                                     \+ (eh_peca(Peca), nao_eh_vazio(PossivelPeca)),
+                                                                                     pode_atribuir_peca_linha(LinhaGrid, ProximasPecas, IndicesX).
 
 pode_atribuir_peca_recurisivo(_, [], _, []).
-pode_atribuir_peca_recurisivo(Grid, [LinhaPeca | LinhasPeca], IndiceX, [IndiceY | IndicesY]) :- nth0(IndiceY, Grid, LinhaGrid),
-                                                                                               pode_atribuir_peca_linha(LinhaGrid, LinhaPeca, IndiceX),
-                                                                                               pode_atribuir_peca_recurisivo(Grid, LinhasPeca, IndiceX, IndicesY).
+pode_atribuir_peca_recurisivo(Grid, [LinhaPeca | LinhasPeca], IndicesX, [IndiceY | IndicesY]) :- 
+    nth0(IndiceY, Grid, LinhaGrid),
+    pode_atribuir_peca_linha(LinhaGrid, LinhaPeca, IndicesX),
+    pode_atribuir_peca_recurisivo(Grid, LinhasPeca, IndicesX, IndicesY).
 
 pode_atribuir_peca(Grid, Peca, [Xo, Yo], [Xf, Yf]) :- gera_indices([Xo, Yo], [Xf, Yf], IndicesX, IndicesY),
                                                       pode_atribuir_peca_recurisivo(Grid, Peca, IndicesX, IndicesY).
