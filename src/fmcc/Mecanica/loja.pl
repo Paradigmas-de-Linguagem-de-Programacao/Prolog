@@ -56,7 +56,8 @@ compra_item(1) :-
     get_gold(Gold),
     printa_itens, nl, write("Seu Gold é de: "), write(Gold),
     lib:input("\nDigite o nome do item que deseja comprar:\n", Input),
-    (verifica_nome_item(Input, Resultado), Resultado == true -> compra_item_aux(Input); writeln("\nItem com nome incorreto, tente novamente.\nLembre coloque o nome da maneira que lê.\n"), abre_loja_itens).
+    (verifica_nome_item(Input, Resultado), Resultado == true -> compra_item_aux(Input);
+    writeln("\nItem com nome incorreto, tente novamente.\nLembre, coloque o nome da maneira que está escrita na loja.\n"), esperandoEnter, abre_loja_itens).
 
 compra_item(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde.").
 
@@ -98,7 +99,7 @@ compra_pocao(1) :-
     lib:input("\nConfirme o nome da poção que deseja comprar:\n", Input),
     (verifica_nome_pocao(Input, Resultado), Resultado == true -> 
     (get_pocoes(Y),inventario_pocao(Y, Input, Possui_pocao), Possui_pocao == true -> get_pocoes(Potions), incrementa_pocao(Input, Potions) ; compra_pocao_aux) ;
-    writeln("\nPoção com nome incorreto, tente novamente.\nLembre coloque o nome da maneira que lê.\n"), abre_loja_pocao).
+    writeln("\nPoção com nome incorreta, tente novamente.\nLembre, coloque o nome da maneira que está escrita na loja.\n"), abre_loja_pocao).
 
 compra_pocao(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde.").
 
@@ -143,7 +144,7 @@ equipa_item_aux(Nome) :- (get_equipamentos(Itens), verifica_equips(Nome, Itens, 
 
 verifica_equips(_,[], Resultado) :- Resultado = false.
 verifica_equips(Nome, [Head|Tail], Resultado) :- ((Head = espada(Nome,_,_,_,_) ; Head = armadura(Nome,_,_,_,_)) ->
-                                                 Resultado = true ;Resultado = false, verifica_equips(Nome, Tail, Resultado)).
+                                                 Resultado = true ; verifica_equips(Nome, Tail, Resultado)).
 
 acha_item(Nome, [Head|Tail]) :- ((Head = espada(Nome,_, Ataque, Defesa,_) ; Head = armadura(Nome,_, Ataque, Defesa,_)) ->
                                  usa_item_aux(Ataque, Defesa), remove_equipamento(Nome), write("\nItem equipado com sucesso.\n"), exibe_jogador_combate ; acha_item(Nome, Tail)).

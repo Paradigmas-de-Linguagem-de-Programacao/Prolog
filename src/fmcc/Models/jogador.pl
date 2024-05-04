@@ -27,12 +27,13 @@ adiciona_equipamento(Equipamento_novo):-
 
 remove_equipamento(Nome_item) :-
     retract(jogador(Nome, Gold_antigo, Equips, Pocoes, Progresso)),
-    exclui_equipamento(Nome_item, Equips, Equips_atualizada),
-    asserta(jogador(Nome, Gold_antigo, Equips_atualizada, Pocoes, Progresso)).
+    exclui_equipamento(Nome_item, Equips, Equips_resultado),
+    asserta(jogador(Nome, Gold_antigo, Equips_resultado, Pocoes, Progresso)).
 
-exclui_equipamento(_, [], _).
-exclui_equipamento(Nome_item, [Head|Tail], Equips_atualizada) :- ((Head = espada(Nome_item,_,_,_,_) ; Head = armadura(Nome_item,_,_,_,_))
-                -> exclui_equipamento(Nome_item, Tail, Equips_atualizada) ; append([Head], Equips_atualizada, Equips_resultado), exclui_equipamento(Nome_item, Tail, Equips_resultado)).
+exclui_equipamento(_, [], []).
+exclui_equipamento(Nome_item, [Head|Tail], Equips_atualizada) :-
+    (((Head = espada(Nome_item,_,_,_,_)) ; (Head = armadura(Nome_item,_,_,_,_))) -> exclui_equipamento(Nome_item, Tail, Equips_atualizada) ;
+    exclui_equipamento(Nome_item, Tail, Equips_resultado), Equips_atualizada = [Head|Equips_resultado]).
 
 get_pocoes(Poisson) :- jogador(_,_,_,Poisson,_).
 

@@ -6,7 +6,7 @@
 
 turno_preparacao:-
     writeln("O que nosso herói vai fazer para ficar mais forte??\n\n"),
-    inputNumber("(1)Equipar um item.\n(2)Usar poção.\n(3)Lutar.", Input),
+    inputNumber("(1)Equipar um item.\n(2)Usar poção.\n(3)Lutar.\n\n", Input),
     turno_preparacao_aux(Input).
 
 turno_preparacao_aux(1) :- equipa_item, esperandoEnter, turno_preparacao.
