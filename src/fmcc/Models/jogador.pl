@@ -4,7 +4,7 @@
 jogador_init :- asserta(jogador("Heanes", 1000, [], [], 0)).
 
 %jogador_combate(Vida,Ataque,Defesa,Pocoes,Pocoes_tomadas).
-jogador_combate_init :- asserta(jogador_combate(100, 65, 65, [], 0)).
+jogador_combate_init :- asserta(jogador_combate(100, 10, 10, [], 0)).
 
 get_gold(Dinheiro) :- jogador(_,Dinheiro,_,_,_).
 

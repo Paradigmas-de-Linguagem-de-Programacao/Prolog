@@ -50,9 +50,13 @@ abre_loja_itens :-
     compra_item(Escolha).
 
 compra_item(2) :- writeln("Entendo pobre, volte ao menu com o rabo entre as pernas.").
+
 compra_item(1) :-
+    get_gold(Gold),
+    printa_itens, nl, write("Seu Gold é de: "), write(Gold),
     lib:input("\nDigite o nome do item que deseja comprar:\n", Input),
-    (verifica_nome_item(Input, Resultado), Resultado == true -> compra_item_aux(Input); writeln("\nItem com nome incorreto, tente novamente.\n"), abre_loja_itens).
+    (verifica_nome_item(Input, Resultado), Resultado == true -> compra_item_aux(Input); writeln("\nItem com nome incorreto, tente novamente.\nLembre coloque o nome da maneira que lê.\n"), abre_loja_itens).
+
 compra_item(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde.").
 
 verifica_nome_item(Input, Resultado) :- 
@@ -86,11 +90,15 @@ abre_loja_pocao :-
     compra_pocao(Escolha).
 
 compra_pocao(2) :- writeln("Entendo pobre, volte ao menu com o rabo entre as pernas.").
+
 compra_pocao(1) :-
+    get_gold(Gold),
+    printa_pocao, nl, write("Seu Gold é de: "), write(Gold),
     lib:input("\nConfirme o nome da poção que deseja comprar:\n", Input),
     (verifica_nome_pocao(Input, Resultado), Resultado == true -> 
     (get_pocoes(Y),inventario_pocao(Y, Input, Possui_pocao), Possui_pocao == true -> get_pocoes(Potions), incrementa_pocao(Input, Potions) ; compra_pocao_aux) ;
-    writeln("\nPoção com nome incorreto, tente novamente.\n"), abre_loja_pocao).
+    writeln("\nPoção com nome incorreto, tente novamente.\nLembre coloque o nome da maneira que lê.\n"), abre_loja_pocao).
+
 compra_pocao(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde.").
 
 inventario_pocao([Head|Tail], Input, Possui_pocao) :- (Head = pocao(Input,_,_,_,_,_) -> Possui_pocao = true ; Possui_pocao = false, inventario_pocao(Tail, Input, Possui_pocao)).

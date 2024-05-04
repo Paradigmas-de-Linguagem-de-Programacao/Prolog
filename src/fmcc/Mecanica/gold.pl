@@ -25,11 +25,10 @@ sga(1) :-
     lib:input("Vending Machine: QUAL A MELHOR LINGUAGEM DE PROGRAMAÇÃO JÁ CRIADA?\n", ENTRADA),
     string_upper(ENTRADA, UPPER),
     (UPPER = "PROLOG" -> 
-        maquina_irritada
-    ;
         writeln("Vending Machine: MUITO BEM, HUMANO! AINDA BEM QUE MEU PROGRAMADOR NÃO ME FEZ EM PROLOG... ECA!"),
         jogador:modifica_gold(50),
-        parabeniza_acerto).
+        parabeniza_acerto
+        ;    maquina_irritada).
 
 sga(2) :-
     lib:inputNumber("Vending Machine: A QUANTOS ANOS A CIDADELA DE CRISTAIS FOI FUNDADA?\n", ENTRADA),
@@ -41,20 +40,23 @@ sga(2) :-
         maquina_irritada).
 
 sga(3) :-
+    writeln("NINGUEM NUNCA VEIO TÃO LONGE MEU AMIGO HUMANO, em comemoração a sua vasta inteligência irei lhe fazer uma promoção duas perguntas pelo preço de uma vinda\nserá que você tem o que é necessario para responder tamanhas perguntas, essas últimas pergunta são de um nivel jamais visto nesse mundo\nmeu criador conseguiu ela através de um erro no espaço tempo que chegou a uma outra dimesão e um outro planeta, você terá que responder algo sobre CAMPINA GRANDE\nvamos ver como você se sai, BOA SORTE"),
     lib:input("Vending Machine: QUAL O MAIOR TIME DE FUTEBOL DA PARAÍBA?\n", ENTRADA),
     string_upper(ENTRADA, UPPER),
-    (UPPER = "TREZE"; UPPER = "GALO" -> 
+    ((UPPER = "TREZE"; UPPER = "GALO") -> 
         writeln("\nVending Machine: MUITO BEM, HUMANO! UH É GALO DOIDO!"),
         jogador:modifica_gold(50),
         parabeniza_acerto
     ;
-        maquina_irritada).
+        maquina_irritada),
+    segunda_pergunta.
 
-sga(4) :-
-    lib:input("Vending Machine: QUAL A SEGUNDA LINGUAGEM DE PROGRAMAÇÃO QUE FOI UTILIZADA NA CADEIRA DE PLP?\n", ENTRADA),
+segunda_pergunta :-
+    lib:input("Vending Machine: QUAL A PRIMEIRA LINGUAGEM DE PROGRAMAÇÃO QUE FOI UTILIZADA NA CADEIRA DE PLP DE UMA UNIVERSIDADE DE CAMPINA GRANDE?\n", ENTRADA),
     string_upper(ENTRADA, UPPER),
     (UPPER = "HASKELL" -> 
-        writeln("\nVending Machine: MUITO BEM, HUMANO! O PARADIGMA FUNCIONAL JÁ FOI EXPLORADO NA DISCIPLINA!"),
+        writeln("\nVending Machine: MUITO BEM, HUMANO! O PARADIGMA FUNCIONAL JÁ FOI EXPLORADO NAQUELA DISCIPLINA!"),
+        writeln("\nMas ainda bem que eu não fui feito naquilo imagina."),
         jogador:modifica_gold(50),
         parabeniza_acerto
     ;
@@ -68,7 +70,7 @@ parabeniza_acerto :-
     write("\n*Você olha para sua carteira de professor, e vê "),
     jogador:get_gold(GOLD),
     write(GOLD), 
-    write(" moedas de critais\n").
+    write(" moedas de critais\n"), esperandoEnter.
 
 dialogo_vending_machine :-
     writeln("*Heanes se encaminha para um lugar de procedência duvidosa, lá ele encontra uma Vending Machine*\n"),

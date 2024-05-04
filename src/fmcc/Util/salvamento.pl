@@ -12,10 +12,11 @@ comeca_jogo :-
 
 carrega_jogo :-
     % funcao pra criar diretorio(exists_directory('../src/fmcc/Diretorio') -> printString("Ola") ; make_directory('../src/fmcc/Diretorio')).
-    % funcao para criar o arquivo (not(exists_file('../src/fmcc/Diretorio/jogador.txt')) -> tell('../src/fmcc/Diretorio/jogador.txt') ; printString("Faz o L")).
-    carrega_jogador,
-    jogador:get_progresso(Progresso),
-    comeca_fase(Progresso).
+    (not(exists_file('../src/fmcc/Diretorio/jogador.txt')) -> (printString("Não existe jogo salvo, começando um novo jogo"), comeca_jogo) 
+    ;
+        carrega_jogador,
+        jogador:get_progresso(Progresso),
+        comeca_fase(Progresso)).
 
 checkPoint:-
     atualiza_progresso(Progresso),
@@ -51,5 +52,9 @@ carrega_jogador :- consult('../src/fmcc/Diretorio/jogador.txt').
 
 salva_jogador :-
     tell('../src/fmcc/Diretorio/jogador.txt'),
+    retract(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)),
+    asserta(jogador(Nome, 0, [], [], Progresso)),
     listing(jogador),
-    told.
+    told,
+    retract(jogador(Nome, _, _, _, _)),
+    asserta(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)).
