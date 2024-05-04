@@ -1,6 +1,6 @@
 :- use_module(library(pce)).
 
-gera_tutorial(Window) :-
+pacote_texto_tutorial(Window) :-
     X = 50,
     new(FontTutorial, font(times, normal, 15)),
     send(Window, display, new(TextoTutorial1, text('Seta pra esquerda mover pra esquerda')), point(X,100)),
@@ -18,7 +18,7 @@ gera_tutorial(Window) :-
     send(TextoTutorial6, font, FontTutorial),
     send(TextoTutorial7, font, FontTutorial).
 
-gera_estado(Window) :-
+pacote_texto_fixo(Window) :-
     X = 800,
     new(FontEstado, font(times, normal, 25)),
     send(Window, display, new(TextoProxima, text('Proxima')), point(X,300)),
@@ -32,7 +32,7 @@ gera_estado(Window) :-
     send(TextoLinhas, font, FontEstado),
     send(TextoTempo, font, FontEstado).
 
-escreve_jogo(Window, Pontuacao, Nivel, Linhas, Tempo) :-
+pacote_texto_estado_jogo(Window, Pontuacao, Nivel, Linhas, Tempo) :-
     X = 950,
     new(FontEstado, font(times, normal, 25)),
     send(Window, display, new(TextoPontuacao, text(Pontuacao)), point(X,525)),

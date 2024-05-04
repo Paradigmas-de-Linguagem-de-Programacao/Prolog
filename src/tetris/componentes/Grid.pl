@@ -12,21 +12,52 @@ busca_cor(6, purple).
 busca_cor(7, red).
 busca_cor(8, white).
 
-renderiza_grid([], _, _, _, _).
-renderiza_grid([Linha|ProximasLinhas], X, Y, LadoCelula, Window) :-
-    renderiza_linha_recursivo(Window, Linha, X, Y, LadoCelula),
-    NovoY is Y + LadoCelula,
-    renderiza_grid(ProximasLinhas, X, NovoY, LadoCelula, Window).
+gera_grid_renderizavel([], _, []).
+gera_grid_renderizavel([LinhaGrid | ProximasLinhasGrid], LadoCelula, [LinhaRenderizada | LinhasRenderizadas]) :-
+    gera_linha_renderizavel(LinhaGrid, LadoCelula, LinhaRenderizada),
+    gera_grid_renderizavel(ProximasLinhasGrid, LadoCelula, LinhasRenderizadas).
 
-renderiza_linha_recursivo(_, [], _, _, _).
-renderiza_linha_recursivo(Window, [Peca | ProximasPecas], X, Y, LadoCelula) :-
-    renderiza_celula(Peca, LadoCelula, Celula),
-    send(Window, display, Celula, point(X, Y)),
-    NovoX is X + LadoCelula,
-    renderiza_linha_recursivo(Window, ProximasPecas, NovoX, Y, LadoCelula).
+gera_linha_renderizavel([], _, []).
+gera_linha_renderizavel([Peca | Pecas], LadoCelula, [Celula | Celulas]) :-
+    gera_celula_renderizavel(Peca, LadoCelula, Celula),
+    gera_linha_renderizavel(Pecas, LadoCelula, Celulas).
 
-renderiza_celula(Peca, LadoCelula, Celula) :-
+gera_celula_renderizavel(Peca, LadoCelula, Celula) :-
     new(Celula, box(LadoCelula, LadoCelula)),
     CodigoPeca is Peca mod 10,
     busca_cor(CodigoPeca, Cor),
     send(Celula, fill_pattern, colour(Cor)).
+
+renderiza_grid(_, _, _, _, []).
+renderiza_grid(Window, X, Y, LadoCelula, [LinhaRenderizavel | LinhasRenderizaveis]) :-
+    renderiza_linha(Window, X, Y, LadoCelula, LinhaRenderizavel),
+    NovoY is Y + LadoCelula,
+    renderiza_grid(Window, X, NovoY, LadoCelula, LinhasRenderizaveis).
+
+renderiza_linha(_, _, _, _, []).
+renderiza_linha(Window, X, Y, LadoCelula, [Celula | Celulas]) :-
+    send(Window, display, Celula, point(X, Y)),
+    NovoX is X + LadoCelula,
+    renderiza_linha(Window, NovoX, Y, LadoCelula, Celulas).
+
+apaga_grid([]).
+apaga_grid([Linha | Linhas]) :-
+    apaga_linha(Linha),
+    apaga_grid(Linhas).
+
+apaga_linha([]).
+apaga_linha([Celula | Celulas]) :-
+    free(Celula),
+    apaga_linha(Celulas).
+
+update_grid([], []).
+update_grid([LinhaGrid | LinhasGrid], [LinhaRenderizavel | LinhasRenderizaveis]) :-
+    update_linha(LinhaGrid, LinhaRenderizavel),
+    update_grid(LinhasGrid, LinhasRenderizaveis).
+
+update_linha([], []).
+update_linha([Peca | Pecas], [Celula | Celulas]) :-
+    CodigoPeca is Peca mod 10,
+    busca_cor(CodigoPeca, Cor),
+    send(Celula, fill_pattern, colour(Cor)),
+    update_linha(Pecas, Celulas).
