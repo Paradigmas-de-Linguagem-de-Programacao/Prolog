@@ -1,4 +1,5 @@
 :- dynamic conquista/2.
 
 conquista("Faixa Preta", "Derrotou ConversaGPT").
+conquista("Se voce nao parar eu Paro", "Tome 5 Pocoes e faça Heanes infartar").
 

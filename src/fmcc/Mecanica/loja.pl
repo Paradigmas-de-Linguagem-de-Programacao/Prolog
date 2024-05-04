@@ -1,4 +1,5 @@
-:- module(loja, [inicializa_loja/1, printa_itens/0, printa_pocao/0, abre_loja_pocao/0, abre_loja_itens/0]).
+:- module(loja, [inicializa_loja/1, printa_itens/0, printa_pocao/0, abre_loja_pocao/0, abre_loja_itens/0, 
+                equipa_item/0, equipa_pocao/0]).
 :- dynamic loja/3.
 :- use_module('../Util/lib.pl').
 
@@ -136,7 +137,7 @@ formata_espada_possuida(Nome, Ataque, String) :- format(atom(String), " ~w | Ata
 formata_armadura_possuida(Nome, Defesa, String) :- format(atom(String), " ~w | Defesa: ~d", [Nome, Defesa]).
 formata_pocao_possuida(Nome, Vida, Ataque, Defesa, String) :- format(atom(String), " ~w | Vida: ~d | Ataque: ~d | Defesa: ~d", [Nome, Vida, Ataque, Defesa]).
 
-equipa_item_aux("VOLTAR").
+equipa_item_aux("VOLTAR"):- writeln("Voltando para o turno preparação").
 equipa_item_aux(Nome) :- (get_equipamentos(Itens), verifica_equips(Nome, Itens, Resultado), Resultado = true ->
     acha_item(Nome, Itens) ; write("Você não possui esse equipamento, assalariado.")).
 

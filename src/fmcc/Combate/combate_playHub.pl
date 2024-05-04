@@ -8,8 +8,9 @@
 
 pre_combate_playHub:-
     historia_pre_combate,
+    jogador_combate_init,
     turno_preparacao,
-    turno_heroi.
+    (verifica_pocoes_tomadas -> morte_pocao ; turno_heroi).
 
 turno_heroi:-
     verifica_inimigo_morto("Hub"),

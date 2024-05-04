@@ -8,9 +8,10 @@
 
 pre_combate_kanva:-
     historia_pre_combate,
+    jogador_combate_init,
     turno_preparacao,
     visualiza_status("Cachorros caramelos"),
-    turno_heroi.
+    (verifica_pocoes_tomadas -> morte_pocao ; turno_heroi).
 
 turno_inimigo:-
     writeln("Os cachorros pulam ferozmente e te mordem"),

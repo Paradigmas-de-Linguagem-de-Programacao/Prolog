@@ -90,12 +90,12 @@ get_pocoes_tomadas(Tomadas) :- jogador_combate(_,_,_,_,Tomadas).
 
 aumenta_pocao_tomada :-
     retract(jogador_combate(Hp_antigo, Ataque_antigo, Defesa_antiga, Potions_antiga, Tomadas_antiga)),
-    Tomadas_atual is Tomadas_antiga + 1,
+    Tomadas_atual is min(5, Tomadas_antiga + 1),
     asserta(jogador_combate(Hp_antigo, Ataque_antigo, Defesa_antiga, Potions_antiga, Tomadas_atual)).
 
 verifica_heroi_morto:- jogador_combate(0, _, _,_ ,_).
 
-verifica_pocoes_tomadas:- jogador_combate(_, _, _,_ ,6).
+verifica_pocoes_tomadas:- jogador_combate(_, _, _,_ ,5).
 
 exibe_jogador_combate :-
     jogador_combate(Vida, Ataque, Defesa,_, Qtde_pocoes_tomadas),

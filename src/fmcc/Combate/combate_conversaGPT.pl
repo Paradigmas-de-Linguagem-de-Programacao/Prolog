@@ -8,11 +8,11 @@
 
 pre_combate_conversaGPT :-
     historia_pre_combate,
+    jogador_combate_init,
     turno_preparacao,
-    %visualiza_status("ConversaGPT"),
+    visualiza_status_gpt_imortal,
     write("\nHeanes: Espere, tem algo errado...que glitchs são esses?? C.W. não me disse nada!!\nConversaGPT:CUIDAAAADO Dog, tubarao vai te pegar."),
-    %o print do gpt nao mostra vida nem defesa, apenas ataque.
-    turno_heroi_gpt1.
+    (verifica_pocoes_tomadas -> morte_pocao ; turno_heroi_gpt1).
 
 turno_heroi_gpt1 :-
     writeln("\n(1) Fugir da batalha covardemente e reclamar que o C.W. não te preparou."),
@@ -33,7 +33,7 @@ turno_heroi_gpt1(_) :- write("\nOpção inválida, tente novamente.\n"), turno_h
 
 turno_aux(Tentativa_de_ataque) :-
     dialogo_gpt_tunado(Tentativa_de_ataque),
-    %imprime status do chatgpt, so que sem alteracao nenhuma, imprime infinitamente os mesmo status.
+    visualiza_status_gpt_imortal,
     Novo_ataque_realizado is Tentativa_de_ataque + 1,
     writeln("\n(0) *Clamar por C.W.*."),
     writeln("(1) Fugir covardemente."),
@@ -69,3 +69,7 @@ historia_pre_combate:-
                    "*Indo em direção ao castelo dessa vez você não encontra ninguem apenas você até que de repente*\nConversaGPT: Olha olha se não é Heanes a pessoa mais falada desse mundo, parece que você andou batendo nos meus amigos não é? Infelizmente pelo bem do meu reinado vou ter que te eliminar, não leve para o pessoal.",
                    "Heanes: Ganhei de todos os outros sem suar e você acha que vai me parar? Conversa, você é apenas o último obstaculo antes de voltar para minha casa e lutar meu judo.",
                    "ConversaGPT: Bom, vamos ver do que você é capaz"]).
+
+visualiza_status_gpt_imortal:-
+    writeln("ConversaGpt | Ataque: Indeterminado | Defesa: Indeterminado | Vida: Indeterminado \n\n").
+

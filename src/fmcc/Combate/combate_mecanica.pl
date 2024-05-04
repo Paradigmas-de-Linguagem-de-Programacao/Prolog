@@ -1,15 +1,20 @@
 :- module(combate_mecanica , [visualiza_status/1, ataque_heroi/1, ataque_inimigo/1,ataque_inimigo_especial/1,
-                              turno_preparacao/0, morte_dano/0, morte_pocao/0]).
+                              turno_preparacao/0, morte_dano/0, morte_pocao/0, toma_pocao/0]).
 
 :- use_module('../Util/lib.pl').
 :- use_module('../Models/inimigo.pl').
 
 turno_preparacao:-
-    writeln("Dê uma olhada nos seus status e nos status de seu inimigo.\nQuando utilizar um item ou poção os atributos vão ser adicionados aos seus status básicos.\nQuando você utiliza um equipamento ou poção, ele é descartado após o combate, logo, tenha cuidado no que vai usar.\n"),
-    jogador_combate_init.
+    writeln("O que nosso herói vai fazer para ficar mais forte??\n\n"),
+    inputNumber("(1)Equipar um item.\n(2)Usar poção.\n(3)Lutar.", Input),
+    turno_preparacao_aux(Input).
+
+turno_preparacao_aux(1) :- equipa_item, esperandoEnter, turno_preparacao.
+turno_preparacao_aux(2) :- equipa_pocao, esperandoEnter, turno_preparacao.
+turno_preparacao_aux(3) :- writeln("Dê uma olhada nos seus status e nos status de seu inimigo.\nQuando utilizar uma poção os atributos vão ser adicionados aos seus status básicos, ao usar essa é descartado após o combate, logo, tenha cuidado no que vai usar.\n\n").
+turno_preparacao_aux(_) :- writeln("Opção inválida, tente novamente"), turno_preparacao.
 
 visualiza_status(Nome_inimigo):-
-    writeln("Dê uma olhada nos seus status e nos status de seu inimigo.\nQuando utilizar uma poção os atributos vão ser adicionados aos seus status básicos, ao usar essa é descartado após o combate, logo, tenha cuidado no que vai usar.\n\n"),
     writeln("Status Inimigo: "),
     exibe_inimigo(Nome_inimigo),
     formata_texto,
@@ -32,6 +37,10 @@ ataque_inimigo_especial(Nome_Inimigo):-
     get_habilidade_especial_inimigo(Nome_Inimigo, Habilidade),
     recebe_dano(Habilidade),
     exibe_jogador_combate, nl.
+
+toma_pocao:-
+    writeln("Nosso herói precisa se abastecer vamos lá"),
+    equipa_pocao.
 
 morte_dano:- 
     printString("Você morreu, sei que é complicado digerir isso mas é um jogo então sempre da pra voltar! Porém, você perdeu TODAS AS MOEDAS.\n").
