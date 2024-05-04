@@ -14,7 +14,6 @@ gerador_matriz(DimensaoX, DimensaoY, [Linha | RestoMatriz]) :- gerador_linha(Dim
 quick_start :-
     gerador_matriz(10, 20, Grid),
     gera_I(PrimeiraPeca, (Xo, Yo), (Xf, Yf)),
-    gera_L(SegundaPeca, _, _),
     gerador_matriz(10, 20, Grid),
     atribuicao_peca(Grid, PrimeiraPeca, [Xo, Yo], [Xf, Yf], NovaGrid),
-    create_estado(NovaGrid, 0, 0, 0, 0, PrimeiraPeca, SegundaPeca, 0, 60).
+    create_estado(NovaGrid, 0, 1, 0, 0, PrimeiraPeca, 1, 0, 60).

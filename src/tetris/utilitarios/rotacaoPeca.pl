@@ -43,18 +43,18 @@ gera_coordenadas([Xo, Yo], [Xf, Yf], [NovoXo, Yo], [NovoXf, Yf]) :- calcula_dime
                                                                                             (NovoXf is Xf + Diferenca, NovoXo = Xo)
                                                                     ), !.
 
-gera_peca_linha(_, [], []).
-gera_peca_linha(LinhaGrid, [IndiceX | IndicesX], [Peca | Pecas]) :- nth0(IndiceX, LinhaGrid, PossivelPeca),
-                                                                    (eh_peca(PossivelPeca) -> Peca = PossivelPeca ; Peca = 0),
-                                                                    gera_peca_linha(LinhaGrid, IndicesX, Pecas).
+% gera_peca_linha(_, [], []).
+% gera_peca_linha(LinhaGrid, [IndiceX | IndicesX], [Peca | Pecas]) :- nth0(IndiceX, LinhaGrid, PossivelPeca),
+%                                                                     (eh_peca(PossivelPeca) -> Peca = PossivelPeca ; Peca = 0),
+%                                                                     gera_peca_linha(LinhaGrid, IndicesX, Pecas).
 
-gera_peca_recursivo(_, _, [], []).
-gera_peca_recursivo(Grid, IndicesX, [IndiceY | IndicesY], [LinhaMatriz | LinhasMatriz]) :- nth0(IndiceY, Grid, LinhaGrid),
-                                                                                           gera_peca_linha(LinhaGrid, IndicesX, LinhaMatriz),
-                                                                                           gera_peca_recursivo(Grid, IndicesX, IndicesY, LinhasMatriz).
+% gera_peca_recursivo(_, _, [], []).
+% gera_peca_recursivo(Grid, IndicesX, [IndiceY | IndicesY], [LinhaMatriz | LinhasMatriz]) :- nth0(IndiceY, Grid, LinhaGrid),
+%                                                                                            gera_peca_linha(LinhaGrid, IndicesX, LinhaMatriz),
+%                                                                                            gera_peca_recursivo(Grid, IndicesX, IndicesY, LinhasMatriz).
 
-gera_peca(Grid, [Xo, Yo], [Xf, Yf], Peca) :- gera_indices([Xo, Yo], [Xf, Yf], IndicesX, IndicesY),
-                                             gera_peca_recursivo(Grid, IndicesX, IndicesY, Peca).
+% gera_peca(Grid, [Xo, Yo], [Xf, Yf], Peca) :- gera_indices([Xo, Yo], [Xf, Yf], IndicesX, IndicesY),
+%                                              gera_peca_recursivo(Grid, IndicesX, IndicesY, Peca).
  
 gera_indices([Xo, Yo], [Xf, Yf], IndicesX, IndicesY) :- findall(X, between(Xo,Xf,X), IndicesX),
                                                         findall(Y, between(Yo,Yf,Y), IndicesY).

@@ -14,7 +14,7 @@ mock_tetris :-
     
     quick_start,
     
-    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, _, ProximaPeca, _, _ ),
+    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, _, IdProximaPeca, _, _ ),
     
     new(@window, picture('tetris')),
     send(@window, size, size(1200, 800)),
@@ -28,6 +28,8 @@ mock_tetris :-
 
     renderiza_grid(@window, 400, 100, 30, GridVisao),
     
+    gera_peca(IdProximaPeca, ProximaPeca, _, _),
+
     gera_grid_renderizavel(ProximaPeca, 30, PecaRenderizavel),
 
     create_grid_peca(PecaRenderizavel),
@@ -55,47 +57,72 @@ mock_tetris :-
     send(K, function, 'Z', message(@prolog, evento_tecla_z)).
 
 evento_tecla_down :-
-    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, ProximaPeca, FramePast, FrameNeed ),
-    ( verifica_shift_baixo(Grid) -> 
-        jogar_para_baixo(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, ProximaPeca, FramePast, FrameNeed); 
-        evento_whatever('pode não') ).
+    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed ),
+    jogar_para_baixo( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed, _).
 
 evento_tecla_left :-
-    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, ProximaPeca, FramePast, FrameNeed ),
+    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed ),
     (
         verifica_shift_esquerda(Grid) -> (
             shift_esquerda(Grid, NovaGrid),
             get_grid_jogo(GridRenderizavel),
             update_grid(NovaGrid, GridRenderizavel),
-            update_estado( NovaGrid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, ProximaPeca, FramePast, FrameNeed )
+            update_estado( NovaGrid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed )
         );
             evento_whatever('pode não')).
 
 evento_tecla_right :-
-    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, ProximaPeca, FramePast, FrameNeed ),
+    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed ),
     (
         verifica_shift_direita(Grid) -> (
             shift_direita(Grid, NovaGrid),
             get_grid_jogo(GridRenderizavel),
             update_grid(NovaGrid, GridRenderizavel),
-            update_estado( NovaGrid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, ProximaPeca, FramePast, FrameNeed )
+            update_estado( NovaGrid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed )
         );
             evento_whatever('pode não')).
 
 evento_tecla_space :-
-    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, ProximaPeca, FramePast, FrameNeed ),
-    (
-        verifica_shift_baixo(Grid) -> (
-            jogar_para_baixo(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, ProximaPeca, FramePast, FrameNeed),
-            evento_tecla_space
-        );
-            evento_whatever('acabei')).
+    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed ),
+    jogar_para_baixo( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed, Change),
+    (Change = 0 -> evento_tecla_space; writeln('tome')).
 
-jogar_para_baixo(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, ProximaPeca, FramePast, FrameNeed) :- 
-    shift_baixo(Grid, NovaGrid),
-    get_grid_jogo(GridRenderizavel),
-    update_grid(NovaGrid, GridRenderizavel),
-    update_estado( NovaGrid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, ProximaPeca, FramePast, FrameNeed ). 
+jogar_para_baixo( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed, Mudei ):- 
+    (verifica_shift_baixo(Grid) -> (
+                shift_baixo(Grid, NovaGrid),
+                get_grid_jogo(GridRenderizavel),
+                update_grid(NovaGrid, GridRenderizavel),
+                update_estado( NovaGrid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FramePast, FrameNeed ),
+                Mudei = 0
+            ); (            
+                
+                congelar_tudo(Grid, GridCongelada),
+                
+                gera_peca(IdProximaPeca, NovaAtualPeca, (Xo, Yo), (Xf, Yf)),
+                
+                atribuicao_peca(GridCongelada, NovaAtualPeca, [Xo, Yo], [Xf, Yf], NovaGrid),
+                get_grid_jogo(GridRenderizavel),
+                update_grid(NovaGrid, GridRenderizavel),
+
+                get_grid_peca(PecaRenderizavelAtual),
+                apaga_grid(PecaRenderizavelAtual),
+
+                NovoIdProximaPeca is ((IdProximaPeca + Linhas + Nivel + Tempo + Pontuacao) mod 7),
+                
+                gera_peca(NovoIdProximaPeca, ProximaPeca, _, _),
+
+                gera_grid_renderizavel(ProximaPeca, 30, PecaRenderizavel),
+                
+                create_grid_peca(PecaRenderizavel),
+                
+                reverse(PecaRenderizavel, PecaVisao),
+                
+                renderiza_grid(@window, 800, 350, 30, PecaVisao),
+ 
+                update_estado( NovaGrid, Linhas, Nivel, Tempo, Pontuacao, NovaAtualPeca, NovoIdProximaPeca, FramePast, FrameNeed ),
+
+                Mudei = 1            
+            )).
 
 evento_tecla_x :-
     writeln('x').
@@ -105,8 +132,15 @@ evento_tecla_z :-
 
 evento_tecla_r :-
     quick_start,
-    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, _, ProximaPeca, _, _ ),
+    estado( Grid, Linhas, Nivel, Tempo, Pontuacao, _, IdProximaPeca, _, _ ),
     get_grid_jogo(GridRenderizavel),
-    update_grid(Grid, GridRenderizavel).
+    update_grid(Grid, GridRenderizavel),
+    get_grid_peca(PecaRenderizavelAtual),
+    apaga_grid(PecaRenderizavelAtual),
+    gera_peca(IdProximaPeca, ProximaPeca, _, _),
+    gera_grid_renderizavel(ProximaPeca, 30, PecaRenderizavel),
+    create_grid_peca(PecaRenderizavel),
+    reverse(PecaRenderizavel, PecaVisao),
+    renderiza_grid(@window, 800, 350, 30, PecaVisao).
 
 evento_whatever(Tecla) :- writeln(Tecla).
