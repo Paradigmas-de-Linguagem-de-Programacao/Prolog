@@ -12,8 +12,7 @@ congelar_tudo([Linha|Linhas], [LinhaCongelada|LinhasCongeladas]) :-
 
 congelar_linha([],[]).
 congelar_linha([Peca|ProximasPecas], [PecaCongelada|ProximasPecasCongeladas]) :- 
-    (eh_peca(Peca) -> PecaCongelada is Peca + 10; 
-    PecaCongelada = Peca), 
+    (eh_peca(Peca) -> PecaCongelada is Peca + 10; PecaCongelada = Peca), 
     congelar_linha(ProximasPecas, ProximasPecasCongeladas).
 
 

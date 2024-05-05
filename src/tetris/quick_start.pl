@@ -16,4 +16,4 @@ quick_start :-
     gera_I(PrimeiraPeca, (Xo, Yo), (Xf, Yf)),
     gerador_matriz(10, 20, Grid),
     atribuicao_peca(Grid, PrimeiraPeca, [Xo, Yo], [Xf, Yf], NovaGrid),
-    create_estado(NovaGrid, 0, 1, 0, 0, PrimeiraPeca, 1, 0, 60).
+    create_estado(NovaGrid, 0, 1, 0, 0, PrimeiraPeca, 1, 60, 0, 0).

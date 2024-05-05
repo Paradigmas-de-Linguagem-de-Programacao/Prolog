@@ -50,3 +50,23 @@ pacote_texto_estado_jogo(Window, (Pontuacao, Nivel, Linhas, Tempo), (TextoPontua
     send(TextoNivel, font, FontEstado),
     send(TextoLinhas, font, FontEstado),
     send(TextoTempo, font, FontEstado).
+
+pacote_texto_termino(Window, -1, TextoTermino) :-
+    X = 800,
+
+    new(FontEstado, font(times, bold, 15)),
+    new(TextoTermino, text('Você perdeu')),
+
+    send(Window, display, TextoTermino, point(X, 100)),
+
+    send(TextoTermino, font, FontEstado).
+
+pacote_texto_termino(Window, 1, TextoTermino) :-
+    X = 800,
+
+    new(FontEstado, font(times, bold, 15)),
+    new(TextoTermino, text('Você venceu')),
+
+    send(Window, display, TextoTermino, point(X, 100)),
+
+    send(TextoTermino, font, FontEstado).
