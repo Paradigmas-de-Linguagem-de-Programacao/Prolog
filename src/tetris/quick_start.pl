@@ -11,9 +11,13 @@ gerador_matriz(DimensaoX, DimensaoY, [Linha | RestoMatriz]) :- gerador_linha(Dim
                                                                NovaDimensaoY is DimensaoY - 1,
                                                                gerador_matriz(DimensaoX, NovaDimensaoY, RestoMatriz).                                                                   
 
+frame_rate(60).
+
 quick_start :-
+    criar_fila_de_processamento,
     gerador_matriz(10, 20, Grid),
     gera_I(PrimeiraPeca, (Xo, Yo), (Xf, Yf)),
     gerador_matriz(10, 20, Grid),
     atribuicao_peca(Grid, PrimeiraPeca, [Xo, Yo], [Xf, Yf], NovaGrid),
-    create_estado(NovaGrid, 0, 1, 0, 0, PrimeiraPeca, 1, 12, 0, 0).
+    frame_rate(TAXA_FRAMES),
+    create_estado(NovaGrid, 0, 1, 0, 0, PrimeiraPeca, 1, TAXA_FRAMES, 0, 0).

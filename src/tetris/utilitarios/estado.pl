@@ -39,3 +39,17 @@ update_caixas_texto(NovaTextoPontuacao, TextoNivel, TextoLinhas, TextoTempo) :-
 create_caixa_termino(NovoTextoTermino) :-
     retractall(mensagem_termino(_)),
     assertz(mensagem_termino(NovoTextoTermino)).
+
+criar_fila_de_processamento :-
+    retractall(fila_processamento(_)),
+    assertz(fila_processamento([])).
+
+adicionar_processamento_fila(NumeroProcessamento) :-
+    fila_processamento(ProcessamentoAteAgora),
+    retract(fila_processamento(_)),
+    assertz(fila_processamento([NumeroProcessamento | ProcessamentoAteAgora])).
+
+retirar_processamento(NumeroProcessamento) :-
+    fila_processamento([NumeroProcessamento | ProcessamentoAteAgora]),
+    retract(fila_processamento(_)),
+    assertz(fila_processamento([ProcessamentoAteAgora])).
