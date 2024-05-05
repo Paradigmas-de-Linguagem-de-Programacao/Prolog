@@ -70,7 +70,8 @@ atualizador_tempo :-
     atualizador_tempo, !.
 
 atualizador_tempo :- 
-    estado(_, _, _, _, _, _, _, _, _, 0),    
+    estado(_, _, _, _, _, _, _, _, _, Muda),
+    Muda =\= 2,    
     atualizador_tempo.
 
 evento_tecla_down :-

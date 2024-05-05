@@ -10,13 +10,15 @@ pacote_texto_tutorial(Window) :-
     send(Window, display, new(TextoTutorial5, text('Z - Rotacionar anti-horario')), point(X,300)),
     send(Window, display, new(TextoTutorial6, text('X - Rotacionar horario')), point(X,350)),
     send(Window, display, new(TextoTutorial7, text('espaco - Jogar a peca pra baixo')), point(X,400)),
+    send(Window, display, new(TextoTutorial8, text('esc - sair do jogo')), point(X,450)),
     send(TextoTutorial1, font, FontTutorial),
     send(TextoTutorial2, font, FontTutorial),
     send(TextoTutorial3, font, FontTutorial),
     send(TextoTutorial4, font, FontTutorial),
     send(TextoTutorial5, font, FontTutorial),
     send(TextoTutorial6, font, FontTutorial),
-    send(TextoTutorial7, font, FontTutorial).
+    send(TextoTutorial7, font, FontTutorial),
+    send(TextoTutorial8, font, FontTutorial).
 
 pacote_texto_fixo(Window) :-
     X = 800,
