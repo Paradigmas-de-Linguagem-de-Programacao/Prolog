@@ -50,9 +50,9 @@ mock_tetris :-
     atualizador_tempo.
 
 atualizador_tempo :-
-    estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0),
     TempoEspera is 1/60, 
     sleep(TempoEspera),
+    estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0),
     NovoFramePast is FramePast + 1,
     ((NovoFramePast mod FrameNeed) =:= 0 -> 
         jogar_para_baixo(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, NovoFramePast,  _); 
@@ -183,7 +183,7 @@ jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, _, IdProximaPeca, _, FrameP
         (JogoTerminou = 1, pacote_texto_termino(@window, 1, TextoTermino), create_caixa_termino(TextoTermino)); 
         JogoTerminou = 0),
 
-    NovoFrameNeed is 60 // NovoNivel,
+    NovoFrameNeed is 60 - NovoNivel * 5,
 
     atualiza_estado_jogo(NovaPontuacao, NovoNivel, NovasLinhas, NovoTempo),
     update_estado(NovaGrid, NovasLinhas, NovoNivel, NovoTempo, NovaPontuacao, NovaAtualPeca, NovoIdProximaPeca, NovoFrameNeed, FramePast, JogoTerminou), 
