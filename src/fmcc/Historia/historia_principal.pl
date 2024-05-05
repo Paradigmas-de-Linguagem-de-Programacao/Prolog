@@ -12,7 +12,6 @@ curso_historia(Progresso):-
     dialogo_historia(Progresso),
     historia_principal.
 
-
 historia_principal:-
     writeln("O que deseja fazer agora que está de volta a cidade?\n"),
     writeln("(1) Ganhar dinheiro"),

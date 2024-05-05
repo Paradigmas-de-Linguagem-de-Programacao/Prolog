@@ -32,8 +32,6 @@ escolha_acao_heroi(_):- writeln("Digite uma opção válida."), turno_heroi.
 combate_kanva:-
     printString("*Sem tempo para comemorar a vitória você é puxado para dentro do museu deixando Leandro para trás.*\n"),
     writeln("Se prepare rapidamente para o combate!."),
-    printString("C.W. te acompanhou de longe e liberou uma poção a mais no seu inventário, essa poção é uma nova criação do Mestre dos Magos, e não pode ser comprada.\n"),
-    %funcao que adiciona o monster
     combate_IA(1).
 
 historia_pre_combate:-

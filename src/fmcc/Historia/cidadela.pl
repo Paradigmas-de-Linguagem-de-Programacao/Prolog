@@ -4,7 +4,7 @@
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Historia/historia_principal.pl').
 
-opcao(1, Progresso) :- visualizarItensLoja(Progresso). % colocar aqui o ir pra loja
+opcao(1, _) :- printa_itens, esperandoEnter.
 opcao(2, Progresso) :- dialogoFerreira(Progresso).
 opcao(3, Progresso) :- dialogoPraca(Progresso).
 opcao(4, Progresso) :- curso_historia(Progresso).
