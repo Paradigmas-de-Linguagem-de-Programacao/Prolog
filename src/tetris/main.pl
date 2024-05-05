@@ -1,6 +1,7 @@
 :- consult('tetris.pl').
 :- consult('conquistas.pl').
 :- consult('utilitarios/estado.pl').
+:- consult('../fmcc/Util/lib.pl').
 
 main(Diretorio) :-
     atom_concat(Diretorio, '/conquistas_tetris.json', Arquivo),
@@ -14,8 +15,8 @@ menu :-
     writeln('1- Jogar '),
     writeln('2- Ver suas conquistas '),
     writeln('3 - Voltar ao fliperma'),
-    read(Opcao),
-    escolha(Opcao).
+    inputNumber('', N),
+    escolha(N).
 
 escolha(1) :- mock_tetris, menu, !.
 
