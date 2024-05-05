@@ -70,7 +70,9 @@ mock_tetris :-
     send(K, function, 'Z', message(@prolog, adiciona_evento_tecla_z)),
     send(K, function, '\\e', message(@prolog, adiciona_evento_tecla_esc)),
 
-    atualizador_tempo.
+    atualizador_tempo,
+
+    halt.
 
 verifica_jogo_nao_acabou :-
     estado(_, _, _, _, _, _, _, _, _, Muda),
@@ -95,7 +97,10 @@ atualizador_tempo :-
 
 atualizador_tempo :-
     verifica_jogo_nao_acabou,
-    atualizador_tempo.
+    atualizador_tempo, !.
+
+atualizador_tempo :-
+    halt.
 
 evento_tecla_esc :-
     criar_fila_de_processamento,
