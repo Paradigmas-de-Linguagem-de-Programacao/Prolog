@@ -23,7 +23,6 @@ caminhadaCidadela(Progresso):-
     opcoesCaminhaCidadela(Progresso),
     writeln("\n------------------------------------------------------------------------------------\n"),
     lib:inputNumber("Faça sua escolha: ", Escolha),
-    lib:clearScreen,
     escolhaCaminhaDaCidadela(Escolha, Progresso).
 
 
@@ -40,9 +39,9 @@ escolhaCidadela(_ , _):-
     irCidadelaDeCristal.
 
 irCidadelaDeCristal:-
-    % getProgresso que iria ditar qual fase e qual mensagem ia aparecer
-    Progresso = 2,
+    get_progresso(Progresso),
     dialogoInicial(Progresso),
+    write("------------------------------------------------------------------------------------\n"),
     lib:inputNumber("Faça sua escolha: ", Escolha),
     escolhaCidadela(Escolha, Progresso).
 

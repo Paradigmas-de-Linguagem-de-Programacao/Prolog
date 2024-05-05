@@ -1,3 +1,22 @@
+mapeia_evento(0) :- evento_frame_rate.
+mapeia_evento(1) :- evento_tecla_down.  
+mapeia_evento(2) :- evento_tecla_left.
+mapeia_evento(3) :- evento_tecla_right.
+mapeia_evento(4) :- evento_tecla_r.
+mapeia_evento(5) :- evento_tecla_space.
+mapeia_evento(6) :- evento_tecla_x.
+mapeia_evento(7) :- evento_tecla_z.
+mapeia_evento(8) :- evento_tecla_esc.
+
+adiciona_evento_tecla_down :- adicionar_processamento_fila(1).
+adiciona_evento_tecla_left :- adicionar_processamento_fila(2).
+adiciona_evento_tecla_right :- adicionar_processamento_fila(3).
+adiciona_evento_tecla_r :- adicionar_processamento_fila(4).
+adiciona_evento_tecla_space :- adicionar_processamento_fila(5).
+adiciona_evento_tecla_x :- adicionar_processamento_fila(6).
+adiciona_evento_tecla_z :- adicionar_processamento_fila(7).
+adiciona_evento_tecla_esc :- adicionar_processamento_fila(8).
+
 :- use_module(library(pce)).
 
 :- consult('quick_start.pl').
@@ -9,7 +28,6 @@
 :- consult('utilitarios/rotacaoPeca.pl').
 
 mock_tetris :-
-
     quick_start,
 
     estado( Grid, Linhas, Nivel, Tempo, Pontuacao, _, IdProximaPeca, _, _, 0 ),
@@ -18,7 +36,7 @@ mock_tetris :-
     send(@window, size, size(1200, 800)),
     send(@window, open),
     
-    pacote_texto_termino(@window, 1, TextoTermino),
+    pacote_texto_termino(@window, -1, TextoTermino),
     create_caixa_termino(TextoTermino),
     free(TextoTermino),
 
@@ -40,45 +58,65 @@ mock_tetris :-
     create_caixas_texto(TextoPontuacao, TextoNivel, TextoLinhas, TextoTempo),
 
     send(@window, recogniser, new(K, key_binding(@nil, argument))),
-    send(K, function, 'cursor_down', message(@prolog, evento_tecla_down)),
-    send(K, function, 'cursor_left', message(@prolog, evento_tecla_left)),
-    send(K, function, 'cursor_right', message(@prolog, evento_tecla_right)),
-    send(K, function, 'r', message(@prolog, evento_tecla_r)),
-    send(K, function, 'R', message(@prolog, evento_tecla_r)),
-    send(K, function, 'SPC', message(@prolog, evento_tecla_space)),
-    send(K, function, 'x', message(@prolog, evento_tecla_x)),
-    send(K, function, 'X', message(@prolog, evento_tecla_x)),
-    send(K, function, 'z', message(@prolog, evento_tecla_z)),
-    send(K, function, 'Z', message(@prolog, evento_tecla_z)),
-    send(K, function, '\\e', message(@prolog, evento_tecla_esc)),
+    send(K, function, 'cursor_down', message(@prolog, adiciona_evento_tecla_down)),
+    send(K, function, 'cursor_left', message(@prolog, adiciona_evento_tecla_left)),
+    send(K, function, 'cursor_right', message(@prolog, adiciona_evento_tecla_right)),
+    send(K, function, 'r', message(@prolog, adiciona_evento_tecla_r)),
+    send(K, function, 'R', message(@prolog, adiciona_evento_tecla_r)),
+    send(K, function, 'SPC', message(@prolog, adiciona_evento_tecla_space)),
+    send(K, function, 'x', message(@prolog, adiciona_evento_tecla_x)),
+    send(K, function, 'X', message(@prolog, adiciona_evento_tecla_x)),
+    send(K, function, 'z', message(@prolog, adiciona_evento_tecla_z)),
+    send(K, function, 'Z', message(@prolog, adiciona_evento_tecla_z)),
+    send(K, function, '\\e', message(@prolog, adiciona_evento_tecla_esc)),
 
     atualizador_tempo.
 
+verifica_jogo_nao_acabou :-
+    estado(_, _, _, _, _, _, _, _, _, Muda),
+    Muda =\= 2.
+
+espera_frame :-
+    frame_rate(TAXAFRAMES),
+    TempoEspera is 1 / TAXAFRAMES,
+    sleep(TempoEspera).
+
+atualizador_tempo :-
+    verifica_jogo_nao_acabou,
+    retirar_processamento(NumeroProcessamento),
+    mapeia_evento(NumeroProcessamento),
+    atualizador_tempo, !.
+
+atualizador_tempo :-
+    verifica_jogo_nao_acabou,
+    espera_frame,
+    evento_frame_rate,
+    atualizador_tempo, !.
+
+atualizador_tempo :-
+    verifica_jogo_nao_acabou,
+    atualizador_tempo, !.
+
+atualizador_tempo.
+
 evento_tecla_esc :-
+    criar_fila_de_processamento,
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, _),
     update_estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 2),
     free(@window).
 
-atualizador_tempo :-
-    TempoEspera is 1/12,
-    sleep(TempoEspera),
+evento_frame_rate :-
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0),
     NovoFramePast is FramePast + 1,
     ((NovoFramePast mod FrameNeed) =:= 0 -> 
         jogar_para_baixo(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, NovoFramePast,  _); 
-        update_estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, NovoFramePast, 0)), 
-    atualizador_tempo, !.
-
-atualizador_tempo :- 
-    estado(_, _, _, _, _, _, _, _, _, Muda),
-    Muda =\= 2,    
-    atualizador_tempo.
+        update_estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, NovoFramePast, 0)), !.
 
 evento_tecla_down :-
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ),
     jogar_para_baixo( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, _),
     estado( NovaGrid, NovasLinhas, NovoNivel, Tempo, NovaPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0),
-    FinalPontuacao is NovaPontuacao + 5,
+    FinalPontuacao is NovaPontuacao + 2,
     atualiza_estado_jogo(FinalPontuacao, NovoNivel, NovasLinhas, Tempo),
     update_estado(NovaGrid, NovasLinhas, NovoNivel, Tempo, FinalPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0).
 
@@ -105,12 +143,12 @@ evento_tecla_right.
 evento_tecla_space :-
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ),
     jogar_para_baixo( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, Change),
-    estado( NovaGrid, NovasLinhas, NovoNivel, Tempo, NovaPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0),
-    FinalPontuacao is NovaPontuacao + 20,
-    atualiza_estado_jogo(FinalPontuacao, NovoNivel, NovasLinhas, Tempo),
-    update_estado(NovaGrid, NovasLinhas, NovoNivel, Tempo, FinalPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0),
+    estado( NovaGrid, NovasLinhas, NovoNivel, NovoTempo, NovaPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0),
+    FinalPontuacao is NovaPontuacao + 10,
+    atualiza_estado_jogo(FinalPontuacao, NovoNivel, NovasLinhas, NovoTempo),
+    update_estado(NovaGrid, NovasLinhas, NovoNivel, NovoTempo, FinalPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0),
     Change = 0,
-    evento_tecla_space.
+    evento_tecla_space, !.
 
 evento_tecla_space.
 
@@ -159,7 +197,8 @@ evento_tecla_r :-
     atualiza_estado_jogo(Pontuacao, Nivel, Linhas, Tempo).
 
 jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ):- 
-    NovoTempo is FramePast // 12,
+    frame_rate(TAXA_FRAMES),
+    NovoTempo is FramePast // TAXA_FRAMES,
     verifica_shift_baixo(Grid),
     shift_baixo(Grid, NovaGrid),
     grid_jogo(GridRenderizavel),
@@ -169,7 +208,8 @@ jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, AtualPeca, IdProximaPeca, F
     !.
 
 jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, _, IdProximaPeca, _, FramePast, 1 ):-             
-    NovoTempo is FramePast // 12,
+    frame_rate(TAXA_FRAMES),
+    NovoTempo is FramePast // TAXA_FRAMES,
     congelar_tudo(Grid, GridCongelada),
     clear_game(GridCongelada, GridLimpa, QuantidadeLinhasLimpas),
     gera_peca(IdProximaPeca, NovaAtualPeca, (Xo, Yo), (Xf, Yf)),
@@ -192,11 +232,18 @@ jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, _, IdProximaPeca, _, FrameP
     NovoNivel is (NovasLinhas // 10) + 1,
     NovaPontuacao is (Pontuacao + QuantidadeLinhasLimpas * NovoNivel * 5),
 
-    (NovoNivel >= 6 -> 
-        (JogoTerminou = 1, pacote_texto_termino(@window, 1, TextoTermino), create_caixa_termino(TextoTermino)); 
+    nivel_maximo(NivelMaximo),
+
+    (NovoNivel >= NivelMaximo -> 
+        (
+            JogoTerminou = 1, 
+            pacote_texto_termino(@window, 1, TextoTermino), 
+            create_caixa_termino(TextoTermino), 
+            escrever_estatistica(NovoTempo, NovaPontuacao)
+        ); 
         JogoTerminou = 0),
 
-    NovoFrameNeed is 12 // Nivel,
+    NovoFrameNeed is TAXA_FRAMES - ((NovoNivel - 1) * 30) + 1,
 
     atualiza_estado_jogo(NovaPontuacao, NovoNivel, NovasLinhas, NovoTempo),
     update_estado(NovaGrid, NovasLinhas, NovoNivel, NovoTempo, NovaPontuacao, NovaAtualPeca, NovoIdProximaPeca, NovoFrameNeed, FramePast, JogoTerminou), 

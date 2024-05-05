@@ -1,9 +1,11 @@
 :- use_module('./Util/lib.pl').
 :- use_module('./Util/dialogos.pl').
-:- use_module('./Historia/prologo.pl').
+:- consult('./Util/salvamento.pl').
+:- consult('./Models/jogador.pl').
 
-mock_fmcc:- 
-    % função que vai pegar o jogador do banco de dados
+
+mock_fmcc:-
+    carrega_conquista,
     menu.
 
 menu :-
@@ -13,20 +15,23 @@ menu :-
     menuOpcao(Escolha).
 
 menuOpcao(1) :-
-    prologo:comecaJogo,
+    salvamento:comeca_jogo,
     menu.
 
 menuOpcao(2) :-
-    % vai ser a funçao de carregaJogo,
-    esperandoEnter,
+    salvamento:carrega_jogo,
     menu.
 
 menuOpcao(3) :-
-    % help,
+    salvamento:help,
+    menu.
+
+menuOpcao(4):-
+    mostra_conquista,
     esperandoEnter,
     menu.
 
-menuOpcao(4) :-
+menuOpcao(5) :-
     writeln('Então você decidiu dar uma pausa. Tudo bem... Espero que você volte. Aqui não é o mesmo sem você.').
 
 menuOpcao(_) :-

@@ -4,6 +4,7 @@
 :- use_module('../Util/lib.pl').
 :- use_module('./cidadela.pl').
 
+
 comecaJogo:-
     dialogos:contaHistoria([
         "*Um professor de matemática de uma universidade localizada em Campina Extensa, enquanto dava uma aula sobre o Teorema do resto chines...*\n\nHeanes: Bom turma e agora aplicando euclides para descobrir o md…\n",
@@ -11,12 +12,12 @@ comecaJogo:-
         "Carl Wilson: Olá professor, sei que você possivelmente não está entendendo o por que não está em uma sala de aula às 8:27 da manhã mas não temos tempo para uma longa explicação.\n",
         "Carl Wilson: Precisamos da sua ajuda. O nosso mundo tem uma força que não conseguimos controlar e nem entender, chamada Inteligência Artificial. Você nos ajudaria nessa caminhada para proteger nossa cidadela de cristal?\n"
     ]),
-    input("Professor: Calma, um momen…\n\nCarl Wilson: Por favor faça sua escolha.\n\n(1) Sim, quero ajudar.\n(2) Prefiro morrer.\n", Decisao),
+    inputNumber("Professor: Calma, um momen…\n\nCarl Wilson: Por favor faça sua escolha.\n\n(1) Sim, quero ajudar.\n(2) Prefiro morrer.\nFaça sua escolha: ", Decisao),
     escolha_jogador(Decisao).
 
-escolha_jogador('1'):- inicioAventura.
+escolha_jogador(1):- inicioAventura.
 
-escolha_jogador('2'):- 
+escolha_jogador(2):- 
     lib:printString("Heanes: Estava dando minha aula e quero voltar a ela, me mande de volta."),
     negaCarl(1).
 
@@ -28,16 +29,15 @@ escolha_jogador(_):-
 negaCarl(8):-
     writeln("Heanes: Quantas vezes vou ter que repetir eu não quero fazer isso???"),
     writeln("Carl Wilson: Então você escolheu isso... não me culpe meu amigo\n\n*você foi ejetado para o limbo*\n"),
-    %desbloquea conquista jubilado,
-    esperandoEnter,
+    desbloquea_conquista("Jubilado"),
     !.
 
 negaCarl(VezesNegado):-
     writeln("Pense melhor sobre isso professor...\n"),
-    writeln("(1) Sim, quero ajudar.\n(2) Prefiro morrer.\n"), % colocar a logica de repetir Nao VezesNegado
+    write("(1) Sim, quero ajudar.\n(2) "), replica_String("Não ", VezesNegado),
     writeln("\n------------------------------------------------------------------------------------\n"),
-    input("Qual sua escolha: ", EscolhaJogador),
-    (EscolhaJogador = '2' -> NegadoMaisUmaVez is VezesNegado + 1 , clearScreen , negaCarl(NegadoMaisUmaVez) ; escolha_jogador("Dog")).
+    inputNumber("Qual sua escolha: ", EscolhaJogador),
+    (EscolhaJogador =:= 2 -> NegadoMaisUmaVez is VezesNegado + 1 , clearScreen , negaCarl(NegadoMaisUmaVez) ; escolha_jogador("Dog")).
 
 
 inicioAventura:-
@@ -51,5 +51,5 @@ inicioAventura:-
         "C.W.: Bom, eu esqueci um energético no caldeirão, fique livre para explorar a cidade e falar com todos, e quando se sentir tranquilo vá até a minha torre para você entender sobre as forças desse mundo.\n"
     ]),
     clearScreen,
-    % atualizar progresso player para 1,
+    salvamento:checkPoint,
     cidadela:irCidadelaDeCristal.
