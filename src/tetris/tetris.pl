@@ -60,7 +60,7 @@ evento_tecla_esc :-
     free(@window).
 
 atualizador_tempo :-
-    TempoEspera is 1/12, 
+    TempoEspera is 1/12,
     sleep(TempoEspera),
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0),
     NovoFramePast is FramePast + 1,
