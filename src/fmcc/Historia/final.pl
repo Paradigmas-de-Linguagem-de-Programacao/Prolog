@@ -3,18 +3,17 @@
 :- use_module('../Util/lib.pl').
 
 fim_de_jogo:-
-    lib:printString("Você acorda e vê pessoas ao redor da sua casa, você é um heroi completo agora, saia e vá falar com seus fãs você merece a fama"),
+    lib:printString("Você olha pela janela e vê ao redor da sua casa uma multidão de pessoas, você é um heroi completo agora, saia e vá falar com seus fãs você merece a fama"),
     escolha_final.
 
 escolha_final:-
     maplist(writeln , ["(1) Conversar com o Ferreira.", 
                        "(2) Ir à praça da cidade.", 
                        "(3) Ir à um beco escuro que está te chamando",
-                       "(4) Ir à mestre dos magos.",
+                       "(4) Ir ao mestre dos magos.",
                        "(5) Voltar ao menu"]),
     write("\n------------------------------------------------------------------------------------\n"),
     lib:inputNumber("Faça sua escolha: ", Escolha),
-    lib:clearScreen,
     opcao_final(Escolha).
 
 opcao_final(5):- voltaMenu, !.
