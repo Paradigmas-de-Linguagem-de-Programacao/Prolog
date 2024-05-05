@@ -44,12 +44,17 @@ criar_fila_de_processamento :-
     retractall(fila_processamento(_)),
     assertz(fila_processamento([])).
 
+push_fila([], Elemento, [Elemento]).
+push_fila([Cabeca | Cauda], Elemento, [Cabeca | NovaCauda]) :-
+    push_fila(Cauda, Elemento, NovaCauda).
+
 adicionar_processamento_fila(NumeroProcessamento) :-
     fila_processamento(ProcessamentoAteAgora),
     retract(fila_processamento(_)),
-    assertz(fila_processamento([NumeroProcessamento | ProcessamentoAteAgora])).
+    push_fila(ProcessamentoAteAgora, NumeroProcessamento, NovoProcessamento),
+    assertz(fila_processamento(NovoProcessamento)).
 
 retirar_processamento(NumeroProcessamento) :-
     fila_processamento([NumeroProcessamento | ProcessamentoAteAgora]),
     retract(fila_processamento(_)),
-    assertz(fila_processamento([ProcessamentoAteAgora])).
+    assertz(fila_processamento(ProcessamentoAteAgora)).

@@ -8,14 +8,14 @@ mapeia_evento(6) :- evento_tecla_x.
 mapeia_evento(7) :- evento_tecla_z.
 mapeia_evento(8) :- evento_tecla_esc.
 
-adiciona_evento_tecla_down :- adicionar_processamento_fila(1).
-adiciona_evento_tecla_left :- adicionar_processamento_fila(2).
-adiciona_evento_tecla_right :- adicionar_processamento_fila(3).
-adiciona_evento_tecla_r :- adicionar_processamento_fila(4).
-adiciona_evento_tecla_space :- adicionar_processamento_fila(5).
-adiciona_evento_tecla_x :- adicionar_processamento_fila(6).
-adiciona_evento_tecla_z :- adicionar_processamento_fila(7).
-adiciona_evento_tecla_esc :- adicionar_processamento_fila(8).
+adiciona_evento_tecla_down :- adicionar_processamento_fila(1), fila_processamento(T), writeln(T).
+adiciona_evento_tecla_left :- adicionar_processamento_fila(2), fila_processamento(T), writeln(T).
+adiciona_evento_tecla_right :- adicionar_processamento_fila(3), fila_processamento(T), writeln(T).
+adiciona_evento_tecla_r :- adicionar_processamento_fila(4), fila_processamento(T), writeln(T).
+adiciona_evento_tecla_space :- adicionar_processamento_fila(5), fila_processamento(T), writeln(T).
+adiciona_evento_tecla_x :- adicionar_processamento_fila(6), fila_processamento(T), writeln(T).
+adiciona_evento_tecla_z :- adicionar_processamento_fila(7), fila_processamento(T), writeln(T).
+adiciona_evento_tecla_esc :- adicionar_processamento_fila(8), fila_processamento(T), writeln(T).
 
 :- use_module(library(pce)).
 
@@ -76,20 +76,21 @@ verifica_jogo_nao_acabou :-
     estado(_, _, _, _, _, _, _, _, _, Muda),
     Muda =\= 2.
 
-atualizador_tempo :-
-    verifica_jogo_nao_acabou,
+espera_frame :-
     frame_rate(TAXAFRAMES),
     TempoEspera is 1 / TAXAFRAMES,
-    sleep(TempoEspera),
-    evento_frame_rate,
+    sleep(TempoEspera).
+
+atualizador_tempo :-
+    verifica_jogo_nao_acabou,
+    espera_frame,
     retirar_processamento(NumeroProcessamento),
     mapeia_evento(NumeroProcessamento),
     atualizador_tempo, !.
 
 atualizador_tempo :-
     verifica_jogo_nao_acabou,
-    retirar_processamento(NumeroProcessamento),
-    mapeia_evento(NumeroProcessamento),
+    evento_frame_rate,
     atualizador_tempo, !.
 
 atualizador_tempo :-
@@ -113,7 +114,7 @@ evento_tecla_down :-
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ),
     jogar_para_baixo( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, _),
     estado( NovaGrid, NovasLinhas, NovoNivel, Tempo, NovaPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0),
-    FinalPontuacao is NovaPontuacao + 5,
+    FinalPontuacao is NovaPontuacao + 2,
     atualiza_estado_jogo(FinalPontuacao, NovoNivel, NovasLinhas, Tempo),
     update_estado(NovaGrid, NovasLinhas, NovoNivel, Tempo, FinalPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0).
 
@@ -141,7 +142,7 @@ evento_tecla_space :-
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ),
     jogar_para_baixo( Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, Change),
     estado( NovaGrid, NovasLinhas, NovoNivel, Tempo, NovaPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0),
-    FinalPontuacao is NovaPontuacao + 20,
+    FinalPontuacao is NovaPontuacao + 10,
     atualiza_estado_jogo(FinalPontuacao, NovoNivel, NovasLinhas, Tempo),
     update_estado(NovaGrid, NovasLinhas, NovoNivel, Tempo, FinalPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0),
     Change = 0,
@@ -229,11 +230,11 @@ jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, _, IdProximaPeca, _, FrameP
     NovoNivel is (NovasLinhas // 10) + 1,
     NovaPontuacao is (Pontuacao + QuantidadeLinhasLimpas * NovoNivel * 5),
 
-    (NovoNivel >= 6 -> 
+    (NovoNivel >= 10 -> 
         (JogoTerminou = 1, pacote_texto_termino(@window, 1, TextoTermino), create_caixa_termino(TextoTermino)); 
         JogoTerminou = 0),
 
-    NovoFrameNeed is TAXA_FRAMES // Nivel,
+    NovoFrameNeed is TAXA_FRAMES - ((NovoNivel - 1) * 15) + 1,
 
     atualiza_estado_jogo(NovaPontuacao, NovoNivel, NovasLinhas, NovoTempo),
     update_estado(NovaGrid, NovasLinhas, NovoNivel, NovoTempo, NovaPontuacao, NovaAtualPeca, NovoIdProximaPeca, NovoFrameNeed, FramePast, JogoTerminou), 

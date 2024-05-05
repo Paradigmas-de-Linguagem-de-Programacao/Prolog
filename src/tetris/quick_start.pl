@@ -11,7 +11,7 @@ gerador_matriz(DimensaoX, DimensaoY, [Linha | RestoMatriz]) :- gerador_linha(Dim
                                                                NovaDimensaoY is DimensaoY - 1,
                                                                gerador_matriz(DimensaoX, NovaDimensaoY, RestoMatriz).                                                                   
 
-frame_rate(60).
+frame_rate(120).
 
 quick_start :-
     criar_fila_de_processamento,
