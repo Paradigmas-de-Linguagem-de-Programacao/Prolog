@@ -89,7 +89,6 @@ salva_conquista:-
     listing(conquista),
     told.
 
-
 lista_conquista:-     
     writeln("Suas conquistas: "), nl,
     forall(conquista(Nome, Descricao),

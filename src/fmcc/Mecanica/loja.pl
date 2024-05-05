@@ -22,7 +22,7 @@ inicializa_loja(3) :-
     asserta(loja(
         espada("Espada de Diamante", 160, 100, 0, "Espada do minecraft."),
         armadura("Armadura de Diamante", 160, 0, 100, "Armadura do minecraft."),
-        pocao("Tyson Mentality", 300, 0, 100, 0, 1))).
+        pocao("Tyson Mentality", 200, 0, 200, 0, 1))).
 
 printa_itens :-
     loja((espada(Nome, Preco, Ataque, Defesa, Descricao)),
@@ -164,6 +164,7 @@ formata_pocoes_possuidas([Head|Tail], Resultado) :- formata_pocoes_possuidas(Tai
     formata_pocao_possuida(Nome, Vida, Ataque, Defesa, Result), append([Result], Resultado_antigo, Resultado)).
 
 equipa_pocao_aux("VOLTAR").
+equipa_pocao_aux("").
 equipa_pocao_aux(Nome) :- (get_pocoes(Pocoes), verifica_pocoes(Nome, Pocoes, Resultado), Resultado = true ->
     acha_pocao(Nome, Pocoes) ; write("Você nao possui essa poção, malandrinho.")).
 
