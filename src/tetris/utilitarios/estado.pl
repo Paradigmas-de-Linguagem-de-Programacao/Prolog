@@ -9,7 +9,7 @@ create_estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, F
     assertz(estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, JogoTerminou)).
 
 update_estado(NovoGrid, NovasLinhas, NovoNivel, NovoTempo, NovaPontuacao, NovaAtualPeca, NovaIdProximaPeca, NovoFrameNeed, NovaFramePast, EhJogoTerminou) :-
-    retract(estado(_, _, _, _, _, _, _, _, _, _)),
+    retractall(estado(_, _, _, _, _, _, _, _, _, _)),
     assertz(estado(NovoGrid, NovasLinhas, NovoNivel, NovoTempo, NovaPontuacao, NovaAtualPeca, NovaIdProximaPeca, NovoFrameNeed, NovaFramePast, EhJogoTerminou)).
 
 create_grid_jogo(Grid) :-

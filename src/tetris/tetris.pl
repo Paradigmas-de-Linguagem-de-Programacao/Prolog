@@ -45,20 +45,21 @@ mock_tetris :-
     send(K, function, 'x', message(@prolog, evento_tecla_x)),
     send(K, function, 'X', message(@prolog, evento_tecla_x)),
     send(K, function, 'z', message(@prolog, evento_tecla_z)),
-    send(K, function, 'Z', message(@prolog, evento_tecla_z)).
+    send(K, function, 'Z', message(@prolog, evento_tecla_z)),
 
-    %atualizador_tempo.
+    atualizador_tempo.
 
 atualizador_tempo :-
-    estado(Grid, Linhas, Nivel, _, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ),
-    NovoTempo is FramePast // 60,
-    atualiza_estado_jogo(Pontuacao, Nivel, Linhas, NovoTempo),
-    (
-        (TempoEspera is 1/60, sleep(TempoEspera), NovoFramePast is FramePast + 1,
-        ((NovoFramePast mod FrameNeed) =:= 0 -> 
-            jogar_para_baixo(Grid, Linhas, Nivel, NovoTempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, NovoFramePast,  _); 
-            update_estado(Grid, Linhas, Nivel, NovoTempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, NovoFramePast, 0)
-        ), atualizador_tempo);atualizador_tempo).
+    estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0),
+    TempoEspera is 1/60, 
+    sleep(TempoEspera),
+    NovoFramePast is FramePast + 1,
+    ((NovoFramePast mod FrameNeed) =:= 0 -> 
+        jogar_para_baixo(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, NovoFramePast,  _); 
+        update_estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, NovoFramePast, 0)), 
+    atualizador_tempo, !.
+
+atualizador_tempo :- atualizador_tempo.
 
 evento_tecla_down :-
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ),
@@ -95,7 +96,10 @@ evento_tecla_space :-
     FinalPontuacao is NovaPontuacao + 20,
     atualiza_estado_jogo(FinalPontuacao, NovoNivel, NovasLinhas, Tempo),
     update_estado(NovaGrid, NovasLinhas, NovoNivel, Tempo, FinalPontuacao, NovaPecaAtual, NovaIdProximaPeca, FrameNeed, FramePast, 0),
-    (Change = 0 -> evento_tecla_space; writeln('tome')).
+    Change = 0,
+    evento_tecla_space.
+
+evento_tecla_space.
 
 evento_tecla_x :-
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ),
@@ -147,6 +151,7 @@ jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, AtualPeca, IdProximaPeca, F
     shift_baixo(Grid, NovaGrid),
     grid_jogo(GridRenderizavel),
     update_grid(NovaGrid, GridRenderizavel),
+    atualiza_estado_jogo(Pontuacao, Nivel, Linhas, NovoTempo),
     update_estado( NovaGrid, Linhas, Nivel, NovoTempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ),
     !.
 
