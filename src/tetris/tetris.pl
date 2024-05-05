@@ -18,6 +18,10 @@ mock_tetris :-
     send(@window, size, size(1200, 800)),
     send(@window, open),
     
+    pacote_texto_termino(@window, 1, TextoTermino),
+    create_caixa_termino(TextoTermino),
+    free(TextoTermino),
+
     gera_grid_renderizavel(Grid, 30, GridsRenderizaveis),
     create_grid_jogo(GridsRenderizaveis),
     reverse(GridsRenderizaveis, GridVisao),
@@ -46,11 +50,17 @@ mock_tetris :-
     send(K, function, 'X', message(@prolog, evento_tecla_x)),
     send(K, function, 'z', message(@prolog, evento_tecla_z)),
     send(K, function, 'Z', message(@prolog, evento_tecla_z)),
+    send(K, function, '\\e', message(@prolog, evento_tecla_esc)),
 
     atualizador_tempo.
 
+evento_tecla_esc :-
+    estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, _),
+    update_estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 2),
+    free(@window).
+
 atualizador_tempo :-
-    TempoEspera is 1/60, 
+    TempoEspera is 1/12, 
     sleep(TempoEspera),
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0),
     NovoFramePast is FramePast + 1,
@@ -59,7 +69,9 @@ atualizador_tempo :-
         update_estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, NovoFramePast, 0)), 
     atualizador_tempo, !.
 
-atualizador_tempo :- atualizador_tempo.
+atualizador_tempo :- 
+    estado(_, _, _, _, _, _, _, _, _, 0),    
+    atualizador_tempo.
 
 evento_tecla_down :-
     estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ),
@@ -146,7 +158,7 @@ evento_tecla_r :-
     atualiza_estado_jogo(Pontuacao, Nivel, Linhas, Tempo).
 
 jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, 0 ):- 
-    NovoTempo is FramePast // 60,
+    NovoTempo is FramePast // 12,
     verifica_shift_baixo(Grid),
     shift_baixo(Grid, NovaGrid),
     grid_jogo(GridRenderizavel),
@@ -156,7 +168,7 @@ jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, AtualPeca, IdProximaPeca, F
     !.
 
 jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, _, IdProximaPeca, _, FramePast, 1 ):-             
-    NovoTempo is FramePast // 60,
+    NovoTempo is FramePast // 12,
     congelar_tudo(Grid, GridCongelada),
     clear_game(GridCongelada, GridLimpa, QuantidadeLinhasLimpas),
     gera_peca(IdProximaPeca, NovaAtualPeca, (Xo, Yo), (Xf, Yf)),
@@ -179,11 +191,11 @@ jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, _, IdProximaPeca, _, FrameP
     NovoNivel is (NovasLinhas // 10) + 1,
     NovaPontuacao is (Pontuacao + QuantidadeLinhasLimpas * NovoNivel * 5),
 
-    (NovoNivel >= 10 -> 
+    (NovoNivel >= 6 -> 
         (JogoTerminou = 1, pacote_texto_termino(@window, 1, TextoTermino), create_caixa_termino(TextoTermino)); 
         JogoTerminou = 0),
 
-    NovoFrameNeed is 60 - NovoNivel * 5,
+    NovoFrameNeed is 12 // Nivel,
 
     atualiza_estado_jogo(NovaPontuacao, NovoNivel, NovasLinhas, NovoTempo),
     update_estado(NovaGrid, NovasLinhas, NovoNivel, NovoTempo, NovaPontuacao, NovaAtualPeca, NovoIdProximaPeca, NovoFrameNeed, FramePast, JogoTerminou), 
