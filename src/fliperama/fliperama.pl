@@ -3,6 +3,6 @@
 
 % Quer adicionar seu jogo? Navegue para: ./actions/menu_impl.pl
 
-main :-
+mock_fliperama :-
     flipio:setup_menu,
     menu.

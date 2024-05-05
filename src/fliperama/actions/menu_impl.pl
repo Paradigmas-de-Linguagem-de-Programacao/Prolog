@@ -3,8 +3,11 @@
 :- use_module("./menu_actions.pl").
 :- use_module("../services/io.pl").
 
-tetris :- writeln("Abriu tetris"). % Inserir procedimentos de entrada de tetris aqui
-fmcc :- writeln("Abriu FMCC"). % Inserir poprocedimentosnto de entrada de FMCC aqui
+:- consult('../src/fmcc/fmcc.pl').
+:- consult('../src/tetris/main.pl').
+
+tetris :- writeln("Abriu tetris"), menu_tetris.
+fmcc :- writeln("Abriu FMCC"), mock_fmcc.
 
 handle_user_option(Option) :- Option = "R", menu_actions:register_new_user.
 handle_user_option(Option) :- Option = "L", menu_actions:autenticar_user.

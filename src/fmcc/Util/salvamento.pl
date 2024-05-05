@@ -4,15 +4,15 @@
 :- use_module('../Historia/final.pl').
 :- use_module('../Models/inimigo.pl').
 
-comeca_jogo :-
+comeca_jogo_fmcc :-
     writeln("Inicializando dados..."),
     jogador_init,
     salva_jogador,
     comeca_fase(0).
 
-carrega_jogo :-
+carrega_jogo_fmcc :-
     % funcao pra criar diretorio(exists_directory('../src/fmcc/Diretorio') -> printString("Ola") ; make_directory('../src/fmcc/Diretorio')).
-    (not(exists_file('../src/fmcc/Diretorio/jogador.txt')) -> (printString("Não existe jogo salvo, começando um novo jogo"), comeca_jogo) 
+    (not(exists_file('../src/fmcc/Diretorio/jogador.txt')) -> (printString("Não existe jogo salvo, começando um novo jogo"), comeca_jogo_fmcc) 
     ;
         carrega_jogador,
         jogador:get_progresso(Progresso),
