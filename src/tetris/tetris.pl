@@ -36,7 +36,7 @@ mock_tetris :-
     send(@window, size, size(1200, 800)),
     send(@window, open),
     
-    pacote_texto_termino(@window, 1, TextoTermino),
+    pacote_texto_termino(@window, -1, TextoTermino),
     create_caixa_termino(TextoTermino),
     free(TextoTermino),
 
@@ -70,9 +70,7 @@ mock_tetris :-
     send(K, function, 'Z', message(@prolog, adiciona_evento_tecla_z)),
     send(K, function, '\\e', message(@prolog, adiciona_evento_tecla_esc)),
 
-    atualizador_tempo,
-
-    halt.
+    atualizador_tempo.
 
 verifica_jogo_nao_acabou :-
     estado(_, _, _, _, _, _, _, _, _, Muda),
@@ -99,8 +97,7 @@ atualizador_tempo :-
     verifica_jogo_nao_acabou,
     atualizador_tempo, !.
 
-atualizador_tempo :-
-    halt.
+atualizador_tempo.
 
 evento_tecla_esc :-
     criar_fila_de_processamento,
@@ -235,8 +232,15 @@ jogar_para_baixo( Grid, Linhas, Nivel, _, Pontuacao, _, IdProximaPeca, _, FrameP
     NovoNivel is (NovasLinhas // 10) + 1,
     NovaPontuacao is (Pontuacao + QuantidadeLinhasLimpas * NovoNivel * 5),
 
-    (NovoNivel >= 9 -> 
-        (JogoTerminou = 1, pacote_texto_termino(@window, 1, TextoTermino), create_caixa_termino(TextoTermino)); 
+    nivel_maximo(NivelMaximo),
+
+    (NovoNivel >= NivelMaximo -> 
+        (
+            JogoTerminou = 1, 
+            pacote_texto_termino(@window, 1, TextoTermino), 
+            create_caixa_termino(TextoTermino), 
+            escrever_estatistica(NovoTempo, NovaPontuacao)
+        ); 
         JogoTerminou = 0),
 
     NovoFrameNeed is TAXA_FRAMES - ((NovoNivel - 1) * 30) + 1,
