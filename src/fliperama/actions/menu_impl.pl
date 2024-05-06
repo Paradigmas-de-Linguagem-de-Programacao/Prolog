@@ -13,14 +13,14 @@ get_diretorio(Diretorio) :-
 tetris :- get_diretorio(Diretorio), main_tetris(Diretorio).
 fmcc :- get_diretorio(Diretorio), mock_fmcc(Diretorio).
 
-handle_user_option(Option) :- Option = "R", menu_actions:register_new_user.
-handle_user_option(Option) :- Option = "L", menu_actions:autenticar_user.
+handle_user_option("R") :- menu_actions:register_new_user.
+handle_user_option("L") :- menu_actions:autenticar_user.
 
-handle_user_option(Option) :- Option = "T", tetris.
-handle_user_option(Option) :- Option = "F", fmcc.
+handle_user_option("T") :- tetris.
+handle_user_option("F") :- fmcc.
 
-handle_user_option(Option) :- Option = "D", flipio:reset_sessao.
-handle_user_option(Option) :- Option = "S", flipio:reset_sessao, halt.
+handle_user_option("D") :- flipio:reset_sessao.
+handle_user_option("S") :- flipio:reset_sessao, halt.
 
 uppercase_string(InputString, UppercaseString) :-
     atom_string(AtomInput, InputString),
