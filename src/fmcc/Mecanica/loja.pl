@@ -1,7 +1,8 @@
 :- module(loja, [inicializa_loja/1, printa_itens/0, printa_pocao/0, abre_loja_pocao/0, abre_loja_itens/0, 
-                equipa_item/0, equipa_pocao/0]).
+                equipa_item/0, tomar_pocao/0]).
 :- dynamic loja/3.
 :- use_module('../Util/lib.pl').
+:- use_module('../Models/jogador.pl').
 
 inicializa_loja(1) :- 
     retractall(loja(_,_,_)),  
@@ -153,19 +154,19 @@ usa_item_aux(Ataque, Defesa) :-
     set_ataque(Ataque),
     set_defesa(Defesa).
 
-equipa_pocao :-
+tomar_pocao :-
     write("\nEssas são suas poções disponíveis:\n\n"),
     get_pocoes(Pocoes), formata_pocoes_possuidas(Pocoes, Resultado), write(Resultado), nl,
     lib:input("\nConfirme o nome da poção que deseja tomar, se quiser desistir da ação digite: 'VOLTAR'.\n\n", Input),
-    equipa_pocao_aux(Input).
+    tomar_pocao_aux(Input).
 
 formata_pocoes_possuidas([],[]).
 formata_pocoes_possuidas([Head|Tail], Resultado) :- formata_pocoes_possuidas(Tail, Resultado_antigo), (Head = pocao(Nome,_,Vida,Ataque,Defesa,_) -> 
     formata_pocao_possuida(Nome, Vida, Ataque, Defesa, Result), append([Result], Resultado_antigo, Resultado)).
 
-equipa_pocao_aux("VOLTAR").
-equipa_pocao_aux("").
-equipa_pocao_aux(Nome) :- (get_pocoes(Pocoes), verifica_pocoes(Nome, Pocoes, Resultado), Resultado = true ->
+tomar_pocao_aux("VOLTAR").
+tomar_pocao_aux("").
+tomar_pocao_aux(Nome) :- (get_pocoes(Pocoes), verifica_pocoes(Nome, Pocoes, Resultado), Resultado = true ->
     acha_pocao(Nome, Pocoes) ; write("Você nao possui essa poção, malandrinho.")).
 
 verifica_pocoes(_,[], Resultado) :- Resultado = false.

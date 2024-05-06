@@ -3,13 +3,17 @@
 :- use_module('../Util/lib.pl').
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Historia/historia_principal.pl').
+:- use_module('../Models/jogador.pl').
+:- use_module('../Mecanica/loja.pl').
 
 opcao(1, _) :- printa_itens, esperandoEnter.
 opcao(2, Progresso) :- dialogoFerreira(Progresso).
 opcao(3, Progresso) :- dialogoPraca(Progresso).
-opcao(4, Progresso) :- curso_historia(Progresso).
+
 
 escolhaCaminhaDaCidadela(5, _) :- voltaMenu,!.
+escolhaCaminhaDaCidadela(4, Progresso) :- curso_historia(Progresso).
+
 
 escolhaCaminhaDaCidadela(Escolha, Progresso) :-
     opcao(Escolha, Progresso),

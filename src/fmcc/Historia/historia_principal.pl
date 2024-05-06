@@ -7,6 +7,7 @@
 :- use_module('../Combate/combate_conversaGPT.pl').
 :- use_module('../Mecanica/gold.pl').
 :- use_module('../Mecanica/loja.pl').
+:- use_module('../Models/jogador.pl').
 
 curso_historia(Progresso):-
     dialogo_historia(Progresso),

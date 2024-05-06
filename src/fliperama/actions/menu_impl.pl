@@ -8,7 +8,7 @@
 
 get_diretorio(Diretorio) :-
     get_username_from_session(Usuario),
-    atom_concat('../data/', Usuario, Diretorio).
+    atom_concat('../src/fliperama/data/jogador/', Usuario, Diretorio).
 
 tetris :- get_diretorio(Diretorio), main_tetris(Diretorio).
 fmcc :- get_diretorio(Diretorio), mock_fmcc(Diretorio).

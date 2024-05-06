@@ -1,10 +1,13 @@
-:- module(salvamento, [comeca_jogo_fmcc/0, carrega_jogo_fmcc/0, checkPoint/0, cria_caminho_conquista/1, cria_caminho_jogador/1]).
+:- module(salvamento, [comeca_jogo_fmcc/0, carrega_jogo_fmcc/0, checkPoint/0, cria_caminho_conquista/1, 
+                       cria_caminho_jogador/1, desbloquea_conquista/1, mostra_conquista/0]).
 
 :- use_module('../Mecanica/loja.pl').
 :- use_module('../Historia/prologo.pl').
 :- use_module('../Historia/cidadela.pl').
 :- use_module('../Historia/final.pl').
 :- use_module('../Models/inimigo.pl').
+:- use_module('../Models/jogador.pl').
+:- use_module('../Util/lib.pl').
 
 comeca_jogo_fmcc :-
     writeln("Inicializando dados..."),
@@ -14,7 +17,6 @@ comeca_jogo_fmcc :-
 
 carrega_jogo_fmcc :-
     caminho_jogador(Jogador),
-    % funcao pra criar diretorio(exists_directory('../src/fmcc/Diretorio') -> printString("Ola") ; make_directory('../src/fmcc/Diretorio')).
     (not(exists_file(Jogador)) -> (printString("Não existe jogo salvo, começando um novo jogo"), comeca_jogo_fmcc) 
     ;
         carrega_jogador,
@@ -51,17 +53,11 @@ help :- maplist(writeln,
         formata_texto.
 
 
-carrega_jogador :- caminho_jogador(Jogador), consult(Jogador).
+carrega_jogador :- caminho_jogador(Jogador), carrega_jogador(Jogador).
 
 salva_jogador :-
     caminho_jogador(Jogador),
-    tell(Jogador),
-    retract(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)),
-    asserta(jogador(Nome, 0, [], [], Progresso)),
-    listing(jogador),
-    told, 
-    retract(jogador(Nome, _, _, _, _)),
-    asserta(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)).
+    salva_jogador(Jogador).
 
 inicializa_conquista:- dynamic conquista/2.
 

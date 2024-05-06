@@ -5,6 +5,7 @@
 :- use_module('../Models/inimigo.pl').
 :- use_module('../Combate/combate_mecanica').   
 :- use_module('../Combate/combate_IA.pl').
+:- use_module('../Models/jogador.pl').
 
 pre_combate_conversaGPT :-
     historia_pre_combate,

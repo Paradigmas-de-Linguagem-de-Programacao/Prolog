@@ -11,7 +11,7 @@
 ]).
 
 salvar_credenciais_de_usuario(Username, Password) :-
-    atom_concat('../data/', Username, Diretorio),
+    atom_concat('../src/fliperama/data/jogador/', Username, Diretorio),
     make_directory(Diretorio),
     atomic_list_concat([Username, ':', Password], UserPass),
     open('usuarios.txt', append, Stream),
