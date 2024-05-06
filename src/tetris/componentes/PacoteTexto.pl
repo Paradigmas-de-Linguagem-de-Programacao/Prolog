@@ -73,27 +73,26 @@ pacote_texto_termino(Window, 1, TextoTermino) :-
 
     send(TextoTermino, font, FontEstado).
 
+pacote_texto_fixo_conquista_instrucao(Window) :-
+    new(FontInstrucao, font(times, bold, 25)),
+    new(TextoInstrucao, text('Aperte esc para sair!')),
+    send(Window,display, TextoInstrucao, point(0,0)),
+    send(TextoInstrucao, font, FontInstrucao).
+
 pacote_texto_fixo_conquista(Window) :-
-    
+    pacote_texto_fixo_conquista_instrucao(Window),    
+
     Y = 100,
 
-    new(FontInstrucao, font(times, bold, 25)),
-
     new(FontEstado, font(times, bold, 50)),
-    
-    new(TextoInstrucao, text('Aperte esc para sair!')),
 
     new(TextoPontuacao, text('Pontuacao')),
     new(TextoMenorTempo, text('Menor Tempo')),
     new(TextoMaiorTempo, text('Maior Tempo')),
 
-    send(Window,display, TextoInstrucao, point(0,0)),
-
     send(Window, display, TextoPontuacao, point(0, Y)),
     send(Window, display, TextoMaiorTempo, point(350, Y)),
     send(Window, display, TextoMenorTempo, point(780, Y)),
-
-    send(TextoInstrucao, font, FontInstrucao),
 
     send(TextoPontuacao, font, FontEstado),
     send(TextoMaiorTempo, font, FontEstado),

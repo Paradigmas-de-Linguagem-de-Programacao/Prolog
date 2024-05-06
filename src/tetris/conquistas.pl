@@ -21,6 +21,8 @@ tela_conquista :-
 
 tela_sem_conquista :- 
     
+    pacote_texto_fixo_conquista_instrucao(@telaConquista),
+
     new(FontEstado, font(times, bold, 35)),
     
     new(TextoInstrucao, text('Vença ao menos uma partida para ter conquistas!')),
