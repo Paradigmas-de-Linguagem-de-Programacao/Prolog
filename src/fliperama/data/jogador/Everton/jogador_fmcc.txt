@@ -1,4 +1,0 @@
-:- dynamic jogador/5.
-
-jogador("Heanes", 0, [], [], 1).
-
