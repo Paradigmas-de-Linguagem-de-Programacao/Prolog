@@ -1,13 +1,13 @@
-%:- consult('tetris.pl').
-%:- consult('conquistas.pl').
-%:- consult('utilitarios/estado.pl').
-%:- consult('../fmcc/Util/lib.pl').
+:- consult('tetris.pl').
+:- consult('conquistas.pl').
+:- consult('utilitarios/estado.pl').
+:- consult('../fmcc/Util/lib.pl').
 
 main_tetris(Diretorio) :-
-    %atom_concat(Diretorio, '/conquistas_tetris.json', Arquivo),
-    %create_caminho_diretorio(Arquivo),
+    atom_concat(Diretorio, '/conquistas_tetris.json', Arquivo),
+    create_caminho_diretorio(Arquivo),
     writeln('Bem vindo ao Tetris se for novato, ou bem vindo de volta se for um conhecido!').
-    %menu_tetris.
+    menu_tetris.
 
 menu_tetris :-
     tty_clear,
