@@ -1,14 +1,12 @@
 :- use_module('./Util/lib.pl').
 :- use_module('./Util/dialogos.pl').
-:- consult('./Util/salvamento.pl').
-:- consult('./Models/jogador.pl').
-
-:- consult('caminhos.pl').
+:- use_module('./Util/salvamento.pl').
+:- use_module('./Models/jogador.pl').
 
 mock_fmcc(Diretorio):-
-    cria_caminho_jogador(Diretorio),
-    cria_caminho_conquista(Diretorio),
-    carrega_conquista,
+    salvamento:cria_caminho_jogador(Diretorio),
+    salvamento:cria_caminho_conquista(Diretorio),
+    salvamento:carrega_conquista,
     menu_fmcc.
 
 menu_fmcc :-

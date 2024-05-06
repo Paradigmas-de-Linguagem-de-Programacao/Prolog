@@ -1,3 +1,6 @@
+:- module(jogador, [jogador_init/0, jogador_combate_init/0, get_gold/1, modifica_gold/1, compra_gold/1, get_equipamentos/1,
+        adiciona_equipamento/1, remove_equipamento/1, get_pocoes/1, remove_pocao/1, adiciona_pocao/1]).
+
 :- dynamic jogador_combate/5.
 
 %jogador(Nome,Gold,Equipamento,Pocoes,Progresso).

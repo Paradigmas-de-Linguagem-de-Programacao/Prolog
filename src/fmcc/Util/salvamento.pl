@@ -1,3 +1,5 @@
+:- module(salvamento, [comeca_jogo_fmcc/0, carrega_jogo_fmcc/0, checkPoint/0, cria_caminho_conquista/1, cria_caminho_jogador/1]).
+
 :- use_module('../Mecanica/loja.pl').
 :- use_module('../Historia/prologo.pl').
 :- use_module('../Historia/cidadela.pl').
@@ -6,7 +8,7 @@
 
 comeca_jogo_fmcc :-
     writeln("Inicializando dados..."),
-    jogador_init,
+    jogador:jogador_init,
     salva_jogador,
     comeca_fase(0).
 
@@ -57,7 +59,7 @@ salva_jogador :-
     retract(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)),
     asserta(jogador(Nome, 0, [], [], Progresso)),
     listing(jogador),
-    told,
+    told, 
     retract(jogador(Nome, _, _, _, _)),
     asserta(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)).
 
@@ -65,10 +67,19 @@ inicializa_conquista:- dynamic conquista/2.
 
 ler_conquista:- caminho_conquista(Conquista), consult(Conquista).
 
+cria_caminho_conquista(Diretorio) :-
+    atom_concat(Diretorio, '/conquista_fmcc.txt', ArquivoConquista),
+    retractall(caminho_conquista(_)),
+    assertz(caminho_conquista(ArquivoConquista)).
+
+cria_caminho_jogador(Diretorio) :-
+    atom_concat(Diretorio, '/jogador_fmcc.txt', JogadorFmcc),
+    retractall(caminho_jogador(_)),
+    assertz(caminho_jogador(JogadorFmcc)).
+
 carrega_conquista:- 
     caminho_conquista(Conquista), 
     (exists_file(Conquista) -> ler_conquista ; inicializa_conquista).
-
 
 desbloquea_conquista("Jubilado"):-
     printString("Parabéns você acabou de ser ejetado... Não sei se vale um parabéns mas você desbloqueou a conquista Jubilado!!"),
