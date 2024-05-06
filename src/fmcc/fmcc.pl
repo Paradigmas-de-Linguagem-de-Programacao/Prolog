@@ -3,6 +3,7 @@
 :- consult('./Util/salvamento.pl').
 :- consult('./Models/jogador.pl').
 
+fato(2).
 
 mock_fmcc:-
     carrega_conquista,
