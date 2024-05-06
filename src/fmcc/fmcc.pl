@@ -3,9 +3,11 @@
 :- consult('./Util/salvamento.pl').
 :- consult('./Models/jogador.pl').
 
-fato(2).
+:- consult('caminhos.pl').
 
-mock_fmcc:-
+mock_fmcc(Diretorio):-
+    cria_caminho_jogador(Diretorio),
+    cria_caminho_conquista(Diretorio),
     carrega_conquista,
     menu_fmcc.
 

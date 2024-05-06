@@ -11,8 +11,9 @@ comeca_jogo_fmcc :-
     comeca_fase(0).
 
 carrega_jogo_fmcc :-
+    caminho_jogador(Jogador),
     % funcao pra criar diretorio(exists_directory('../src/fmcc/Diretorio') -> printString("Ola") ; make_directory('../src/fmcc/Diretorio')).
-    (not(exists_file('../src/fmcc/Diretorio/jogador.txt')) -> (printString("Não existe jogo salvo, começando um novo jogo"), comeca_jogo_fmcc) 
+    (not(exists_file(Jogador)) -> (printString("Não existe jogo salvo, começando um novo jogo"), comeca_jogo_fmcc) 
     ;
         carrega_jogador,
         jogador:get_progresso(Progresso),
@@ -48,10 +49,11 @@ help :- maplist(writeln,
         formata_texto.
 
 
-carrega_jogador :- consult('../src/fmcc/Diretorio/jogador.txt').
+carrega_jogador :- caminho_jogador(Jogador), consult(Jogador).
 
 salva_jogador :-
-    tell('../src/fmcc/Diretorio/jogador.txt'),
+    caminho_jogador(Jogador),
+    tell(Jogador),
     retract(jogador(Nome, Gold, Equipamentos, Pocoes, Progresso)),
     asserta(jogador(Nome, 0, [], [], Progresso)),
     listing(jogador),
@@ -61,9 +63,11 @@ salva_jogador :-
 
 inicializa_conquista:- dynamic conquista/2.
 
-ler_conquista:- consult('../src/fmcc/Diretorio/conquista.txt').
+ler_conquista:- caminho_conquista(Conquista), consult(Conquista).
 
-carrega_conquista:- (exists_file('../src/fmcc/Diretorio/conquista.txt') -> ler_conquista ; inicializa_conquista).
+carrega_conquista:- 
+    caminho_conquista(Conquista), 
+    (exists_file(Conquista) -> ler_conquista ; inicializa_conquista).
 
 
 desbloquea_conquista("Jubilado"):-
@@ -85,7 +89,8 @@ desbloquea_conquista("Faixa Preta"):-
         salva_conquista ; true).
 
 salva_conquista:-
-    tell('../src/fmcc/Diretorio/conquista.txt'),
+    caminho_conquista(Conquista),
+    tell(Conquista),
     listing(conquista),
     told.
 
@@ -95,5 +100,6 @@ lista_conquista:-
            format("Nome: ~w~nDescrição: ~w~n~n", [Nome, Descricao])).
 
 mostra_conquista:-
-    (exists_file('../src/fmcc/Diretorio/conquista.txt') -> lista_conquista ; writeln("Parece que você não tem nenhuma conquista. Tente jogar mais e explorar todas as possibilidades.")).
+    caminho_conquista(Conquista),
+    (exists_file(Conquista) -> lista_conquista ; writeln("Parece que você não tem nenhuma conquista. Tente jogar mais e explorar todas as possibilidades.")).
 

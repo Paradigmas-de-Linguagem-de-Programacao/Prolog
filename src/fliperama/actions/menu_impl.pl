@@ -11,7 +11,7 @@ get_diretorio(Diretorio) :-
     atom_concat('../data/', Usuario, Diretorio).
 
 tetris :- get_diretorio(Diretorio), main_tetris(Diretorio).
-fmcc :- writeln("Abriu FMCC"), mock_fmcc.
+fmcc :- get_diretorio(Diretorio), mock_fmcc(Diretorio).
 
 handle_user_option(Option) :- Option = "R", menu_actions:register_new_user.
 handle_user_option(Option) :- Option = "L", menu_actions:autenticar_user.
