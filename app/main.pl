@@ -7,6 +7,4 @@ tanto Tetris quanto FMCC devem no fliperama a partir daqui. */
 
 main:-
     mock_fmcc,
-    mock_tetris,
-    mock_fliperama,
     halt.
