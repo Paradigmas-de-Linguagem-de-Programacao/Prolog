@@ -1,4 +1,0 @@
-:- dynamic conquista/2.
-
-conquista("Jubilado", "Negue Carl Wilson 8 vezes").
-
