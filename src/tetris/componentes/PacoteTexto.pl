@@ -91,8 +91,8 @@ pacote_texto_fixo_conquista(Window) :-
     new(TextoMaiorTempo, text('Maior Tempo')),
 
     send(Window, display, TextoPontuacao, point(0, Y)),
-    send(Window, display, TextoMaiorTempo, point(350, Y)),
-    send(Window, display, TextoMenorTempo, point(780, Y)),
+    send(Window, display, TextoMenorTempo, point(350, Y)),
+    send(Window, display, TextoMaiorTempo, point(780, Y)),
 
     send(TextoPontuacao, font, FontEstado),
     send(TextoMaiorTempo, font, FontEstado),
@@ -262,4 +262,4 @@ maiorTempo_800_mais(maiorTempo, 'Ok, isso é ainda mais impressionante que fazer
 maiorTempo_800_mais(_, 'Consiga vencer em mais de 800 segundos para ter esta conquista!').
 
 maiorTempo_1500_mais(maiorTempo, 'Você já conseguiu a conquista acima, isto foi exagero.') :- maiorTempo > 1500, !.
-maiorTempo_1500_mais(_, 'Consiga vencer em menos de 1500 segundos para ter esta conquista!').
+maiorTempo_1500_mais(_, 'Consiga vencer em mais de 1500 segundos para ter esta conquista!').

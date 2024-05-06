@@ -70,3 +70,12 @@ Uma vez logado:
 * Ao entrar neste diretório, digite "prolog main.pl" e pressione enter;
 * Digite: "main." e pressione enter;
 * Bem vindo ao nosso fliperama.
+
+<h1 align="center"> Avisos </h1>
+
+* Caso a biblioteca PCE ou http/json esteja sem funcionar,
+ocorreu algum erro de instalação sem seu prolog, pois ambos
+os módulos são nativos de Prolog (A biblioteca XPCE (com nome PCE em prolog),
+é presente desde a versão 5._._ em PROLOG).
+
+* Se estiver sofrendo com isto, desinstale prolog e instale a versão mais recente!
