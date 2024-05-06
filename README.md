@@ -62,7 +62,7 @@
 Uma vez logado:
 2. **Tetris**: Entre no modo de jogo Tetris para começar a jogar. Use as setas do teclado para mover e girar os blocos que caem e tente completar linhas para marcar pontos. Limpe o maior número de linhas possível antes que os blocos alcancem o topo!
 
-3. **Jogo de FMCC**: Selecione o modo de jogo FMCC para embarcar em uma aventura emocionante. Suas escolhas irão moldar o desfecho da história!
+3. **Jogo de FMCC**: Infelizmente, fmcc só podera ser acessado da branch 3-primeiro-commit-fmcc, veja as instruções lá!
 
 <h1 align="center"> Instruções para iniciar o jogo! </h1>
 
