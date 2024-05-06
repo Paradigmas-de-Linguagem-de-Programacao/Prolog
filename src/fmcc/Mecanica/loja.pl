@@ -1,7 +1,8 @@
 :- module(loja, [inicializa_loja/1, printa_itens/0, printa_pocao/0, abre_loja_pocao/0, abre_loja_itens/0, 
-                equipa_item/0, equipa_pocao/0]).
+                equipa_item/0, tomar_pocao/0]).
 :- dynamic loja/3.
 :- use_module('../Util/lib.pl').
+:- use_module('../Models/jogador.pl').
 
 inicializa_loja(1) :- 
     retractall(loja(_,_,_)),  
@@ -98,12 +99,19 @@ compra_pocao(1) :-
     printa_pocao, nl, write("Seu Gold é de: "), write(Gold),
     lib:input("\nConfirme o nome da poção que deseja comprar:\n", Input),
     (verifica_nome_pocao(Input, Resultado), Resultado == true -> 
-    (get_pocoes(Y),inventario_pocao(Y, Input, Possui_pocao), Possui_pocao == true -> get_pocoes(Potions), incrementa_pocao(Input, Potions) ; compra_pocao_aux) ;
+    (get_pocoes(Y),inventario_pocao(Y, Input, Possui_pocao), Possui_pocao == true -> get_pocoes(Potions), chama_incrementa(Input, Potions)  ; compra_pocao_aux) ;
     writeln("\nPoção com nome incorreta, tente novamente.\nLembre, coloque o nome da maneira que está escrita na loja.\n"), abre_loja_pocao).
 
 compra_pocao(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde.").
 
 inventario_pocao([Head|Tail], Input, Possui_pocao) :- (Head = pocao(Input,_,_,_,_,_) -> Possui_pocao = true ; Possui_pocao = false, inventario_pocao(Tail, Input, Possui_pocao)).
+
+chama_incrementa(Input, Potions) :-
+    get_pocao(Pocao),
+    get_gold(Gold),
+    Pocao = pocao(_,Preco,_,_,_,_),
+    (Gold >= Preco -> compra_gold(Preco), incrementa_pocao(Input, Potions);
+    write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n"), lib:esperandoEnter).
 
 incrementa_pocao(Input, [Head|Tail]) :-
     (Head = pocao(Input,Preco,Vida,Ataque,Defesa,Quantidade) -> 
@@ -153,19 +161,19 @@ usa_item_aux(Ataque, Defesa) :-
     set_ataque(Ataque),
     set_defesa(Defesa).
 
-equipa_pocao :-
+tomar_pocao :-
     write("\nEssas são suas poções disponíveis:\n\n"),
     get_pocoes(Pocoes), formata_pocoes_possuidas(Pocoes, Resultado), write(Resultado), nl,
     lib:input("\nConfirme o nome da poção que deseja tomar, se quiser desistir da ação digite: 'VOLTAR'.\n\n", Input),
-    equipa_pocao_aux(Input).
+    tomar_pocao_aux(Input).
 
 formata_pocoes_possuidas([],[]).
 formata_pocoes_possuidas([Head|Tail], Resultado) :- formata_pocoes_possuidas(Tail, Resultado_antigo), (Head = pocao(Nome,_,Vida,Ataque,Defesa,_) -> 
     formata_pocao_possuida(Nome, Vida, Ataque, Defesa, Result), append([Result], Resultado_antigo, Resultado)).
 
-equipa_pocao_aux("VOLTAR").
-equipa_pocao_aux("").
-equipa_pocao_aux(Nome) :- (get_pocoes(Pocoes), verifica_pocoes(Nome, Pocoes, Resultado), Resultado = true ->
+tomar_pocao_aux("VOLTAR").
+tomar_pocao_aux("").
+tomar_pocao_aux(Nome) :- (get_pocoes(Pocoes), verifica_pocoes(Nome, Pocoes, Resultado), Resultado = true ->
     acha_pocao(Nome, Pocoes) ; write("Você nao possui essa poção, malandrinho.")).
 
 verifica_pocoes(_,[], Resultado) :- Resultado = false.

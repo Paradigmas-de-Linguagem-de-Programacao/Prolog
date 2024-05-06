@@ -3,6 +3,7 @@
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Util/lib.pl').
 :- use_module('./cidadela.pl').
+:- use_module('../Util/salvamento.pl').
 
 
 comecaJogo:-

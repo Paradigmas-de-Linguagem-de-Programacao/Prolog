@@ -16,7 +16,7 @@ inicializa_inimigos(2):-
 
 inicializa_inimigos(3):-
     retractall(inimigo(_,_,_,_,_)),
-    asserta(inimigo("ConversaGPT", 120, 30, 5000, 160)).
+    asserta(inimigo("ConversaGPT", 120, 30, 500, 160)).
 
 
 get_ataque_inimigo(Nome, Ataque) :-

@@ -3,6 +3,8 @@
 
 :- use_module('../Util/lib.pl').
 :- use_module('../Models/inimigo.pl').
+:- use_module('../Models/jogador.pl').
+:- use_module('../Mecanica/loja.pl').
 
 turno_preparacao:-
     writeln("O que nosso herói vai fazer para ficar mais forte??\n\n"),
@@ -10,7 +12,7 @@ turno_preparacao:-
     turno_preparacao_aux(Input).
 
 turno_preparacao_aux(1) :- equipa_item, esperandoEnter, turno_preparacao.
-turno_preparacao_aux(2) :- equipa_pocao, esperandoEnter, turno_preparacao.
+turno_preparacao_aux(2) :- tomar_pocao, esperandoEnter, turno_preparacao.
 turno_preparacao_aux(3) :- writeln("Dê uma olhada nos seus status e nos status de seu inimigo.\nQuando utilizar uma poção os atributos vão ser adicionados aos seus status básicos, ao usar essa é descartado após o combate, logo, tenha cuidado no que vai usar.\n\n").
 turno_preparacao_aux(_) :- writeln("Opção inválida, tente novamente"), turno_preparacao.
 
@@ -40,7 +42,7 @@ ataque_inimigo_especial(Nome_Inimigo):-
 
 toma_pocao:-
     writeln("Nosso herói precisa se abastecer vamos lá"),
-    equipa_pocao.
+    tomar_pocao.
 
 morte_dano:- 
     printString("Você morreu, sei que é complicado digerir isso mas é um jogo então sempre da pra voltar! Porém, você perdeu TODAS AS MOEDAS.\n").

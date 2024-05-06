@@ -1,6 +1,8 @@
 :- module(gold , [menugold/0]).
 
 :- use_module('../Util/lib.pl').
+:- use_module('../Models/jogador.pl').
+
 
 
 menugold :-

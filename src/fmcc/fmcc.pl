@@ -20,7 +20,7 @@ menuOpcao(1) :-
     menu_fmcc.
 
 menuOpcao(2) :-
-    salvamento:carrega_jogo,
+    salvamento:carrega_jogo_fmcc,
     menu_fmcc.
 
 menuOpcao(3) :-

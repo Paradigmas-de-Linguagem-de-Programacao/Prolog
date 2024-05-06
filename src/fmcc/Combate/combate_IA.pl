@@ -3,7 +3,8 @@
 :- use_module('../Util/dialogos.pl').
 :- use_module('../Util/lib.pl').
 :- use_module('../Models/inimigo.pl').
-:- use_module('../Combate/combate_mecanica').   
+:- use_module('../Combate/combate_mecanica'). 
+:- use_module('../Models/jogador.pl').  
 
 combate_IA(Progresso):-
     get_nome_Ia(Progresso , Nome_Inimigo),
