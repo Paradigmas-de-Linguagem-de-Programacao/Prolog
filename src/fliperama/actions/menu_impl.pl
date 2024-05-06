@@ -6,7 +6,11 @@
 :- consult('../src/fmcc/fmcc.pl').
 :- consult('../src/tetris/main.pl').
 
-tetris :- writeln("Abriu tetris"), menu_tetris.
+get_diretorio(Diretorio) :-
+    get_username_from_session(Usuario),
+    atom_concat('../data/', Usuario, Diretorio).
+
+tetris :- get_diretorio(Diretorio), main_tetris(Diretorio).
 fmcc :- writeln("Abriu FMCC"), mock_fmcc.
 
 handle_user_option(Option) :- Option = "R", menu_actions:register_new_user.

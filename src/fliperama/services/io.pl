@@ -11,6 +11,8 @@
 ]).
 
 salvar_credenciais_de_usuario(Username, Password) :-
+    atom_concat('../data/', Username, Diretorio),
+    make_directory(Diretorio),
     atomic_list_concat([Username, ':', Password], UserPass),
     open('usuarios.txt', append, Stream),
     write(Stream, UserPass),

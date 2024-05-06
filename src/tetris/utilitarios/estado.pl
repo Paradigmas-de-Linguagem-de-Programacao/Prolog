@@ -6,7 +6,7 @@
 
 :- dynamic estado/9.
 
-nivel_maximo(9).
+nivel_maximo(1).
 
 create_estado(Grid, Linhas, Nivel, Tempo, Pontuacao, AtualPeca, IdProximaPeca, FrameNeed, FramePast, JogoTerminou) :-
     retractall(estado(_, _, _, _, _, _, _, _, _, _)),
