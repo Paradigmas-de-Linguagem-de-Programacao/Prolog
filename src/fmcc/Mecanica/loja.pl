@@ -99,12 +99,19 @@ compra_pocao(1) :-
     printa_pocao, nl, write("Seu Gold é de: "), write(Gold),
     lib:input("\nConfirme o nome da poção que deseja comprar:\n", Input),
     (verifica_nome_pocao(Input, Resultado), Resultado == true -> 
-    (get_pocoes(Y),inventario_pocao(Y, Input, Possui_pocao), Possui_pocao == true -> get_pocoes(Potions), incrementa_pocao(Input, Potions) ; compra_pocao_aux) ;
+    (get_pocoes(Y),inventario_pocao(Y, Input, Possui_pocao), Possui_pocao == true -> get_pocoes(Potions), chama_incrementa(Input, Potions)  ; compra_pocao_aux) ;
     writeln("\nPoção com nome incorreta, tente novamente.\nLembre, coloque o nome da maneira que está escrita na loja.\n"), abre_loja_pocao).
 
 compra_pocao(_) :- writeln("Entendo entendo... Nosso héroi é disléxico, bem, tente novamente mais tarde.").
 
 inventario_pocao([Head|Tail], Input, Possui_pocao) :- (Head = pocao(Input,_,_,_,_,_) -> Possui_pocao = true ; Possui_pocao = false, inventario_pocao(Tail, Input, Possui_pocao)).
+
+chama_incrementa(Input, Potions) :-
+    get_pocao(Pocao),
+    get_gold(Gold),
+    Pocao = pocao(_,Preco,_,_,_,_),
+    (Gold >= Preco -> compra_gold(Preco), incrementa_pocao(Input, Potions);
+    write("Você não tem dinheiro o suficiente professor, trabalhe mais.\n"), lib:esperandoEnter).
 
 incrementa_pocao(Input, [Head|Tail]) :-
     (Head = pocao(Input,Preco,Vida,Ataque,Defesa,Quantidade) -> 

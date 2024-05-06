@@ -59,8 +59,8 @@ duvida_gpt_errado :-
 
 dialogo_gpt_tunado(Vezes_atacado):-
     Lista_dialogo_gpt = ["\nVocê desfere um ataque forte, mas...conversaGPT não se move e não sente nada, você é um homem morto.\n",
-                         "\nHeanes tenta uma investida arriscada e que deixa várias brechas, o seu inimigo apenas pega sua espada e a quebra.\n",
-                         "\nSem confiança alguma, você tenta um golpe perfeito, conversaGPT apenas o pega e quebra seu escudo ao meio.\n",
+                         "\nHeanes tenta uma investida arriscada e que deixa várias brechas, o seu inimigo apenas o pega e o joga pelo lugar.\n",
+                         "\nSem confiança alguma, você tenta um golpe perfeito, conversaGPT apenas o pega e quebra sua defesa e acerta um golple.\n",
                          "\nConversaGPT: Você nunca vai me derrotar Heanes\nHeanes: Você tem certeza disso?\nApós escutar essa palavras Conversa parece ter sentido algum dano"],
     nth0(Vezes_atacado ,Lista_dialogo_gpt , Dialogo_gpt),
     writeln(Dialogo_gpt).
