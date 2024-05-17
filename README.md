@@ -78,4 +78,8 @@ ocorreu algum erro de instalação sem seu prolog, pois ambos
 os módulos são nativos de Prolog (A biblioteca XPCE (com nome PCE em prolog),
 é presente desde a versão 5._._ em PROLOG).
 
-* Se estiver sofrendo com isto, desinstale prolog e instale a versão mais recente!
+* Se estiver sofrendo com isto, Tente:
+
+1. Em sistemas Linux: sudo apt-get install swi-prolog-x
+2. Em sistemas Windows ou Mac, procure em Packages e procure instalar os pacotes da PCE
+3. Busque formas de usar "assertz" para garantir o caminho do pacote PCE.
